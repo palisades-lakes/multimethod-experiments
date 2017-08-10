@@ -97,7 +97,20 @@ _**TODO**:_ Discuss rectangles
 
 _**TODO**:_ MultiJava reference.
 
-**Con:** `(find-method f a b c)` is justified to the
+**Con:** `(find-method f a b c)` is takes extra time compared to 
+(somehow) calling the method code directly.
+
+If the time for `find-method` is small compared to to
+the time for  `method` itself, then it doesn't matter.
+
+How small is small enough? Of course, smaller is always better,
+but I rarely find that speed-up/slow-down less than a factor of 2
+has much practical impact on whether an approach is used or not.
+
+A useful goal: be able to add new methods to `(+ a b)`
+while retaining the same performance when `a` and `b` are
+primitive numbers.
+
 
 ## Examples
 
@@ -107,7 +120,7 @@ _**TODO**:_ MultiJava reference.
     existing events. Buy suppose we add a new 3-finger swirly
     gesture and we want existing widgets to respond appropriately?
     
-- `(render scene-component graphics-device)`
+* `(render scene-component graphics-device)`
 
     The default method for rendering a node in a scene graph is to
     recursively render all its components. The recursion stops 
@@ -123,7 +136,7 @@ _**TODO**:_ MultiJava reference.
      --- the primary reason it can't handle
     datasets of even moderate cardinality.
 
-- `(add matrix0 matrix1)`, `(multiply matrix0 matrix1)`, ...
+* `(add matrix0 matrix1)`, `(multiply matrix0 matrix1)`, ...
 
     Practical systems for numerical linear algebra must take   
     advantage of the special structure of the linear functions
@@ -139,13 +152,13 @@ _**TODO**:_ MultiJava reference.
     that need to interoperate with the standard ones: dense, 
     diagonal, banded, general sparse, ...
     
-- `(intersects? geometry0 geometry1)`
+* `(intersects? geometry0 geometry1)`
 
-   See the [benchmarks document](docs/bencharks.md).
+    See the [benchmarks document](docs/bencharks.md).
 
 ## Method lookup
 
-### types vs values
+### signatures: types vs values
 
 As written above, `(find-method f a b c)` could use arbitrary
 logic to determine the method to use --- `find-method` could
@@ -154,16 +167,16 @@ in principle be a generic operation itself.
 In practice, languages restrict what information about `f`, `a`, 
 `b`, and `c`, can be used to determine the method.
 
-The  is to use equivalence releation defined on the
+The  is to use equivalence relation defined on the
 possible operation/operand values. 
 
 Some notion of `type` or `class` is the most common equivalence
-relat.
+relation.
 In other words, `(find-method f a0 b c)` is guaranteed to 
 return the same method as `(find-method f a1 b c)` if
 `(= (class a0) (class a1))` (in pseudo-Clojure).
 
-In this case, `(find-method f a b c)` is equivalent to<br>
+In this case, `(find-method f a b c)` is equivalent to
 `(get-method f (class a) (class b) (class c))`.
 
 General value equivalence is also possible: 
@@ -172,11 +185,11 @@ the same method is returned if `(= a0 a1)`.
 ### signatures
 
 It's convenient for discussion to view method lookup as though
-it were implemented thru 
-`(find-method f a b c)` expanding to <br>
+it were implemented thru
+`(find-method f a b c)` expanding to
 `(get-method f (signature a b c))`,
  where
-`(signature a b c)` is <br>
+`(signature a b c)` is
 `(map operand-key [a b c])`
 (in pseudo-Clojure).
 
