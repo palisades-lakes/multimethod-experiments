@@ -41,19 +41,18 @@ are talking about Clojure functionality, but also, more important,
 because I believe it's better at exposing the intrinsic
 symmetries.
 
-Let's say we are building a software system 
-described in terms of
-applying _operations_ (`f`, `g`, ...) 
+Let's say we are assembling a software system 
+out of _operations_ (`f`, `g`, ...) which are applied to 
 to _operands_ (`a`, `b`, `c`, ...).
 I write `(f a b c)` for applying `f` to `a b c`.
 
 I'm not assuming anything about 
 whether `a`, `b`, `c` (or `f` for that matter)
 are immutable values or containers for mutable state, 
-or whether `f` returns values or not, 
+whether `f` returns values or has side effects, 
 or whether `f` is a pure function in the sense that it
 does the same thing (returns the same value) 
-every time it is called.
+every time it is applied to the same operands.
 These are important issues, but orthogonal to what I'm talking 
 about here.
 
@@ -64,20 +63,19 @@ For a _simple operation_, `(f a b c)` means something like:
 A _generic operation_ is implemented indirectly, via a set of _methods_.
 
 In that case, `(f a b c)` turns into 
-`((find-method f a b c) a b c)`, or something like:
+`((find-method f a b c) a b c)`, roughly:
 * push `c b a f` on the stack.
 * jump to the first instruction of `find-method` and start executing,
 returning with `c b a method` on the stack
 * pop `method` off the stack
 * jump to its first instruction and start executing. 
 
-There is (at least the appearance of) extra cost in implementing
-our operation in this way. What makes that worthwhile is the degree
-to which it simplifies defining new operations on existing
-operands, or new operands that can participate in existing
-operations.
-
 ## Examples
+
+The extra cost of `(find-method f a b c)` is justified to the
+extent that it simplifies extending existing software system
+either by adding new operations on existing operands, or new 
+operands that can participate in existing operations.
 
 - `(handle event handler)`
 
@@ -85,7 +83,6 @@ operations.
     existing events. Buy suppose we add a new 3-finger swirly
     gesture and we want existing widgets to respond appropriately?
     
-
 - `(render scene-component graphics-device)`
 
     The default method for rendering a node in a scene graph is to
@@ -102,7 +99,7 @@ operations.
      --- the primary reason it can't handle
     datasets of even moderate cardinality.
 
-- `(add matrix0 matrix1)`, `(multiply matrix0 matrix1)`, `(multiply matrix vector)`, ...
+- `(add matrix0 matrix1)`, `(multiply matrix0 matrix1)`, ...
 
     Practical systems for numerical linear algebra must take   
     advantage of the special structure of the linear functions
@@ -124,7 +121,7 @@ operations.
 
 ## Method lookup
 
-### types vs values vs identity
+### types vs values
 
 As written above, `(find-method f a b c)` could use arbitrary
 logic to determine the method to use --- `find-method` could
@@ -133,28 +130,20 @@ in principle be a generic operation itself.
 In practice, languages restrict what information about `f`, `a`, 
 `b`, and `c`, can be used to determine the method.
 
-The most common case is to use equivalence classes defined on the
+The  is to use equivalence releation defined on the
 possible operation/operand values. 
 
-Some notion of `type` or `class` is the most common case.
+Some notion of `type` or `class` is the most common equivalence
+relat.
 In other words, `(find-method f a0 b c)` is guaranteed to 
 return the same method as `(find-method f a1 b c)` if
 `(= (class a0) (class a1))` (in pseudo-Clojure).
 
 In this case, `(find-method f a b c)` is equivalent to<br>
-<nobr>`(get-method f (class a) (class b) (class c))`.</nobr>
+`(get-method f (class a) (class b) (class c))`.
 
 General value equivalence is also possible: 
 the same method is returned if `(= a0 a1)`.
-
-The extreme case is to use object identity:
-the same method is only guaranteed if `(identical? a0 a1)`.
-
-_Note:_ all of this applies in principle to `f` as much as
-`a`, `b`, and `c`. However, all the languages I'm familiar with
-use `(class f)` to determine the method for `find-method`,
-and, with the exception of Common Lisp (thru the metaobject 
-protocol), there's only one possible value for `(class f)`.
 
 ### signatures
 

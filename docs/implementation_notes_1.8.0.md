@@ -6,47 +6,87 @@ Clojure provides functionality similar to the generic functions of
 Common Lisp, Dylan, and other languages, thru 
 [Multimethods and Hierarchies](https://clojure.org/reference/multimethods).
 
-Briefly, a _multimethod_ is a function which, when called, first 
-applies a _dispatch function_ to its arguments, returning the 
+A _multimethod_ is a Clojure function which, when called;
+
+1. applies a _dispatch function_ to its arguments, returning a 
 _dispatch value_. 
 
-The set of possible dispatch values is partially
+2. The dispatch value is used to choose a _method function_ 
+from a table mapping a subset of the possible dispatch values 
+to functions, using a _hierarchy_ to determine which
+methods are applicable, and, among those, which is preferred.
+
+3. The method function is applied to the arguments.
+ 
+### Legal dispatch values
+
+Legal dispatch values are one of (my terminology):
+- _atomic dispatch values:_ 
+Classes or instances of `Named` (`Symbol` or `Keyword`).
+- _recursive dispatch values:_ instances of `IPersistentVector` 
+whose elements are legal dispatch values, 
+either atomic or recursive.
+
+### Dispatch value ordering
+
+The set of atomic dispatch values is partially
 ordered by a relation which is the transitive closure
 of a directed acyclic graph, called (in an abuse of English) 
-a _hierarchy_. 
+the multimethod's _hierarchy_. 
 
-A subset of the possible dispatch values
-have associated _methods_, themselves functions. 
+A given hierarchy may be shared by many multimethods.
+
+A hierarchy's _atomic DAG_ contains, implicitly, 
+edges corresponding to the `isAssignableFrom` relation 
+between classes. 
+Explicit edges, relating arbitrary pairs of atomic dispatch 
+values, may be added to a shared hierarchy at any time
+(see `derive` below).
+
+A hierarchy's atomic DAG is implies an _extended DAG_ on 
+all dispatch values. The extended DAG has an edge 
+connecting 2 recursive dispatch values if they have the same shape 
+(the same number of elements at every level of nesting), 
+and there is an edge in the original DAG for every ordered pair of
+corresponding atomic elements.
+
+Finally, the _multimethod DAG_ is its hierarchy's extended DAG
+plus additional edges defined for that multimethod alone
+(see `prefer-method` below). 
+
+If we write the multimethod DAG's partial ordering as `DAG<=`,
+then we say dispatch value `k0` is _prefered to_ 
+dispatch value `k1` if `(not= k0 k1)` and `(DAG<= k0 k1)`.
+A method defined for dispatch value `k1` 
+_is applicable to_ dispatch value `k0` if `(DAG<= k0 k1)`,
+that is, either `(= k0 k1)` or `k0` is preferred to `k1`..
+
+### Method lookup
+
+Each multimethod contains a table mapping
+a subset of possible dispatch values
+to _methods_, themselves functions. 
+Methods can be added to and removed from a multimethod at any time.
 
 The second step in calling a multimethod is to find 
-the least upper bound(s) of the arguments' dispatch value 
-in the set of dispatch values with methods.
-If there is no applicable method, or more than one least upper bound, 
+the `DAG<=` least upper bound(s), of the arguments' dispatch value 
+in the set of applicable dispatch values with methods.
+If there is no applicable method, 
+or more than one least upper bound, 
 an exception is thrown.
 
 Finally, the least upper bound method function is applied 
 to the arguments.
-
-Notes: 
-
-- Methods can be added to and removed from a multimethod at any time,
-so it is a shared mutable object.
-
-- Edges may be added to and removed from a hierarchy's DAG 
-at any time, so it is also a shared mutable object.
-
-- Any approach to cached method lookup requires checking for changes
-to the hierarchy on every call, even though those happen rarely.
 
 ## Clojure API
 
 ### Primary functions
 
 - __[`defmulti`](https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/defmulti)__:
-The key arguments are 
+The key arguments are: 
 
-   - _dispatch function:_ Although not documented here,
-dispatch functions must return either Java classes, 
+   - _dispatch-function_ 
+   Although not documented here, functions must return either Java classes, 
 Clojure symbols/keywords, or instances
 of `IPersistentVector` holding classes or symbols/keywords.
 This is documented and enforced only by `clojure.core/derive`.
