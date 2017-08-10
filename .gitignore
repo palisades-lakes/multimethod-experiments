@@ -32,6 +32,7 @@
 *.xdy
 *.ist
 *syntex*
+*.md.html
 /.externalToolBuilders/
 /.settings/
 /.README.md.html

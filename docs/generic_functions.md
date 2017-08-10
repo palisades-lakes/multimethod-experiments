@@ -61,7 +61,6 @@ For a _simple operation_, `(f a b c)` means something like:
 * jump to the first instruction of `f` and start executing.
 
 A _generic operation_ is implemented indirectly, via a set of _methods_.
-
 In that case, `(f a b c)` turns into 
 `((find-method f a b c) a b c)`, roughly:
 * push `c b a f` on the stack.
@@ -70,12 +69,37 @@ returning with `c b a method` on the stack
 * pop `method` off the stack
 * jump to its first instruction and start executing. 
 
-## Examples
-
-The extra cost of `(find-method f a b c)` is justified to the
-extent that it simplifies extending existing software system
+**Pro:** Generic operations offer an elegant form of modularity,
+permitting us to extend an existing software system
 either by adding new operations on existing operands, or new 
-operands that can participate in existing operations.
+operands that can participate in existing operations, 
+without touching existing code.
+
+**Con:** In some cases, implementing methods that are efficient 
+enough will require breaking the encapsulation of the operands,
+exposing what should be private state in scattered locations,
+violating standard 'object-oriented' doctrine.
+
+However, the fact is that there are important cases where it is 
+impossible to correctly implement an operation on 2 or more 
+operands without access to their internal state. 
+What happens too often in practice, in languages like Java,
+is the private state is made public, losing all control.
+
+Languages with generic functions (multimethods) at least offer
+the possibility of tracking and managing multiple operand
+encapsulation breaking. And they encourage adding alternate
+representations (new operands) rather than  modifying the 
+internal representation of an existing operand.
+
+_**TODO**:_ Discuss rectangles
+`[left top width height]` vs `[left right top bottom]`?
+
+_**TODO**:_ MultiJava reference.
+
+**Con:** `(find-method f a b c)` is justified to the
+
+## Examples
 
 - `(handle event handler)`
 
