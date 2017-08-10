@@ -1,59 +1,169 @@
-# multimethod-experiments
+### Assumptions
 
-Experiments with implementation and design variations related to
-Clojure's `defmulti`/`defmethod`/`MultiFn`.
+- A typical operation has 10s of methods, less often 100s, rarely
+much more.
 
-This repository is intended as something like reproducible research,
-to document in detail what led to more stable library in 
-[faster-multimethods](https://github.com/palisades-lakes/faster-multimethods)
-(available from [Clojars](https://clojars.org/palisades-lakes/faster-multimethods)).
+- Operations are invoked much more often than methods are defined,
+at least 10<sup>6</sup> times.
 
-## Main results (so far)
+- The correct method is usually the same as the one used in the
+most recent call, or at least the most recent call in the same thread.
 
-It's fairly easy to modify the Clojure 1.8.0 version of multimethods
-to reduce the method lookup overhead by more than a factor of 10.
+- Methods can be added/redefined dynamically, in multiple threads,
+concurrent with method lookup and invocation.
 
-* The primary change is to replace the use of Clojure collections
-with `java.util` equivalents, taking care to act as though those 
-collections were immutable. 
+- We want to use dynamic method lookup for everything. 
+An ideal language would permit defining new methods for 
+`(+ a b)` without losing any performance when `a` and `b` are 
+primitive `int`. 
 
-* The other significant change is to optimize an important special
-case: dispatch on Java classes only, foregoing the flexibility
-of general hierarchies.
+The amount of method lookup overhead we can tolerate depends on 
+the cost of the operation --- millisecond lookup overhead doesn't 
+matter if the method takes seconds to evaluate.
 
-![faster-multimethods vs Clojure 1.8.0](docs/figs/bench-plus-defmulti.overhead.png)
+I've chosen a reduced (1d) version of a common computational 
+geometry / geospatial data task: testing for the intersection
+of 2 geometric objects. This is reasonably representative of work
+I do --- suggestions for benchmarks that better reflect usage 
+patterns would be appreciated.
 
-For more details, see [benchmarks](docs/benchmarks.md).
+In the reduced 1d benchmark version, three kinds of 
+'geometric' sets are used: 
+half-open intervals on the real line, specified with 
+[`int` valued endpoints](src/main/java/defmultix/java/sets/IntegerInterval.java)
+and 
+[`double` valued endpoints](src/main/java/defmultix/java/sets/DoubleInterval.java),
+and instances of `java.util.Set` that happen to contain only
+instances of `Number`.
 
-## Background
+With 3 kinds of set, there are 9 methods to implement.
 
-Clojure provides about a dozen competing 
-variations on 'object-oriented' or 'polymorphic' functionality, 
-including:
-`definterface`, `defmulti`/`defmethod`, multi-arity `defn`,
-`defprotocol`, `defrecord`, `defstruct`, `gen-class`, `reify`, and 
-`proxy`.
-See Chas Emerick's [Flowchart for choosing the right Clojure type definition form](https://cemerick.com/2011/07/05/flowchart-for-choosing-the-right-clojure-type-definition-form/) 
-for a comparison and evaluation of when to use which.
-(Note that it doesn't include `defmulti`/`defmethod`.)
+The functions in 
+[defmultix.generators](src/main/clojure/defmultix/sets/generators.clj)
+create random sets of the 3 kinds, and arrays of random sets
+with differing probability that succeeding elements are the same kind,
+from 1/1 thru 1/9 to 0 (so that I can evaluate the value of caching
+the last method called under various usage patterns).
 
-Of the non-deprecated ones, `defmulti`/`defmethod` seems to one of 
-the least used (though I have no hard data for that). 
-This may in part be due to the general advice on the web, 
-which is to use `defprotocol` rather than `defmulti`, because
-`defmutli` is 'slow' by comparison.
+Independent seeds for the pseudo-random number generators 
+(see [seeds](src/main/resources/seeds) ensure
+the same data is generated on each run, as long as all the data is 
+generated in a single thread, in the same order.
 
-The motivation for this project was, first, to create some realistic
-enough benchmarks (at least for the kinds of problems I work on)
-to measure the cost of using 'defmulti`  versus various alternatives.
-Second, I wanted to understand the current Clojure implementation.
-Third, I was curious whether significant performance improvements
-can be achieved with small changes to the existing implementation,
-or as a library layered on top of Clojure.
+## Baselines
 
-For more background on generic functions (aka multimethods), 
-from my perspective, 
-see [generic_functions](docs/generic_functions.md).
+### Static single method case --- 100% repeat of the same method call
+
+In order to measure the overhead of invoking a Clojure `MultiFn`,
+we need a baseline to compare it to.
+The [baselines.clj](src/scripts/clojure/defmultix/intersects/baselines.clj)
+benchmark runs a `defmulti`/`defmethod` implementation 
+against several impractical hand-crafted solutions.
+See [defs.clj](src/scripts/clojure/defmultix/intersects/defs.clj):
+
+- `invoke-static` directly calls class methods in 
+[`Intersects`](src/main/java/defmultix/java/sets/Intersects.java),
+assuming the exact class of all operands is known at compile time.
+
+- `invoke-virtual` directly calls instance methods in 
+[`IntegerInterval`](src/main/java/defmultix/java/sets/IntegerInterval.java),
+assuming the exact class of all operands is known at compile time.
+
+- `invoke-interface` calls methods from the interface [`Set`](src/main/java/defmultix/java/sets/Set.java),
+assuming the target object is an instance of `Set` 
+and the exact class of the other operand is known at compile time.
+
+- `manual-java` calls the `manual` method from 
+[`Intersects`](src/main/java/defmultix/java/sets/Intersects.java),
+which does an if-then-else lookup of the correct class method.
+
+- `manual-clj` is an equivalent clojure manual method lookup.
+
+- `multi` uses a `defmulti`/`defmethod` implementation 
+(see [multi.clj](src/main/clojure/defmultix/sets/multi.clj)).
+
+The benchmark counts the number of intersections in
+8 x 2<sup>22</sup> pairs of independent
+pseudo-random instances of `IntegerInterval`, 
+running 2<sup>22</sup> pairs in each of 8 threads
+concurrently. 
+The reason for running 8 copies of the basic benchmark concurrently
+is to check that caches are synchronized correctly, especially given
+that any caches may be invalidated at any time by changes to the 
+available methods.
+
+implementation | &mu;sec
+---------------|----------:
+`invoke-static`    | 77.72
+`invoke-virtual`   | 77.34
+`invoke-interface` | 77.42
+`manual-java` | 77.71
+`manual-clj` | 86.80
+`multi` | 1471.50
+
+See [clj.bat](clj.bat) for the JVM options used. 
+
+The baselines using static or semi-static method lookup all take
+about 77.5 &mu;sec
+Manually implemented dynamic lookup (in Java) adds almost no additional
+overhead; manual dynamic lookup in clojure adds about 10% overhead.
+Method lookup using `defmulti`/`defmethod` takes about 20 times as
+long as any of the other approaches, suggesting about 95% of the time
+is overhead.
+
+### Dynamic 2 method case --- 50% repeats
+
+Running the same benchmark where the first element of each pair
+is an instance of `IntegerInterval`and the second is either 
+`IntegerInterval` or `DoubleInterval`, at random, is a somewhat more
+realistic benchmark.
+It requires fully dynamic method lookup.
+It has probability 0.5 that the same method is called twice 
+in a row, which is likely much less often than in real code.
+
+implementation | &mu;sec
+---------------|----------:
+`manual-java` | 92.00
+`multi` | 1481.94
+
+Both implementations increase by about 10 &mu;sec.
+The multimethod version is now 15 times slower, so 'only' 94%
+excess overhead from using `defmulti`.
+
+Why does `defmulti`/`defmethod` take so long?
+
+There are good reasons to doubt `hprof` profiling
+(see http://dl.acm.org/citation.cfm?id=1806618
+and http://www.brendangregg.com/blog/2014-06-09/java-cpu-sampling-using-hprof.html),
+but it still can suggest things to try and verify with benchmarks.
+
+Running just `multi` 
+(see [profile000.clj](src/scripts/clojure/defmultix/intersects/profile000.clj))
+with `-Xrunhprof:cpu=samples,depth=128,thread=y,doe=y`
+(see (see [cljp.bat](cljp.bat))
+gives:
+```
+Method Times by Line Number (times exclusive): 220107 ticks
+  1: clojure.lang.APersistentVector.hasheq: 54.43% (119807 exclusive)
+    2: (APersistentVector.java:160): 54.43% (119807 exclusive)
+  1: clojure.lang.APersistentVector.doEquiv: 26.06% (57360 exclusive)
+    2: (APersistentVector.java:91): 26.06% (57360 exclusive)
+  1: clojure.lang.MultiFn.invoke: 11.2% (24654 exclusive)
+    2: (MultiFn.java:233): 7.44% (16378 exclusive)
+    2: (MultiFn.java:234): 3.76% (8276 exclusive)
+  1: clojure.lang.Var.deref: 2.51% (5516 exclusive)
+    2: (Var.java:195): 2.51% (5516 exclusive)
+  1: clojure.lang.Util.dohasheq: 2.22% (4893 exclusive)
+    2: (Util.java:177): 2.22% (4893 exclusive)
+  1: clojure.lang.MultiFn.getFn: 1.24% (2731 exclusive)
+    2: (MultiFn.java:154): 1.24% (2731 exclusive)
+```
+This also shows at least 94% of the time in method lookup,
+everything but clojure.lang.MultiFn.invoke line 234.
+
+To go further, we next need to look into the current (1.8.0)
+multimethod implementation.
+
 
 
 ## Choosing a baseline
@@ -154,21 +264,6 @@ Also note [table.clj](src/scripts/clojure/defmultix/intersects/table.clj),
 which
 can be used to summarize the benchmark results in a table written to a tab-separated text file.
 
-## Installation
-
-Clone the repository and build from source using Maven, 
-for example: 
-```
-mvn package
-```
-
-## License
-
-Copyright © 2017 John Alan McDonald <github email account TBD>
-
-Distributed under the Eclipse Public License, the same as Clojure.
-
- ## A benchmark problem: general set intersection
 
 ### Assumptions
 
@@ -550,18 +645,6 @@ as java methods of the single class, rather than as Clojure functions
 Unambiguous type-hinted multimethod calls would compile to a 
 direct call to the corresponding java methods.
 
-## Acknowledgements
-
-### ![Yourkit](https://www.yourkit.com/images/yklogo.png)
-
-YourKit is kindly supporting open source projects with its full-featured Java
-Profiler.
-
-YourKit, LLC is the creator of innovative and intelligent tools for profiling
-Java and .NET applications. Take a look at YourKit's leading software products:
-
-* <a href="http://www.yourkit.com/java/profiler/index.jsp">YourKit Java Profiler</a> and
-* <a href="http://www.yourkit.com/.net/profiler/index.jsp">YourKit .NET Profiler</a>.
 
 
 
