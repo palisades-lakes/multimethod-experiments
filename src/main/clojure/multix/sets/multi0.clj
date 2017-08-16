@@ -3,7 +3,7 @@
 ;;----------------------------------------------------------------
 (ns multix.sets.multi0
   
-  {:author "mcdonald dot john dot alan at gmail dot com"
+  {:author "palisades dot lakes at gmail dot com"
    :since "2017-07-29"
    :version "2017-08-02"}
     (:require [multix.multi0 :as d])

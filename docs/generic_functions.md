@@ -203,9 +203,9 @@ by breaking it down into 3 steps:
     ...)) 
 ```
 
-##### `method-key`
+#### `method-key`
 
-###### types and prototypes
+##### types and prototypes
 
 One option for `method-key` is just `[a b c]`, 
 effectively passing the argument list untouched to the next steps.
@@ -404,8 +404,25 @@ _**TODO**:_ Dylan et al?
 
 #### Java class (static) methods
 
+`someClass.f(a,b,c)`
+
+```clojure
+(defn method-key [f a b c]
+  (mapv lexical-class [a b c]))
+```
+Because it all lexical, `find-method` can be evaluated 
+at compile time. A compile error results if there is more than
+one preferred method.
+
 #### Java instance methods
 
+`a.f(b,c)`
+
+```clojure
+(defn method-key [f a b c]
+  [(dynamic-class a) (lexical-class b) (lexical-class c)])
+```
+Pre-Java 8, the dynamic preference graph  
 #### Clojure multimethods
 
 _**TODO**:_ historical references: Common List, Dylan, Cecil,

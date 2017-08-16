@@ -1,42 +1,113 @@
-### Assumptions
+# Multimethod benchmark results
 
-- A typical operation has 10s of methods, less often 100s, rarely
-much more.
+A benchmark for multimethods (or anything else) 
+only matters to you
+if the pattern of use it embodies is similar to yours.
+ 
+The amount of method lookup overhead you can tolerate depends on 
+the cost of the operation.
+So far, I'm getting roughly 500ns for 
+Clojure 1.8.0 multimethod lookup;  
+if you are using Clojure's multimethods to invoke methods
+that take milliseconds to run, the Clojure 1.8.0 implementation
+is fine.
 
-- Operations are invoked much more often than methods are defined,
-at least 10<sup>6</sup> times.
+I'm interested in using multimethods for basic basic geometric
+computation. Many important methods will just be a few floating
+point operations, costing perhaps 10-100 nanoseconds. 
 
-- The correct method is usually the same as the one used in the
-most recent call, or at least the most recent call in the same thread.
+The first benchmark (see below) is designed to reflect this.
+
+I'd very much appreciate suggestions/code for benchmarks
+reflecting other patterns of use. 
+
+## general assumptions
+
+Current assumptions underlying my choice of benchmarks.
+
+Are any of these wrong? Am I missing something, 
+especially, am I missing some assumption I'm making
+unconsciously? Let me know.
+
+- We want to use generic operations for everything. 
+An ideal language would permit defining new methods for 
+`(+ a b)` without losing any performance when `a` and `b` are 
+primitive `int`. Lexical type hints might be required, but should
+have minimal scope and affect only performance and not semantics
+(except that it might be useful if type hints generate runtime
+assertions in some cases, causing different exceptions to be 
+thrown when an assumption is violated).
 
 - Methods can be added/redefined dynamically, in multiple threads,
 concurrent with method lookup and invocation.
 
-- We want to use dynamic method lookup for everything. 
-An ideal language would permit defining new methods for 
-`(+ a b)` without losing any performance when `a` and `b` are 
-primitive `int`. 
+- Operations are invoked much more often than methods are defined,
+at least 10<sup>6</sup> times.
 
-The amount of method lookup overhead we can tolerate depends on 
-the cost of the operation --- millisecond lookup overhead doesn't 
-matter if the method takes seconds to evaluate.
+- A typical operation has 10s of methods, less often 100s, rarely
+much more.
+
+- Concurrent performance is critical. Multi-threaded map-reduce
+operations are ubiquitous.
+
+- The correct method is usually the same as the one used in the
+most recent call, 
+or at least the most recent call in the same thread.
+
+- Simple argument lists (no destructuring) are good enough, or, 
+at least, performance is more important in that case.
+
+- Performance for small arities (1,2,3,..) are more important than
+larger ones.
+
+- Pure class-based method definition and lookup is more important
+than general hierarchies, or, at least, performance is more
+critical in that case.
+
+## Set intersection benchmark 
 
 I've chosen a reduced (1d) version of a common computational 
 geometry / geospatial data task: testing for the intersection
 of 2 geometric objects. This is reasonably representative of work
-I do --- suggestions for benchmarks that better reflect usage 
-patterns would be appreciated.
+I do, at the low end of individual method runtime.
+
+
+### Data
 
 In the reduced 1d benchmark version, three kinds of 
-'geometric' sets are used: 
-half-open intervals on the real line, specified with 
-[`int` valued endpoints](src/main/java/defmultix/java/sets/IntegerInterval.java)
-and 
-[`double` valued endpoints](src/main/java/defmultix/java/sets/DoubleInterval.java),
-and instances of `java.util.Set` that happen to contain only
-instances of `Number`.
+'geometric' sets 
+(borrowed from 
+[benchtools](https://github.com/palisades-lakes/benchtools))
+are used: 
 
-With 3 kinds of set, there are 9 methods to implement.
+1. half-open intervals on the real line, specified with 
+[`int` valued endpoints](https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/IntegerInterval.java)
+
+2. half-open intervals with 
+[`double` valued endpoints](https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/DoubleInterval.java)
+
+3. instances of [java.util.Set](https://docs.oracle.com/javase/8/docs/api/index.html?java/util/Set.html)
+that happen to contain only instances of `Number`.
+
+Minor note: specifying integer intervals as half-open is a near
+universal convention, at least in the Java libraries.
+It's less common and a bit tricky for floating point intervals.
+I make them both half-open for consistency.
+
+With 3 kinds of sets, there are 9 methods to implement, as in
+[multix.sets.multi/intersects?](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/main/clojure/multix/sets/multi.clj)
+
+The basic benchmarks here all take as input 2 arrays of sets,
+and count the number of pairs of corresponding elements that
+intersect. The individual benchmarks differ in whether all
+elements of the array are the same class (eg
+all `IntegerInterval`), 
+the element class is chosen in some deterministic pattern,
+or the element type is chosen at random,
+giving different probabilities for invoking the same method
+repeatedly.
+
+### Data
 
 The functions in 
 [defmultix.generators](src/main/clojure/defmultix/sets/generators.clj)
@@ -50,7 +121,10 @@ Independent seeds for the pseudo-random number generators
 the same data is generated on each run, as long as all the data is 
 generated in a single thread, in the same order.
 
-## Baselines
+### Choosing a baseline
+
+
+
 
 ### Static single method case --- 100% repeat of the same method call
 

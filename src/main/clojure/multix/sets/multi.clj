@@ -4,7 +4,7 @@
 (ns multix.sets.multi
   
   {:doc "clojure.core/defmulti for set intersection testing."
-   :author "mcdonald dot john dot alan at gmail dot com"
+   :author "palisades dot lakes at gmail dot com"
    :since "2017-04-20"
    :version "2017-08-03"}
   

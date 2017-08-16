@@ -4,7 +4,7 @@
 (ns multix.sets.manual
   
   {:doc "Manual 'method' (function) nested class lookup."
-   :author "mcdonald dot john dot alan at gmail dot com"
+   :author "palisades dot lakes at gmail dot com"
    :since "2017-06-09"
    :version "2017-07-18"}
   

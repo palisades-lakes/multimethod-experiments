@@ -3,7 +3,7 @@
 ;;----------------------------------------------------------------
 (ns multix.intersects.bench
   "Use criterium for alternative multimethod implementations."
-  {:author "mcdonald dot john dot alan at gmail dot com"
+  {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
    :version "2017-08-07"}
   (:require [benchtools.random.prng :as prng]

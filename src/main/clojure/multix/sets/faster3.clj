@@ -5,7 +5,7 @@
   
   {:doc "faster.multimethods.core/defmulti for set intersection testing;
          with no hierarchy and PersistentVector dispatch values."
-   :author "mcdonald dot john dot alan at gmail dot com"
+   :author "palisades dot lakes at gmail dot com"
    :since "2017-07-29"
    :version "2017-08-05"}
     (:require [faster.multimethods.core :as d])

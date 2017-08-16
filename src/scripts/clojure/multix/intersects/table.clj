@@ -3,7 +3,7 @@
 ;;----------------------------------------------------------------
 (ns defmulti.intersects.table
   "Table benchmark dispatch of (intersects? set0 set1)."
-  {:author "mcdonald dot john dot alan at gmail dot com"
+  {:author "palisades dot lakes at gmail dot com"
    :since "2017-06-14"
    :version "2017-07-30"}
   (:require [clojure.java.io :as io]
