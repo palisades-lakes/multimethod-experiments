@@ -2,7 +2,7 @@
 # intersects/bench.R
 # palisades dot lakes at gmail dot com
 # since 2017-07-30
-# version 2017-08-07
+# version 2017-08-16
 #-----------------------------------------------------------------
 setwd('c:/porta/projects/multimethod-experiments')
 print(getwd())
@@ -27,8 +27,7 @@ baseline.algs <- c(
   'invokestatic',
   'invokevirtual',
   'invokeinterface',
-  'instanceof if-then-else',
-  'Signature if-then-else')
+  'instanceof if-then-else')
 
 baseline.multi.algs <- c('clojure 1.8.0',baseline.algs)
 
@@ -41,22 +40,22 @@ bench.algs <- c(
 
 bench.multi.algs <- c('clojure 1.8.0',bench.algs)
 
-quantile.plot(
-  data=baselines[(baselines$algorithm %in% baseline.algs),],
-  fname='baselines',
-  palette='Dark2')
-quantile.plot(
-  data=baselines[(baselines$algorithm %in% baseline.multi.algs),],
-  fname='baselines-plus-defmulti',
-  palette='Dark2')
-quantile.plot(
-  data=bench[(bench$algorithm %in% bench.algs),],
-  fname='bench',
-  palette='Set1')
-quantile.plot(
-  data=bench[(bench$algorithm %in% bench.multi.algs),],
-  fname='bench-plus-defmulti',
-  palette='Set1')
+cols <- c('algorithm','lower.q','median', 'upper.q', 'millisec')
+baselines.plus.defmulti <- baselines[(baselines$algorithm %in% baseline.multi.algs),cols]
+baselines.only <- baselines[(baselines$algorithm %in% baseline.algs),cols]
+bench.plus.defmulti <- bench[(bench$algorithm %in% bench.multi.algs),cols]
+bench.only <- bench[(bench$algorithm %in% bench.algs),]
+
+thtml <- 
+      kable(baselines.only,format='html',digits=1,caption='runtime in ms',
+        row.names=FALSE,
+        col.names = c('algorithm','5%','50%','95%','mean'))
+cat(thtml,file='docs/figs/baselines.html')
+
+quantile.plot(data=baselines.only,fname='baselines',palette='Dark2')
+quantile.plot(data=baselines.plus.defmulti,fname='baselines-plus-defmulti',palette='Dark2')
+quantile.plot(data=bench.only,fname='bench',palette='Set1')
+quantile.plot(data=bench.plus.defmulti,fname='bench-plus-defmulti',palette='Set1')
 
 overhead.algs <- c(
   'hashmap tables',
@@ -75,3 +74,6 @@ overhead.plot(
   data=bench[(bench$algorithm %in% overhead.multi.algs),],
   fname='bench-plus-defmulti',
   palette='Set1')
+
+options(knitr.table.format='html') 
+

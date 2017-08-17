@@ -6,7 +6,9 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-07"}
+   :version "2017-08-16"}
+  
+  (:refer-clojure :exclude [defmulti])
   
   (:require [multix.sets.manual :as nested]
             [multix.sets.signature :as signature]
@@ -20,7 +22,7 @@
   (:import [benchtools.java.sets DoubleInterval IntegerInterval
             Intersects Sets]))
 ;;----------------------------------------------------------------
-;; TODO: macro for counting loop 
+;; TODO: 
 ;; (since we can't just pass in a function)
 ;;----------------------------------------------------------------
 (defn invokestatic 
@@ -38,84 +40,32 @@
          ^"[Lbenchtools.java.sets.IntegerInterval;" s1]
   (Sets/countIntersections s0 s1))
 ;;----------------------------------------------------------------
-(defn manual-java ^long [^objects s0 ^objects s1]
-  (let [n (int (min (alength s0) (alength s1)))]
-    (loop [i (int 0)
-           total (long 0)]
-      (cond (>= i n) (long total)
-            (Intersects/manual (aget s0 i) (aget s1 i)) 
-            (recur (inc i) (inc total))
-            :else (recur (inc i) total)))))
+;; macro for counting loop since some of the calls
+;; are java methods and not functions, and would force
+;; dynamic function call rather than allowing static linking.
+
+(defmacro defbench [benchname fname]
+  (let [s0 (gensym "sets") 
+        s1 (gensym "sets")
+        args [(with-meta s0 {:tag 'objects})
+              (with-meta s1 {:tag 'objects})]
+        args (with-meta args {:tag 'long})]
+    `(defn ~benchname ~args
+       (let [n# (int (min (alength ~s0) (alength ~s1)))]
+         (loop [i# (int 0)
+                total# (long 0)]
+           (cond (>= i# n#) (long total#)
+                 (~fname (aget ~s0 i#) (aget ~s1 i#)) 
+                 (recur (inc i#) (inc total#))
+                 :else (recur (inc i#) total#)))))))
 ;;----------------------------------------------------------------
-(defn nested-lookup ^long [^objects s0 ^objects s1]
-  (let [n (int (min (alength s0) (alength s1)))]
-    (loop [i (int 0)
-           total (long 0)]
-      (cond (>= i n) (long total)
-            (nested/intersects? (aget s0 i) (aget s1 i)) 
-            (recur (inc i) (inc total))
-            :else (recur (inc i) total)))))
-;;----------------------------------------------------------------
-(defn signature-lookup ^long [^objects s0 ^objects s1]
-  (let [n (int (min (alength s0) (alength s1)))]
-    (loop [i (int 0)
-           total (long 0)]
-      (cond (>= i n) (long total)
-            (signature/intersects? (aget s0 i) (aget s1 i)) 
-            (recur (inc i) (inc total))
-            :else (recur (inc i) total)))))
-;;----------------------------------------------------------------
-(defn defmulti ^long [^objects s0 ^objects s1]
-  (let [n (int (min (alength s0) (alength s1)))]
-    (loop [i (int 0)
-           total (long 0)]
-      (cond (>= i n) (long total)
-            (multi/intersects? (aget s0 i) (aget s1 i)) 
-            (recur (inc i) (inc total))
-            :else (recur (inc i) total)))))
-;;----------------------------------------------------------------
-(defn multi0 ^long [^objects s0 ^objects s1]
-  (let [n (int (min (alength s0) (alength s1)))]
-    (loop [i (int 0)
-           total (long 0)]
-      (cond (>= i n) (long total)
-            (multi0/intersects? (aget s0 i) (aget s1 i)) 
-            (recur (inc i) (inc total))
-            :else (recur (inc i) total)))))
-;;----------------------------------------------------------------
-(defn hashmap-tables ^long [^objects s0 ^objects s1]
-  (let [n (int (min (alength s0) (alength s1)))]
-    (loop [i (int 0)
-           total (long 0)]
-      (cond (>= i n) (long total)
-            (multi1/intersects? (aget s0 i) (aget s1 i)) 
-            (recur (inc i) (inc total))
-            :else (recur (inc i) total)))))
-;;----------------------------------------------------------------
-(defn no-hierarchy ^long [^objects s0 ^objects s1]
-  (let [n (int (min (alength s0) (alength s1)))]
-    (loop [i (int 0)
-           total (long 0)]
-      (cond (>= i n) (long total)
-            (faster/intersects? (aget s0 i) (aget s1 i)) 
-            (recur (inc i) (inc total))
-            :else (recur (inc i) total)))))
-;;----------------------------------------------------------------
-(defn non-volatile-cache ^long [^objects s0 ^objects s1]
-  (let [n (int (min (alength s0) (alength s1)))]
-    (loop [i (int 0)
-           total (long 0)]
-      (cond (>= i n) (long total)
-            (faster2/intersects? (aget s0 i) (aget s1 i)) 
-            (recur (inc i) (inc total))
-            :else (recur (inc i) total)))))
-;;----------------------------------------------------------------
-(defn signature-dispatch-value ^long [^objects s0 ^objects s1]
-  (let [n (int (min (alength s0) (alength s1)))]
-    (loop [i (int 0)
-           total (long 0)]
-      (cond (>= i n) (long total)
-            (faster3/intersects? (aget s0 i) (aget s1 i)) 
-            (recur (inc i) (inc total))
-            :else (recur (inc i) total)))))
+(defbench manual-java Intersects/manual)
+(defbench nested-lookup nested/intersects?)
+(defbench signature-lookup signature/intersects?)
+(defbench defmulti multi/intersects?)
+(defbench multi0 multi0/intersects?)
+(defbench hashmap-tables multi1/intersects?)
+(defbench no-hierarchy faster/intersects?)
+(defbench non-volatile-cache faster2/intersects?)
+(defbench signature-dispatch-value faster3/intersects?)
 ;;----------------------------------------------------------------

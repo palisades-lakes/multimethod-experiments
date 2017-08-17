@@ -5,7 +5,7 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-07"}
+   :version "2017-08-16"}
   (:require [benchtools.random.prng :as prng]
             [benchtools.random.generators :as g]
             [benchtools.core :as benchtools]
@@ -13,7 +13,7 @@
 ;;----------------------------------------------------------------
 (defn bench 
   ([data0 type0 data1 type1 fns] 
-    (let [n (* 1 4 1024 1024)]
+    (let [n (* 1 1 1024 1024)]
       (println (benchtools/fn-name data0) n 
                (benchtools/fn-name data1) n 
                (.toString (java.time.LocalDateTime/now))) 
@@ -55,40 +55,45 @@
       ss (g/random-singleton-set uig)
       ran2 (prng/nested-uniform-generator [ii di] urp)
       ran3 (prng/nested-uniform-generator [ii di ss] urp)]
+  ;; baselines: both args always IntegerInterval
   (bench ii benchtools.java.sets.IntegerInterval 
          ii benchtools.java.sets.IntegerInterval    
-         [defs/defmulti
-          #_defs/multi0
-          defs/hashmap-tables
+         [defs/manual-java
           defs/invokestatic
           defs/invokevirtual
           defs/invokeinterface
-          defs/manual-java
-          #_defs/nested-lookup
           defs/signature-lookup
-          defs/no-hierarchy
-          defs/signature-dispatch-value
-          defs/non-volatile-cache])
-  (bench ii ran2
-         [defs/defmulti
-          #_defs/multi0
           defs/hashmap-tables
-          defs/manual-java
-          #_defs/nested-lookup
-          defs/signature-lookup
           defs/no-hierarchy
           defs/signature-dispatch-value
-          defs/non-volatile-cache])
-  (bench ran3 ran3
-         [defs/defmulti
-          #_defs/multi0
-          defs/hashmap-tables
-          defs/manual-java
-          #_defs/nested-lookup
-          defs/signature-lookup
-          defs/no-hierarchy
-          defs/signature-dispatch-value
-          defs/non-volatile-cache]))
+          defs/non-volatile-cache
+          defs/defmulti])
+  ;; 50% probability of repeat same method, 
+  ;; 1st arg always IntegerInterval
+  ;; 2nd randomly IntegerInterval or DoubleInterval
+  #_(bench ii ran2
+          [defs/defmulti
+           #_defs/multi0
+           defs/hashmap-tables
+           defs/manual-java
+           #_defs/nested-lookup
+           defs/signature-lookup
+           defs/no-hierarchy
+           defs/signature-dispatch-value
+           defs/non-volatile-cache])
+  ;; 1/9 probability of same method
+  ;; 1st and 2nd args randomly from IntegerInterval, 
+  ;; DoubleInterval and SingletonSet
+  #_(bench ran3 ran3
+          [defs/defmulti
+           #_defs/multi0
+           defs/hashmap-tables
+           defs/manual-java
+           #_defs/nested-lookup
+           defs/signature-lookup
+           defs/no-hierarchy
+           defs/signature-dispatch-value
+           defs/non-volatile-cache]))
 (shutdown-agents)
 (System/exit 0)
 ;;----------------------------------------------------------------

@@ -2,62 +2,13 @@
 # intersects/baselines.R
 # palisades dot lakes at gmail dot com
 # since 2017-07-30
-# version 2017-07-31
+# version 2017-08-16
 #-----------------------------------------------------------------
 # libraries
 #-----------------------------------------------------------------
-require("ggplot2")
-#-----------------------------------------------------------------
-# global vars
-#-----------------------------------------------------------------
-plot.file <- function (folder,u,v,x,y,z,ext) {
-  fname <- gsub('(-)+','-',paste(u,v,x,y,z,sep='-'))
-  file.path(folder,paste(fname,ext,sep='.')) } 
-#-----------------------------------------------------------------
-ribbons <- function (data,u,v,x,y,z,ymin,ymax,folder) {
-  p <- ggplot(
-      data=data, 
-      aes_string(x=x, y=y, fill=z, color=z, linetype=z, 
-        ymin=ymin, ymax=ymax)) + 
-    geom_point() + 
-    geom_line() + 
-    geom_ribbon(alpha=0.5) + 
-    scale_x_log10() + 
-    scale_y_log10() + 
-    facet_grid(paste(v,'~',u)); 
-  ggsave(p + theme_bw(), 
-    device='png', 
-    file=plot.file(folder,u,v,x,y,z,'ribbons.png'), 
-    width=24, 
-    height=6, 
-    units='cm', 
-    dpi=300)}
-#-----------------------------------------------------------------
-curves <- function (data,u,v,x,y,z,folder) {
-  p <- ggplot(
-      data=data, 
-      aes_string(x=x, y=y, fill=z, color=z, linetype=z)) + 
-    geom_point() + 
-    geom_line() + 
-    scale_x_log10() + 
-    scale_y_continuous(trans='log1p')
-  if (! (is.null(u) | is.null(v))) {
-    p <- p + facet_grid(paste(v,'~',u)) 
-    ggsave(p + theme_bw(), 
-      device='png', 
-      file=plot.file(folder,u,v,x,y,z,'curves.png'), 
-      width=24, 
-      height=6, 
-      units='cm', 
-      dpi=300) 
-  } else {
-    ggsave(p + theme_bw(), 
-      device='png', 
-      file=plot.file(folder,v,v,x,y,z,'curves.png'), 
-      width=24, 
-      height=12, 
-      units='cm', 
-      dpi=300) } }
+require('ggplot2')
+require('knitr')
+require('kableExtra')
 #-----------------------------------------------------------------
 data.files <- function (
   folder='bench',
@@ -129,7 +80,7 @@ algorithm.colors <- c(
   'no hierarchy'='#377eb8')
 #-----------------------------------------------------------------
 quantile.plot <- function(data,fname,palette='Dark2') {
-  plot.file <- file.path(plot.folder,paste(fname,'quartiles','png',sep='.'))
+  plot.file <- file.path(plot.folder,paste(fname,'quantiles','png',sep='.'))
   p <- ggplot(
       data=data,
       aes(x=algorithm, y=median, 
@@ -148,7 +99,7 @@ quantile.plot <- function(data,fname,palette='Dark2') {
     #scale_color_brewer(palette=palette) +
     ylab('milliseconds') +
     geom_crossbar(width=0.25) +
-    ggtitle("[0.5,0.95] interval for runtimes") +
+    ggtitle("[0.5,0.95] quantiles for runtimes") +
     expand_limits(y=0); 
   ggsave(p , 
     device='png', 
