@@ -44,35 +44,50 @@ read.data <- function (
       'invokeinterface',
       'manual_java',
       'signature_lookup',
-      'multi',
-      'hashmap_tables',
-      'non_volatile_cache',
+      'no_hierarchy',
       'signature_dispatch_value',
-      'no_hierarchy'),
+      'non_volatile_cache',
+      'hashmap_tables',
+      'multi'
+    ),
     labels=c(
       'invokestatic',
       'invokevirtual',
       'invokeinterface',
-      'instanceof if-then-else',
-      'Signature if-then-else',
-      'clojure 1.8.0',
-      'hashmap tables',
-      'non-volatile cache',
+      'if-then-else instanceof',
+      'if-then-else Signature',
+      'no hierarchy',
       'Signature dispatch-value',
-      'no hierarchy'))
- baseline <- data$millisec[(data$algorithm=='instanceof if-then-else')]
- data$overhead <- data$millisec - baseline
- baseline <- data$overhead[data$algorithm=='clojure 1.8.0']
- data$overhead <- data$overhead / baseline
+      'non-volatile cache',
+      'hashmap tables',
+      'clojure 1.8.0'))
+  baseline <- data$millisec[(data$algorithm=='if-then-else instanceof')]
+  data$overhead <- data$millisec - baseline
+  baseline <- data$overhead[data$algorithm=='clojure 1.8.0']
+  data$overhead <- data$overhead / baseline
   
   data }
+#-----------------------------------------------------------------
+html.table <- function(data,fname,n) {
+  html.file <- file.path(
+    plot.folder,
+    paste(fname,'html',sep='.'))
+  cat(
+    kable(
+      data[order(data$algorithm),],
+      format='html',
+      digits=1,
+      caption=paste('milliseconds for',n,'intersection tests'),
+      row.names=FALSE,
+      col.names = c('algorithm','5%','50%','95%','mean')),
+    file=html.file) }
 #-----------------------------------------------------------------
 algorithm.colors <- c(
   'invokestatic'='#666666',
   'invokevirtual'='#666666',
   'invokeinterface'='#666666',
-  'instanceof if-then-else'='#1b9e77',
-  'Signature if-then-else'='#1b9e77',
+  'if-then-else instanceof'='#1b9e77',
+  'if-then-else Signature'='#1b9e77',
   'clojure 1.8.0'='#e41a1c',
   'hashmap tables'='#377eb8',
   'non-volatile cache'='#377eb8',
@@ -104,8 +119,8 @@ quantile.plot <- function(data,fname,palette='Dark2') {
   ggsave(p , 
     device='png', 
     file=plot.file, 
-    width=16, 
-    height=8.5, 
+    width=20, 
+    height=10.75, 
     units='cm', 
     dpi=300) }
 #-----------------------------------------------------------------
@@ -116,9 +131,9 @@ overhead.plot <- function(data,fname,palette='Dark2') {
       aes(
         x=algorithm, 
         y=overhead, 
-        #fill='grey', 
-        #color=algorithm,
-        ))  +
+      #fill='grey', 
+      #color=algorithm,
+      ))  +
     theme_bw() +
     theme(plot.title = element_text(hjust = 0.5)) +
     theme(axis.text.x=element_text(angle=-90,hjust=0,vjust=0.5),

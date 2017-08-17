@@ -1,8 +1,10 @@
-# Multimethod benchmark results
+# multimethod benchmarks
 
-A benchmark for multimethods (or anything else) 
-only matters to you
+A benchmark for multimethods (or anything else) only matters to you
 if the pattern of use it embodies is similar to yours.
+There's only one benchmark so far, and it naturally reflects
+my interests. I'd like to add benchmarks the better reflect
+other domains, and would appreciate help in that direction.
  
 The amount of method lookup overhead you can tolerate depends on 
 the cost of the operation.
@@ -15,11 +17,7 @@ is fine.
 I'm interested in using multimethods for basic basic geometric
 computation. Many important methods will just be a few floating
 point operations, costing perhaps 10-100 nanoseconds. 
-
 The first benchmark (see below) is designed to reflect this.
-
-_I'd very much appreciate suggestions/code for benchmarks
-reflecting other patterns of use._
 
 [Criterium](https://github.com/hugoduncan/criterium)
 is used to run the benchmarks, producing quantile intervals
@@ -40,10 +38,6 @@ or so shouldn't be taken seriously, which is no doubt true in any case.
 ## general assumptions
 
 Current assumptions underlying my choice of benchmarks.
-
-_Are any of these wrong? Am I missing something, 
-especially, am I missing some assumption I'm making
-unconsciously? Let me know._
 
 - I want to use generic operations for everything. 
 An ideal language would permit defining new methods for 
@@ -79,7 +73,7 @@ larger ones.
 than general hierarchies, or, at least, performance is more
 critical in that case.
 
-## Set intersection benchmark 
+## geometric set intersection test
 
 I've chosen a reduced (1d) version of a common computational 
 geometry / geospatial data task: testing for the intersection
@@ -104,13 +98,15 @@ in a single thread, and
 contention for shared mutable method tables might have a significant
 effect, depending on implementation.
 
-(The [default](https://github.com/palisades-lakes/benchtools/blob/master/src/main/clojure/benchtools/core.clj#L42)
+The [default](https://github.com/palisades-lakes/benchtools/blob/master/src/main/clojure/benchtools/core.clj#L42)
  for `nthreads` is 
 ```clojure
 (max 1 (- (.availableProcessors (Runtime/getRuntime)) 2))
 ```
 the idea being to leave one physical cpu free for system tasks,
 gc, etc., perhaps reducing the variation in time between runs.
+
+### data
 
 Three kinds of 'geometric' sets 
 (from [benchtools](https://github.com/palisades-lakes/benchtools))
@@ -128,6 +124,21 @@ that happen to contain only instances of `Number`.
 With 3 kinds of sets, there are 9 methods to define, as in
 [multix.sets.multi/intersects?](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/main/clojure/multix/sets/multi.clj)
 
+Random sets are created by repeated calls to zero argument _set generator_ functions.
+The set generators are constructed by calling functions from 
+[benchtools.random.generators](https://github.com/palisades-lakes/benchtools/blob/master/src/main/clojure/benchtools/random/generators.clj).
+The constructors take a number generator and return a set generator.
+
+A _number generator_ is a zero argument function that returns a
+(usually different) number every time it is called.
+Functions that create pseudo-random number generators are found in 
+[benchtools.random.prng](https://github.com/palisades-lakes/benchtools/blob/master/src/main/clojure/benchtools/random/prng.clj).
+The number generators are explicitly seeded so that repeated runs
+of the same benchmark are reproducible --- as long as the order
+of data generation doesn't change.
+
+### primary script
+
 The main benchmark script is 
 [multix.scripts.bench](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/scripts/clojure/multix/intersects/bench.clj).
 It has 3 parts:
@@ -144,24 +155,11 @@ so the same method is repeated 50% of the time.
 from `IntegerInterval`, `DoubleInterval`, and `SingletonSet`,
 so there is 1/9 chance of repeating the same method.
 
-`bench` calls functions defined in 
+[bench](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/scripts/clojure/multix/intersects/bench.clj).
+calls functions defined in 
 [multix.scripts.defs](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/scripts/clojure/multix/intersects/defs.clj).
-The other scripts come and go; they are used to profile specific
-multimethod implementations to determine where the time is going.
 
-Random sets are created by repeated calls to zero argument set generator functions.
-The set generators are constructed by calling functions from 
-[benchtools.random.generators](https://github.com/palisades-lakes/benchtools/blob/master/src/main/clojure/benchtools/random/generators.clj).
-The constructors take a number generator and return a set generator.
-A number generator is a zero argument function that returns a
-(usually different) number every time it is called.
-Functions that create pseudo-random number generators are found in 
-[benchtools.random.prng](https://github.com/palisades-lakes/benchtools/blob/master/src/main/clojure/benchtools/random/prng.clj).
-The number generators are explicitly seeded so that repeated runs
-of the same benchmark are reproducible --- as long as the order
-of data generation odesn't change.
-
-## Baselines
+### baselines
 
 The purpose of the benchmarks here is to measure method lookup
 overhead. So we have to decide 'overhead relative to what'?
@@ -178,27 +176,33 @@ to compare static and dynamic method lookup.
 The JVM has 3 instructions for calling method 
 (Java 8 can't directly generate code using `invokedynamic`):
 <dl>
-<dt>`invokestatic`</dt>
+<dt><code>invokestatic</code></dt>
 <dd>
 Uses static methods from 
-[benchtools.java.sets.Intersects](https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Intersects.java).
-Assumes both set classes are known (`IntergerInterval`)at compile time.
+<a href="https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Intersects.java">
+<code>benchtools.java.sets.Intersects</code></a>.
+Assumes both set classes are <code>IntergerInterval</code>,
+which is known at compile time.
 </dd>
-<dt>`invokevirtual`</dt>
+<dt><code>invokevirtual</code></dt>
 <dd>
 Uses instance methods called from 
-[benchtools.java.sets.Sets](https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Sets.java).
-Assumes both set classes are known (`IntergerInterval`)at compile time.
+<a href="https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Sets.java">
+<code>benchtools.java.sets.Sets</code></a>.
+Assumes both set classes are <code>IntergerInterval</code>,
+which is known at compile time.
 </dd>
 </dd>
-<dt>`invokeinterface`</dt>
+<dt><code>invokeinterface</code></dt>
 <dd>
 Uses instance methods called from 
-[benchtools.java.sets.Sets](https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Sets.java).
+<a href="https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Sets.java">
+<code>benchtools.java.sets.Sets</code></a>.
 Assumes the first argument is an instance of the 
-[Set](https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Set.java)
-interface and the second is`IntergerInterval`.
-both set classes are known (`IntergerInterval`)at compile time.
+<a href="https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Set.java">
+<code>benchtools.java.sets.Set</code></a>
+interface and the second is <code>IntergerInterval</code>,
+known at compile time.
 </dd>
 </dl>
 
@@ -208,20 +212,36 @@ the above functions aren't options
 of static method lookup have much value at all).
 
 Probably the fastest way to provide dynamic lookup in Java
-is a hand-coded if-then-else using `instanceof` and casting
-to `invokevirtual` or `invokestatic` the right method.
-`manual-java`, which calls
+is a hand-coded if-then-else using </code>instanceof</code> and casting
+to </code>invokevirtual</code> or </code>invokestatic</code> the right method.
+</code>if-then-else instanceof</code>, which calls
 [Intersects/manual](https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Intersects.java#L82),
 does just this.
 
-The results that follow are from a Thinkpad P70 (Xeon E3-1505M v5), 
-90% intervals for the runtimes for 
+_TODO: Write system details to data folder._
+
+#### results
+
+The results that follow are from a Thinkpad P70 (Xeon E3-1505M v5).
+
+The plots show 90% intervals for the runtimes for 
 all 6 concurrent runs of intersection counting over
 `IntegerInterval[]` arrays of length 2<sup>22</sup> (4194304)
 the baseline methods vs Clojure 1.8.0 multimethods are:
 
+_TODO: make the plots smaller_
+
+![baselines vs Clojure 1.8.0](figs/baselines-plus-defmulti.quantiles.png)
+
+The baseline methods by themselves:
+
+![baselines](figs/baselines.quantiles.png)
+
+_TODO: better table formatting,. hiccup rather than in R?_
+_TODO: automate including the tables in the markdown?_
+
 <table>
-<caption>runtime in ms</caption>
+<caption>milliseconds for 4194304 intersection tests</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> algorithm </th>
@@ -254,18 +274,223 @@ the baseline methods vs Clojure 1.8.0 multimethods are:
    <td style="text-align:right;"> 69.3 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> instanceof if-then-else </td>
+   <td style="text-align:left;"> if-then-else instanceof </td>
    <td style="text-align:right;"> 71.3 </td>
    <td style="text-align:right;"> 72.3 </td>
    <td style="text-align:right;"> 72.8 </td>
    <td style="text-align:right;"> 72.2 </td>
   </tr>
+  <tr>
+   <td style="text-align:left;"> clojure 1.8.0 </td>
+   <td style="text-align:right;"> 1936.9 </td>
+   <td style="text-align:right;"> 1954.0 </td>
+   <td style="text-align:right;"> 1963.9 </td>
+   <td style="text-align:right;"> 1949.4 </td>
+  </tr>
 </tbody>
 </table>
 
-![baselines vs Clojure 1.8.0](docs/figs/baselines-plus-defmulti.quantiles.png)
+#### conclusions 
 
-![baselines](docs/figs/baselines.quantiles.png)
+There's no difference among `invokestatic`, `invokevirtual`,
+and `invokeinterface`. 
 
+`if-then-else instanceof`, 
+dynamic method lookup optimized for the specific benchmark,
+adds about 4% to the runtime.
 
+Clojure 1.8.0 multimethods take about 28 times as long as any of the
+others, implying about 95% of the time is overhead.
+
+### dynamic lookup with 1/9 repeats
+
+This benchmark is evaluated on pair of `Object[]` arrays,
+where the elements in each array are chosen with equal
+probability from `IntegerInterval`, `DoubleInterval`,
+and `java.util.Set`.
+
+The multimethod implementations include 
+`if-then-else instanceof` 
+and `clojure 1.8.0` as outer bounds,
+and a series of backward compatible changes to the Clojure 1.8.0
+multimethod implementation.
+See [implementation notes 1.8.0](https://github.com/palisades-lakes/multimethod-experiments/blob/master/docs/implementation_notes_1.8.0.md) 
+for
+more information on Clojure 1.8.0 multimethods, 
+and [faster-multimethods](https://github.com/palisades-lakes/faster-multimethods) 
+for more information on the changes.
+<dl>
+<dt><code>hashmap tables</code></dt>
+<dd> In
+<a href="https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/MultiFn.java">
+<code>MultiFn</code></a>,
+replace 
+<a href="https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/PersistentHashMap.java">
+<code>PersistentHashMap</code></a>
+with 
+<a href="https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html">
+<code>java.util.HashMap</code></a>,
+for the <code>methodTable</code> (maps dispatch values to a defined methods),
+<code>preferTable</code> (resolves multiple applicable defined methods),
+and <code>methodCache</code> (maps an actual dispatch value 
+to the resolved applicable method),
+acting as though <code>HashMap</code> was immutable.
+
+This is an invisible change.
+</dd>
+<dt><code>non-volatile cache</code></dt>
+<dd>
+Make the <code>methodCache</code> non-volatile.
+This change may cause redundant cache updates, but I believe
+that's sufficiently low probability to not affect any
+performance gain, and, in any case, the cache should converge
+quickly to a stable state.
+
+This is an essentially invisible change.
+</dd>
+<dt><code>Signature dispatch-value</code></dt>
+<dd>
+I've chosen to add support for an additional special case of
+dispatch values, which I call 
+<a href="https://github.com/palisades-lakes/faster-multimethods/tree/master/src/main/java/faster/multimethods/java/signature">
+<code>signatures</code></a>
+--- essentially short immutable lists of Classes,
+no Symbols or Keywords, no arbitrary hierarchy, and no recursion.
+    
+This is backwards compatible; and can be adopted by changing
+the dispatch function from, eg, <code>[(class a) (class b)]</code> to
+<code>(signature a b)</code>.
+</dd>
+<dt><code>no hierarchy</code></dt>
+<dd>
+Permit a </code>:hierarchy false</code> option to </code>defmulti</code>.
+Every Clojure 1.8.0 
+<a href="https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/MultiFn.java">
+<code>multimethod</code></a>
+depends on an external, shared, mutable hierarchy.
+Every invocation has to first check whether the hierarchy has changed
+since the </code>methodCache</code> was last updated, and that check adds 
+overhead. 
+I believe many uses of multimethods define methods only for
+classes, so the hierarchy is unused and that check is unnecessary. 
+
+This is backwards compatible,
+</dd>
+</dl>
+
+#### results
+
+The plots show 90% intervals for the runtimes for 
+all 6 concurrent runs of intersection counting over
+arrays of length 2<sup>22</sup> (4194304)
+manual vs Clojure 1.8.0 vs changes are:
+
+![manual vs changed vs Clojure 1.8.0](figs/bench-plus-defmulti.quantiles.png)
+
+The faster methods by themselves:
+
+![manual vs changed](figs/bench.quantiles.png)
+
+<table>
+<caption>milliseconds for 4194304 intersection tests</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> algorithm </th>
+   <th style="text-align:right;"> 5% </th>
+   <th style="text-align:right;"> 50% </th>
+   <th style="text-align:right;"> 95% </th>
+   <th style="text-align:right;"> mean </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> if-then-else instanceof </td>
+   <td style="text-align:right;"> 149.9 </td>
+   <td style="text-align:right;"> 153.8 </td>
+   <td style="text-align:right;"> 154.9 </td>
+   <td style="text-align:right;"> 152.3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> no hierarchy </td>
+   <td style="text-align:right;"> 337.8 </td>
+   <td style="text-align:right;"> 347.2 </td>
+   <td style="text-align:right;"> 351.4 </td>
+   <td style="text-align:right;"> 346.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Signature dispatch-value </td>
+   <td style="text-align:right;"> 393.3 </td>
+   <td style="text-align:right;"> 398.5 </td>
+   <td style="text-align:right;"> 405.1 </td>
+   <td style="text-align:right;"> 399.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> non-volatile cache </td>
+   <td style="text-align:right;"> 474.7 </td>
+   <td style="text-align:right;"> 480.6 </td>
+   <td style="text-align:right;"> 497.5 </td>
+   <td style="text-align:right;"> 486.0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hashmap tables </td>
+   <td style="text-align:right;"> 471.4 </td>
+   <td style="text-align:right;"> 486.2 </td>
+   <td style="text-align:right;"> 491.9 </td>
+   <td style="text-align:right;"> 482.2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> clojure 1.8.0 </td>
+   <td style="text-align:right;"> 2467.9 </td>
+   <td style="text-align:right;"> 2495.6 </td>
+   <td style="text-align:right;"> 2499.4 </td>
+   <td style="text-align:right;"> 2484.5 </td>
+  </tr>
+</tbody>
+</table>
+
+#### conclusions
+
+1. All the methods take significantly longer with when the 
+correct method is randomly chosen from 1 out of 9, than when
+the same method is called repeatedly.
+
+    `if-then-else instanceof` takes about twice as long,
+    which is not surprising, since the 
+    `intersects(IntegerInterval,IntegerInterval)` is the first branch
+    in a if-then-else tree with 9 leaves.
+
+    `clojure 1.8.0` takes about 30% longer. It's easy to imagine 
+    many reasons why that would be, related to JIT, cpu cache, etc.
+
+    It's worth noting that this is a pessimistic case for dynamic
+    lookup, where the probability of calling the same method
+    repeatedly is likely to be much higher
+
+    (_TODO: evidence?_).
+    
+2. Replacing `PersistentHashMap` with `HashMap` 
+reduces the runtime from about 2500ms 
+to 500ms. With `if-then-else instanceof` as the baseline 
+at about 150ms,
+that means the overhead with `HashMap` is roughly 15% of 
+Clojure 1.8.0.
+
+3. Making the `methodCache` non-volatile makes no difference
+in this benchmark.
+
+4. Using a specialized `Signature` dispatch value in place
+of a `PersistentVector` reduces the runtime to about 400ms,
+implying about 10% the overhead of Clojure 1.8.0.
+
+5. Providing a `:hierarchy false` option gets us to about 350ms,
+or about 8% the overhead of Clojure 1.8.0.
+
+6. The best result so far takes 7/3 as long as the baseline,
+so its _overhead_ is still longer than the baseline cost.
+So there is still room for improvement.
+The next question is whether significant additional improvement
+can be made at the Clojure/Java level, or if Clojure compiler
+changes are needed.
+
+![overhead as a fraction of Clojure 1.8.0](figs/bench.overhead.png)
 

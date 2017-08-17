@@ -27,16 +27,16 @@ baseline.algs <- c(
   'invokestatic',
   'invokevirtual',
   'invokeinterface',
-  'instanceof if-then-else')
+  'if-then-else instanceof')
 
-baseline.multi.algs <- c('clojure 1.8.0',baseline.algs)
+baseline.multi.algs <- c(baseline.algs,'clojure 1.8.0')
 
 bench.algs <- c(
-  'instanceof if-then-else',
   'hashmap tables',
   'non-volatile cache',
   'Signature dispatch-value',
-  'no hierarchy')
+  'no hierarchy',
+  'if-then-else instanceof')
 
 bench.multi.algs <- c('clojure 1.8.0',bench.algs)
 
@@ -44,13 +44,12 @@ cols <- c('algorithm','lower.q','median', 'upper.q', 'millisec')
 baselines.plus.defmulti <- baselines[(baselines$algorithm %in% baseline.multi.algs),cols]
 baselines.only <- baselines[(baselines$algorithm %in% baseline.algs),cols]
 bench.plus.defmulti <- bench[(bench$algorithm %in% bench.multi.algs),cols]
-bench.only <- bench[(bench$algorithm %in% bench.algs),]
+bench.only <- bench[(bench$algorithm %in% bench.algs),cols]
 
-thtml <- 
-      kable(baselines.only,format='html',digits=1,caption='runtime in ms',
-        row.names=FALSE,
-        col.names = c('algorithm','5%','50%','95%','mean'))
-cat(thtml,file='docs/figs/baselines.html')
+html.table(data=baselines.only,fname='baselines',n=nelements)
+html.table(data=baselines.plus.defmulti,fname='baselines-plus-defmulti',n=nelements)
+html.table(data=bench.only,fname='bench',n=nelements)
+html.table(data=bench.plus.defmulti,fname='bench-plus-defmulti',n=nelements)
 
 quantile.plot(data=baselines.only,fname='baselines',palette='Dark2')
 quantile.plot(data=baselines.plus.defmulti,fname='baselines-plus-defmulti',palette='Dark2')
