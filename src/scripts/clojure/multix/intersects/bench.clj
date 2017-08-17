@@ -13,7 +13,7 @@
 ;;----------------------------------------------------------------
 (defn bench 
   ([data0 type0 data1 type1 fns] 
-    (let [n (* 1 1 1024 1024)]
+    (let [n (* 1 4 1024 1024)]
       (println (benchtools/fn-name data0) n 
                (benchtools/fn-name data1) n 
                (.toString (java.time.LocalDateTime/now))) 
