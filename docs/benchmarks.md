@@ -98,7 +98,7 @@ in a single thread, and
 contention for shared mutable method tables might have a significant
 effect, depending on implementation.
 
-The [default](https://github.com/palisades-lakes/benchtools/blob/master/src/main/clojure/benchtools/core.clj#L42)
+The [default](https://github.com/palisades-lakes/palisades/lakes/bench/blob/master/src/main/clojure/palisades/lakes/bench/core.clj#L42)
  for `nthreads` is 
 ```clojure
 (max 1 (- (.availableProcessors (Runtime/getRuntime)) 2))
@@ -113,26 +113,26 @@ Three kinds of 'geometric' sets
 are used: 
 
 1. half-open intervals on the real line, specified with 
-[`int` valued endpoints](https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/IntegerInterval.java)
+[`int` valued endpoints](https://github.com/palisades-lakes/palisades/lakes/bench/blob/master/src/main/java/palisades/lakes/bench/java/sets/IntegerInterval.java)
 
 2. half-open intervals with 
-[`double` valued endpoints](https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/DoubleInterval.java)
+[`double` valued endpoints](https://github.com/palisades-lakes/palisades/lakes/bench/blob/master/src/main/java/palisades/lakes/bench/java/sets/DoubleInterval.java)
 
 3. instances of [java.util.Set](https://docs.oracle.com/javase/8/docs/api/index.html?java/util/Set.html)
 that happen to contain only instances of `Number`.
 
 With 3 kinds of sets, there are 9 methods to define, as in
-[multix.sets.multi/intersects?](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/main/clojure/multix/sets/multi.clj)
+[palisades.lakes.multix.sets.multi/intersects?](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/main/clojure/palisades/lakes/multix/sets/multi.clj)
 
 Random sets are created by repeated calls to zero argument _set generator_ functions.
 The set generators are constructed by calling functions from 
-[benchtools.random.generators](https://github.com/palisades-lakes/benchtools/blob/master/src/main/clojure/benchtools/random/generators.clj).
+[palisades.lakes.bench.random.generators](https://github.com/palisades-lakes/palisades/lakes/bench/blob/master/src/main/clojure/palisades/lakes/bench/random/generators.clj).
 The constructors take a number generator and return a set generator.
 
 A _number generator_ is a zero argument function that returns a
 (usually different) number every time it is called.
 Functions that create pseudo-random number generators are found in 
-[benchtools.random.prng](https://github.com/palisades-lakes/benchtools/blob/master/src/main/clojure/benchtools/random/prng.clj).
+[palisades.lakes.bench.random.prng](https://github.com/palisades-lakes/palisades/lakes/bench/blob/master/src/main/clojure/palisades/lakes/bench/random/prng.clj).
 The number generators are explicitly seeded so that repeated runs
 of the same benchmark are reproducible --- as long as the order
 of data generation doesn't change.
@@ -140,7 +140,7 @@ of data generation doesn't change.
 ### primary script
 
 The main benchmark script is 
-[multix.scripts.bench](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/scripts/clojure/multix/intersects/bench.clj).
+[palisades.lakes.multix.scripts.bench](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/scripts/clojure/palisades/lakes/multix/intersects/bench.clj).
 It has 3 parts:
 
 1. Baseline evaluation, including implementations
@@ -155,9 +155,9 @@ so the same method is repeated 50% of the time.
 from `IntegerInterval`, `DoubleInterval`, and `SingletonSet`,
 so there is 1/9 chance of repeating the same method.
 
-[bench](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/scripts/clojure/multix/intersects/bench.clj).
+[bench](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/scripts/clojure/palisades/lakes/multix/intersects/bench.clj).
 calls functions defined in 
-[multix.scripts.defs](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/scripts/clojure/multix/intersects/defs.clj).
+[palisades.lakes.multix.scripts.defs](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/scripts/clojure/palisades/lakes/multix/intersects/defs.clj).
 
 ### baselines
 
@@ -179,16 +179,16 @@ The JVM has 3 instructions for calling method
 <dt><code>invokestatic</code></dt>
 <dd>
 Uses static methods from 
-<a href="https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Intersects.java">
-<code>benchtools.java.sets.Intersects</code></a>.
+<a href="https://github.com/palisades-lakes/palisades/lakes/bench/blob/master/src/main/java/palisades/lakes/bench/java/sets/Intersects.java">
+<code>palisades.lakes.bench.java.sets.Intersects</code></a>.
 Assumes both set classes are <code>IntergerInterval</code>,
 which is known at compile time.
 </dd>
 <dt><code>invokevirtual</code></dt>
 <dd>
 Uses instance methods called from 
-<a href="https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Sets.java">
-<code>benchtools.java.sets.Sets</code></a>.
+<a href="https://github.com/palisades-lakes/palisades/lakes/bench/blob/master/src/main/java/palisades/lakes/bench/java/sets/Sets.java">
+<code>palisades.lakes.bench.java.sets.Sets</code></a>.
 Assumes both set classes are <code>IntergerInterval</code>,
 which is known at compile time.
 </dd>
@@ -196,11 +196,11 @@ which is known at compile time.
 <dt><code>invokeinterface</code></dt>
 <dd>
 Uses instance methods called from 
-<a href="https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Sets.java">
-<code>benchtools.java.sets.Sets</code></a>.
+<a href="https://github.com/palisades-lakes/palisades/lakes/bench/blob/master/src/main/java/palisades/lakes/bench/java/sets/Sets.java">
+<code>palisades.lakes.bench.java.sets.Sets</code></a>.
 Assumes the first argument is an instance of the 
-<a href="https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Set.java">
-<code>benchtools.java.sets.Set</code></a>
+<a href="https://github.com/palisades-lakes/palisades/lakes/bench/blob/master/src/main/java/palisades/lakes/bench/java/sets/Set.java">
+<code>palisades.lakes.bench.java.sets.Set</code></a>
 interface and the second is <code>IntergerInterval</code>,
 known at compile time.
 </dd>
@@ -215,7 +215,7 @@ Probably the fastest way to provide dynamic lookup in Java
 is a hand-coded if-then-else using </code>instanceof</code> and casting
 to </code>invokevirtual</code> or </code>invokestatic</code> the right method.
 </code>if-then-else instanceof</code>, which calls
-[Intersects/manual](https://github.com/palisades-lakes/benchtools/blob/master/src/main/java/benchtools/java/sets/Intersects.java#L82),
+[Intersects/manual](https://github.com/palisades-lakes/palisades/lakes/bench/blob/master/src/main/java/palisades/lakes/bench/java/sets/Intersects.java#L82),
 does just this.
 
 _TODO: Write system details to data folder._

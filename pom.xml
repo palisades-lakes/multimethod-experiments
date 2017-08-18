@@ -154,13 +154,13 @@
     <configuration>
      <clojureOptions>-Dclojure.compiler.direct-linking=true</clojureOptions>
      <namespaces>
-      <namespace>!multix.test.*</namespace>
+      <namespace>!palisades.lakes.multix.test.*</namespace>
      </namespaces>
      <copiedNamespaces>
       <namespace>!.*</namespace>
      </copiedNamespaces>
      <testNamespaces>
-      <namespace>!multix.test.defs.*</namespace>
+      <namespace>!palisades.lakes.multix.test.defs.*</namespace>
      </testNamespaces>
     </configuration>
    </plugin>
