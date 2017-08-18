@@ -220,8 +220,6 @@ does just this.
 
 _TODO: Write system details to data folder._
 
-#### results
-
 The results that follow are from a Thinkpad P70 (Xeon E3-1505M v5).
 
 The plots show 90% intervals for the runtimes for 
@@ -229,85 +227,42 @@ all 6 concurrent runs of intersection counting over
 `IntegerInterval[]` arrays of length 2<sup>22</sup> (4194304)
 the baseline methods vs Clojure 1.8.0 multimethods are:
 
-_TODO: make the plots smaller_
-
-![baselines vs Clojure 1.8.0](figs/baselines-plus-defmulti.quantiles.png)
+<img src="figs/baselines-plus-defmulti.quantiles.png" 
+  alt="baselines vs Clojure 1.8.0" 
+  style="width: 15cm;"/>
 
 The baseline methods by themselves:
 
-![baselines](figs/baselines.quantiles.png)
+<img src="figs/baselines.quantiles.png" 
+  alt="baselines" 
+  style="width: 15cm;"/>
 
-_TODO: better table formatting,. hiccup rather than in R?_
+_TODO: better table formatting. clojure/hiccup rather than in R?_
+
 _TODO: automate including the tables in the markdown?_
 
-<table>
-<caption>milliseconds for 4194304 intersection tests</caption>
- <thead>
-  <tr>
-   <th style="text-align:left;"> algorithm </th>
-   <th style="text-align:right;"> 5% </th>
-   <th style="text-align:right;"> 50% </th>
-   <th style="text-align:right;"> 95% </th>
-   <th style="text-align:right;"> mean </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> invokestatic </td>
-   <td style="text-align:right;"> 68.0 </td>
-   <td style="text-align:right;"> 68.5 </td>
-   <td style="text-align:right;"> 69.5 </td>
-   <td style="text-align:right;"> 68.8 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> invokevirtual </td>
-   <td style="text-align:right;"> 67.8 </td>
-   <td style="text-align:right;"> 68.2 </td>
-   <td style="text-align:right;"> 69.0 </td>
-   <td style="text-align:right;"> 68.5 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> invokeinterface </td>
-   <td style="text-align:right;"> 68.2 </td>
-   <td style="text-align:right;"> 68.3 </td>
-   <td style="text-align:right;"> 70.3 </td>
-   <td style="text-align:right;"> 69.3 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> if-then-else instanceof </td>
-   <td style="text-align:right;"> 71.3 </td>
-   <td style="text-align:right;"> 72.3 </td>
-   <td style="text-align:right;"> 72.8 </td>
-   <td style="text-align:right;"> 72.2 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> clojure 1.8.0 </td>
-   <td style="text-align:right;"> 1936.9 </td>
-   <td style="text-align:right;"> 1954.0 </td>
-   <td style="text-align:right;"> 1963.9 </td>
-   <td style="text-align:right;"> 1949.4 </td>
-  </tr>
-</tbody>
-</table>
+milliseconds for 4194304 intersection tests:
 
-#### conclusions 
+|algorithm               |   0.05|   0.50|   0.95|   mean| 
+|:-----------------------|------:|------:|------:|------:| 
+|invokestatic            |   67.5|   67.9|   71.2|   69.2| 
+|invokevirtual           |   69.1|   69.7|   70.3|   69.8| 
+|invokeinterface         |   67.7|   67.9|   69.3|   68.5| 
+|if-then-else instanceof |   69.0|   69.7|   73.0|   70.4| 
+|clojure 1.8.0           | 1865.2| 1877.9| 1883.2| 1872.3|
 
-There's no difference among `invokestatic`, `invokevirtual`,
-and `invokeinterface`. 
+There's no significant difference among `invokestatic`, 
+`invokevirtual`, `invokeinterface`. and `if-the
 
-`if-then-else instanceof`, 
-dynamic method lookup optimized for the specific benchmark,
-adds about 4% to the runtime.
+  +n-else instanceof`.
 
-Clojure 1.8.0 multimethods take about 28 times as long as any of the
+Clojure 1.8.0 multimethods take about 27 times as long as any of the
 others, implying about 95% of the time is overhead.
 
-### dynamic lookup with 1/9 repeats
+### dynamic lookup with 1/1 repeats
 
-This benchmark is evaluated on pair of `Object[]` arrays,
-where the elements in each array are chosen with equal
-probability from `IntegerInterval`, `DoubleInterval`,
-and `java.util.Set`.
+This is the same as the previous benchmark, except I add
+a number of fully dynamic multimethod implementations for comparison.
 
 The multimethod implementations include 
 `if-then-else instanceof` 
@@ -378,119 +333,134 @@ This is backwards compatible,
 </dd>
 </dl>
 
-#### results
+milliseconds for 4194304 intersection tests:
+
+|algorithm                |   0.05|   0.50|   0.95|   mean|
+|:------------------------|------:|------:|------:|------:|
+|invokestatic             |   67.5|   67.9|   71.2|   69.2|
+|invokevirtual            |   69.1|   69.7|   70.3|   69.8|
+|invokeinterface          |   67.7|   67.9|   69.3|   68.5|
+|if-then-else instanceof  |   69.0|   69.7|   73.0|   70.4|
+|no hierarchy             |  118.0|  121.1|  125.7|  122.2|
+|Signature dispatch-value |  150.2|  155.1|  159.1|  154.8|
+|non-volatile cache       |  279.5|  281.4|  298.7|  287.8|
+|hashmap tables           |  256.6|  263.7|  274.9|  265.1|
+|clojure 1.8.0            | 1865.2| 1877.9| 1883.2| 1872.3|
 
 The plots show 90% intervals for the runtimes for 
 all 6 concurrent runs of intersection counting over
-arrays of length 2<sup>22</sup> (4194304)
-manual vs Clojure 1.8.0 vs changes are:
+arrays of length 2<sup>22</sup> (4194304):
 
-![manual vs changed vs Clojure 1.8.0](figs/bench-plus-defmulti.quantiles.png)
+<img src="figs/bench1-plus-defmulti.quantiles.png" 
+  alt="bench1 vs Clojure 1.8.0" 
+  style="width: 15cm;"/>
 
-The faster methods by themselves:
+Excluding Clojure 1.8.0 to make the comparison among the rest easier::
 
-![manual vs changed](figs/bench.quantiles.png)
+<img src="figs/bench1.quantiles.png" 
+  alt="bench1" 
+  style="width: 15cm;"/>
 
-<table>
-<caption>milliseconds for 4194304 intersection tests</caption>
- <thead>
-  <tr>
-   <th style="text-align:left;"> algorithm </th>
-   <th style="text-align:right;"> 5% </th>
-   <th style="text-align:right;"> 50% </th>
-   <th style="text-align:right;"> 95% </th>
-   <th style="text-align:right;"> mean </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> if-then-else instanceof </td>
-   <td style="text-align:right;"> 149.9 </td>
-   <td style="text-align:right;"> 153.8 </td>
-   <td style="text-align:right;"> 154.9 </td>
-   <td style="text-align:right;"> 152.3 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> no hierarchy </td>
-   <td style="text-align:right;"> 337.8 </td>
-   <td style="text-align:right;"> 347.2 </td>
-   <td style="text-align:right;"> 351.4 </td>
-   <td style="text-align:right;"> 346.5 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Signature dispatch-value </td>
-   <td style="text-align:right;"> 393.3 </td>
-   <td style="text-align:right;"> 398.5 </td>
-   <td style="text-align:right;"> 405.1 </td>
-   <td style="text-align:right;"> 399.9 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> non-volatile cache </td>
-   <td style="text-align:right;"> 474.7 </td>
-   <td style="text-align:right;"> 480.6 </td>
-   <td style="text-align:right;"> 497.5 </td>
-   <td style="text-align:right;"> 486.0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> hashmap tables </td>
-   <td style="text-align:right;"> 471.4 </td>
-   <td style="text-align:right;"> 486.2 </td>
-   <td style="text-align:right;"> 491.9 </td>
-   <td style="text-align:right;"> 482.2 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> clojure 1.8.0 </td>
-   <td style="text-align:right;"> 2467.9 </td>
-   <td style="text-align:right;"> 2495.6 </td>
-   <td style="text-align:right;"> 2499.4 </td>
-   <td style="text-align:right;"> 2484.5 </td>
-  </tr>
-</tbody>
-</table>
+<img src="figs/bench1.overhead.png" 
+  alt="bench1 overhead" 
+  style="width: 15cm;"/>
 
-#### conclusions
 
-1. All the methods take significantly longer with when the 
-correct method is randomly chosen from 1 out of 9, than when
-the same method is called repeatedly.
+### dynamic lookup with 1/2 repeats
 
-    `if-then-else instanceof` takes about twice as long,
-    which is not surprising, since the 
-    `intersects(IntegerInterval,IntegerInterval)` is the first branch
-    in a if-then-else tree with 9 leaves.
+In this benchmark, the first interval array is `IntegerInterval[]`;
+the 2nd is `Object[]` and its elements are randomly chosen
+from `IntegerInterval` and `DoubleInterval`.
+This means the probability of repeating the same method twice in a
+row in 0.5.
+It also means that `invokestatic`, etc., can't be included,
+because the type of the 2nd argument is not known at compile time.
 
-    `clojure 1.8.0` takes about 30% longer. It's easy to imagine 
-    many reasons why that would be, related to JIT, cpu cache, etc.
+milliseconds for 4194304 intersection tests:
 
-    It's worth noting that this is a pessimistic case for dynamic
-    lookup, where the probability of calling the same method
-    repeatedly is likely to be much higher
+|algorithm                |   0.05|   0.50|   0.95|   mean|
+|:------------------------|------:|------:|------:|------:|
+|if-then-else instanceof  |   90.8|   91.4|   94.4|   92.2|
+|no hierarchy             |  181.6|  187.2|  190.0|  186.5|
+|Signature dispatch-value |  203.1|  207.1|  211.2|  207.6|
+|non-volatile cache       |  385.9|  412.8|  416.3|  400.9|
+|hashmap tables           |  326.9|  336.8|  349.0|  336.9|
+|clojure 1.8.0            | 1853.1| 1874.3| 1885.0| 1868.9|
 
-    (_TODO: evidence?_).
-    
+The plots show 90% intervals for the runtimes for 
+all 6 concurrent runs of intersection counting over
+arrays of length 2<sup>22</sup> (4194304):
+
+<img src="figs/bench2-plus-defmulti.quantiles.png" 
+  alt="bench2 vs Clojure 1.8.0" 
+  style="width: 15cm;"/>
+
+Excluding Clojure 1.8.0 to make the comparison among the rest easier::
+
+<img src="figs/bench2.quantiles.png" 
+  alt="bench2" 
+  style="width: 15cm;"/>
+
+<img src="figs/bench2.overhead.png" 
+  alt="bench2 overhead" 
+  style="width: 15cm;"/>
+
+### dynamic lookup with 1/9 repeats
+
+This benchmark is evaluated on pair of `Object[]` arrays,
+where the elements in each array are chosen with equal
+probability from `IntegerInterval`, `DoubleInterval`,
+and `java.util.Set`, so that the probability of a repeated best
+method is 1/9.
+
+milliseconds for 4194304 intersection tests:
+
+|algorithm                |   0.05|   0.50|   0.95|   mean|
+|:------------------------|------:|------:|------:|------:|
+|if-then-else instanceof  |  149.6|  152.5|  154.7|  152.1|
+|no hierarchy             |  329.5|  338.7|  342.9|  336.2|
+|Signature dispatch-value |  394.6|  402.0|  409.8|  402.2|
+|non-volatile cache       |  489.4|  504.6|  516.0|  500.7|
+|hashmap tables           |  487.8|  503.4|  541.5|  509.7|
+|clojure 1.8.0            | 2424.6| 2439.4| 2463.6| 2443.1|
+
+The plots show 90% intervals for the runtimes for 
+all 6 concurrent runs of intersection counting over
+arrays of length 2<sup>22</sup> (4194304):
+
+<img src="figs/bench9-plus-defmulti.quantiles.png" 
+  alt="bench9 vs Clojure 1.8.0" 
+  style="width: 15cm;"/>
+
+Excluding Clojure 1.8.0 to make the comparison among the rest easier::
+
+<img src="figs/bench9.quantiles.png" 
+  alt="bench9" 
+  style="width: 15cm;"/>
+
+<img src="figs/bench9.overhead.png" 
+  alt="bench9 overhead" 
+  style="width: 15cm;"/>
+
+### conclusions
+
+1. All the methods take longer as the probability of calling
+the same method again decreases. 
 2. Replacing `PersistentHashMap` with `HashMap` 
-reduces the runtime from about 2500ms 
-to 500ms. With `if-then-else instanceof` as the baseline 
-at about 150ms,
-that means the overhead with `HashMap` is roughly 15% of 
-Clojure 1.8.0.
-
+reduces method lookup overhead to 10-15% of Clojure 1.8.0.
 3. Making the `methodCache` non-volatile makes no difference
-in this benchmark.
-
+in this benchmark, if not actually making things worse.
+It may help when there is more contention, possibly if `nthreads`
+uses all available cpus.
 4. Using a specialized `Signature` dispatch value in place
-of a `PersistentVector` reduces the runtime to about 400ms,
-implying about 10% the overhead of Clojure 1.8.0.
-
-5. Providing a `:hierarchy false` option gets us to about 350ms,
-or about 8% the overhead of Clojure 1.8.0.
-
-6. The best result so far takes 7/3 as long as the baseline,
-so its _overhead_ is still longer than the baseline cost.
+of a `PersistentVector` reduces the overhead to 5-10% of Clojure 1.8.0.
+5. Providing a `:hierarchy false` option gets us to 3-8% of 
+the overhead of Clojure 1.8.0.
+6. The best results so far take about 1.7-2.2 times
+as long as the if-then-else baseline,
+so the _overhead_ is comparable to than the baseline cost.
 So there is still room for improvement.
 The next question is whether significant additional improvement
 can be made at the Clojure/Java level, or if Clojure compiler
 changes are needed.
-
-![overhead as a fraction of Clojure 1.8.0](figs/bench.overhead.png)
 

@@ -15,23 +15,26 @@ data.files <- function (
   model='20ERCTO1WW',
   generator0='nested_uniform_generator',
   generator1='nested_uniform_generator',
-  nelements=4194304) {
+  nelements=4194304,
+  theday='[0-9]{8}-[0-9]{4}') {
   
   data.folder <- paste('data/intersects/',folder,sep='')
-  list.files(
-    path=data.folder, 
-    pattern=paste('LENOVO',model,generator0,generator1,nelements,'*.tsv',sep='.'), 
-    full.names=TRUE) }
+  pattern <- paste('LENOVO',model,generator0,generator1,nelements,
+    theday,'tsv',sep='.')
+  print(data.folder)
+  print(pattern)
+  list.files(path=data.folder,pattern=pattern,full.names=TRUE) }
 #-----------------------------------------------------------------
 read.data <- function (
   folder='bench',
   model='20ERCTO1WW',
   generator0='nested_uniform_generator',
   generator1='nested_uniform_generator',
-  nelements=4194304) {
+  nelements=4194304,
+  theday='20170817-*') {
   
   data <- NULL
-  for (f in data.files(folder,model,generator0,generator1,nelements)) {
+  for (f in data.files(folder,model,generator0,generator1,nelements,theday)) {
     print(f)
     tmp <- read.csv(f,sep='\t',as.is=TRUE)
     data <- rbind(data,tmp) }
@@ -48,7 +51,7 @@ read.data <- function (
       'signature_dispatch_value',
       'non_volatile_cache',
       'hashmap_tables',
-      'multi'
+      'defmulti'
     ),
     labels=c(
       'invokestatic',
@@ -69,18 +72,42 @@ read.data <- function (
   data }
 #-----------------------------------------------------------------
 html.table <- function(data,fname,n) {
-  html.file <- file.path(
-    plot.folder,
-    paste(fname,'html',sep='.'))
-  cat(
+  html.file <- file(
+    description=file.path(
+      plot.folder,
+      paste(fname,'html',sep='.')),
+    encoding="UTF-8",
+    open='wb')
+  writeLines(
     kable(
       data[order(data$algorithm),],
       format='html',
       digits=1,
       caption=paste('milliseconds for',n,'intersection tests'),
       row.names=FALSE,
-      col.names = c('algorithm','5%','50%','95%','mean')),
-    file=html.file) }
+      col.names = c('algorithm','0.05','0.50','0.95','mean')),
+    con=html.file,
+    sep='\n')
+  close(html.file) }
+#-----------------------------------------------------------------
+md.table <- function(data,fname,n) {
+  md.file <- file(
+    description=file.path(
+      plot.folder,
+      paste(fname,'md',sep='.')),
+    encoding="UTF-8",
+    open='wb')
+  writeLines(
+    kable(
+      data[order(data$algorithm),],
+      format='markdown',
+      digits=1,
+      caption=paste('milliseconds for',n,'intersection tests'),
+      row.names=FALSE,
+      col.names = c('algorithm','0.05','0.50','0.95','mean')),
+    con=md.file,
+    sep='\n') 
+  close(md.file) }
 #-----------------------------------------------------------------
 algorithm.colors <- c(
   'invokestatic'='#666666',
@@ -119,8 +146,8 @@ quantile.plot <- function(data,fname,palette='Dark2') {
   ggsave(p , 
     device='png', 
     file=plot.file, 
-    width=20, 
-    height=10.75, 
+    width=15, 
+    height=8.5, 
     units='cm', 
     dpi=300) }
 #-----------------------------------------------------------------
@@ -150,7 +177,7 @@ overhead.plot <- function(data,fname,palette='Dark2') {
   ggsave(p , 
     device='png', 
     file=plot.file, 
-    width=16, 
+    width=15, 
     height=8.5, 
     units='cm', 
     dpi=300) }

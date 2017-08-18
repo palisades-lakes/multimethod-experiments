@@ -62,7 +62,7 @@
           defs/invokestatic
           defs/invokevirtual
           defs/invokeinterface
-          defs/signature-lookup
+          #_defs/signature-lookup
           defs/hashmap-tables
           defs/no-hierarchy
           defs/signature-dispatch-value
@@ -71,29 +71,29 @@
   ;; 50% probability of repeat same method, 
   ;; 1st arg always IntegerInterval
   ;; 2nd randomly IntegerInterval or DoubleInterval
-  #_(bench ii ran2
-          [defs/defmulti
-           #_defs/multi0
-           defs/hashmap-tables
-           defs/manual-java
-           #_defs/nested-lookup
-           defs/signature-lookup
-           defs/no-hierarchy
-           defs/signature-dispatch-value
-           defs/non-volatile-cache])
+  (bench ii ran2
+         [defs/defmulti
+          #_defs/multi0
+          defs/hashmap-tables
+          defs/manual-java
+          #_defs/nested-lookup
+          #_defs/signature-lookup
+          defs/no-hierarchy
+          defs/signature-dispatch-value
+          defs/non-volatile-cache])
   ;; 1/9 probability of same method
   ;; 1st and 2nd args randomly from IntegerInterval, 
   ;; DoubleInterval and SingletonSet
-  #_(bench ran3 ran3
-          [defs/defmulti
-           #_defs/multi0
-           defs/hashmap-tables
-           defs/manual-java
-           #_defs/nested-lookup
-           defs/signature-lookup
-           defs/no-hierarchy
-           defs/signature-dispatch-value
-           defs/non-volatile-cache]))
+  (bench ran3 ran3
+        [defs/defmulti
+         #_defs/multi0
+         defs/hashmap-tables
+         defs/manual-java
+         #_defs/nested-lookup
+         #_defs/signature-lookup
+         defs/no-hierarchy
+         defs/signature-dispatch-value
+         defs/non-volatile-cache]))
 (shutdown-agents)
 (System/exit 0)
 ;;----------------------------------------------------------------
