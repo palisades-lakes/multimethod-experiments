@@ -1,4 +1,5 @@
-# multimethod-experiments
+# multimethod-experiments [![Clojars Project](https://img.shields.io/clojars/v/palisades-lakes/multimethod-experiments.svg)](https://clojars.org/palisades-lakes/multimethod-experiments)
+
 
 Experiments with implementation and design variations related to
 Clojure's `defmulti`/`defmethod`/`MultiFn`.

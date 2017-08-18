@@ -324,12 +324,12 @@
   <dependency>
    <groupId>palisades-lakes</groupId>
    <artifactId>benchtools</artifactId>
-   <version>[0.0.4,)</version>
+   <version>[0.0.4-SNAPSHOT,)</version>
   </dependency>
   <dependency>
    <groupId>palisades-lakes</groupId>
    <artifactId>faster-multimethods</artifactId>
-   <version>[0.0.5,)</version>
+   <version>[0.0.5-SNAPSHOT,)</version>
   </dependency>
  </dependencies>
  <groupId>palisades-lakes</groupId>

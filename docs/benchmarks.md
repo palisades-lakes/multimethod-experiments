@@ -252,9 +252,7 @@ milliseconds for 4194304 intersection tests:
 |clojure 1.8.0           | 1865.2| 1877.9| 1883.2| 1872.3|
 
 There's no significant difference among `invokestatic`, 
-`invokevirtual`, `invokeinterface`. and `if-the
-
-  +n-else instanceof`.
+`invokevirtual`, `invokeinterface`. and `if-then-else instanceof`.
 
 Clojure 1.8.0 multimethods take about 27 times as long as any of the
 others, implying about 95% of the time is overhead.
@@ -329,7 +327,7 @@ overhead.
 I believe many uses of multimethods define methods only for
 classes, so the hierarchy is unused and that check is unnecessary. 
 
-This is backwards compatible,
+This is backwards compatible.
 </dd>
 </dl>
 
