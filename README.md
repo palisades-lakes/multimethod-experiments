@@ -127,7 +127,7 @@ Copyright © 2017 John Alan McDonald <palisades dot lakes at gmail dot com>
 
 [Apache 2.0](LICENSE)
 
-## Acknowledgements
+## Acknowledgments
 
 ### ![Yourkit](https://www.yourkit.com/images/yklogo.png)
 
