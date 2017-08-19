@@ -58,42 +58,39 @@
   ;; baselines: both args always IntegerInterval
   (bench ii palisades.lakes.bench.java.sets.IntegerInterval 
          ii palisades.lakes.bench.java.sets.IntegerInterval    
-         [defs/manual-java
-          defs/invokestatic
-          defs/invokevirtual
-          defs/invokeinterface
-          #_defs/signature-lookup
-          defs/hashmap-tables
+         [defs/dynafun
+          defs/manual-java
+          #_defs/invokestatic
+          #_defs/invokevirtual
+          #_defs/invokeinterface
+          #_defs/hashmap-tables
           defs/no-hierarchy
-          defs/signature-dispatch-value
-          defs/non-volatile-cache
-          defs/defmulti])
+          #_defs/signature-dispatch-value
+          #_defs/non-volatile-cache
+          #_defs/defmulti])
   ;; 50% probability of repeat same method, 
   ;; 1st arg always IntegerInterval
   ;; 2nd randomly IntegerInterval or DoubleInterval
   (bench ii ran2
-         [defs/defmulti
-          #_defs/multi0
-          defs/hashmap-tables
+         [defs/dynafun
           defs/manual-java
-          #_defs/nested-lookup
-          #_defs/signature-lookup
+          #_defs/defmulti
+          #_defs/hashmap-tables
+          #_defs/manual-java
           defs/no-hierarchy
-          defs/signature-dispatch-value
-          defs/non-volatile-cache])
+          #_defs/signature-dispatch-value
+          #_defs/non-volatile-cache])
   ;; 1/9 probability of same method
   ;; 1st and 2nd args randomly from IntegerInterval, 
   ;; DoubleInterval and SingletonSet
   (bench ran3 ran3
-        [defs/defmulti
-         #_defs/multi0
-         defs/hashmap-tables
+        [ #_defs/defmulti
+         #_defs/hashmap-tables
          defs/manual-java
-         #_defs/nested-lookup
-         #_defs/signature-lookup
          defs/no-hierarchy
-         defs/signature-dispatch-value
-         defs/non-volatile-cache]))
+         defs/dynafun
+         #_defs/signature-dispatch-value
+         #_defs/non-volatile-cache]))
 (shutdown-agents)
 (System/exit 0)
 ;;----------------------------------------------------------------

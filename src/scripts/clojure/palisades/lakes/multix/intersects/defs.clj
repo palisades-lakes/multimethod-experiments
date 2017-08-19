@@ -6,7 +6,7 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-16"}
+   :version "2017-08-19"}
   
   (:refer-clojure :exclude [defmulti])
   
@@ -17,7 +17,8 @@
             [palisades.lakes.multix.sets.multi1 :as multi1]
             [palisades.lakes.multix.sets.faster :as faster]
             [palisades.lakes.multix.sets.faster2 :as faster2]
-            [palisades.lakes.multix.sets.faster3 :as faster3])
+            [palisades.lakes.multix.sets.faster3 :as faster3]
+            [palisades.lakes.multix.sets.dynafun :as dynafun])
   
   (:import [palisades.lakes.bench.java.sets DoubleInterval IntegerInterval
             Intersects Sets]))
@@ -40,9 +41,10 @@
          ^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s1]
   (Sets/countIntersections s0 s1))
 ;;----------------------------------------------------------------
-;; macro for counting loop since some of the calls
-;; are java methods and not functions, and would force
-;; dynamic function call rather than allowing static linking.
+;; macro for counting loop instead of function,
+;; since some of the calls are to java methods and not functions, 
+;; and in any case would force dynamic function call rather than 
+;; allowing static linking.
 
 (defmacro defbench [benchname fname]
   (let [s0 (gensym "sets") 
@@ -68,4 +70,5 @@
 (defbench no-hierarchy faster/intersects?)
 (defbench non-volatile-cache faster2/intersects?)
 (defbench signature-dispatch-value faster3/intersects?)
+(defbench dynafun dynafun/intersects?)
 ;;----------------------------------------------------------------
