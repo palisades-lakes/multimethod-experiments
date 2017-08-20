@@ -5,7 +5,7 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-18"}
+   :version "2017-08-19"}
   (:require [palisades.lakes.bench.random.prng :as prng]
             [palisades.lakes.bench.random.generators :as g]
             [palisades.lakes.bench.core :as benchtools]
@@ -58,39 +58,41 @@
   ;; baselines: both args always IntegerInterval
   (bench ii palisades.lakes.bench.java.sets.IntegerInterval 
          ii palisades.lakes.bench.java.sets.IntegerInterval    
-         [defs/dynafun
+         [defs/invokestatic
+          defs/invokevirtual
+          defs/invokeinterface
           defs/manual-java
-          #_defs/invokestatic
-          #_defs/invokevirtual
-          #_defs/invokeinterface
-          #_defs/hashmap-tables
+          defs/defmulti
+          defs/manual-java
+          defs/dynafun
           defs/no-hierarchy
-          #_defs/signature-dispatch-value
-          #_defs/non-volatile-cache
-          #_defs/defmulti])
+          defs/signature-dispatch-value
+          defs/non-volatile-cache
+          defs/hashmap-tables])
   ;; 50% probability of repeat same method, 
   ;; 1st arg always IntegerInterval
   ;; 2nd randomly IntegerInterval or DoubleInterval
   (bench ii ran2
-         [defs/dynafun
+         [defs/manual-java
+          defs/defmulti
           defs/manual-java
-          #_defs/defmulti
-          #_defs/hashmap-tables
-          #_defs/manual-java
+          defs/dynafun
           defs/no-hierarchy
-          #_defs/signature-dispatch-value
-          #_defs/non-volatile-cache])
+          defs/signature-dispatch-value
+          defs/non-volatile-cache
+          defs/hashmap-tables])
   ;; 1/9 probability of same method
   ;; 1st and 2nd args randomly from IntegerInterval, 
   ;; DoubleInterval and SingletonSet
   (bench ran3 ran3
-        [ #_defs/defmulti
-         #_defs/hashmap-tables
-         defs/manual-java
-         defs/no-hierarchy
-         defs/dynafun
-         #_defs/signature-dispatch-value
-         #_defs/non-volatile-cache]))
+         [defs/manual-java
+          defs/defmulti
+          defs/manual-java
+          defs/dynafun
+          defs/no-hierarchy
+          defs/signature-dispatch-value
+          defs/non-volatile-cache
+          defs/hashmap-tables]))
 (shutdown-agents)
 (System/exit 0)
 ;;----------------------------------------------------------------
