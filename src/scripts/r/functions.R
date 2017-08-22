@@ -2,7 +2,7 @@
 # intersects/baselines.R
 # palisades dot lakes at gmail dot com
 # since 2017-07-30
-# version 2017-08-16
+# version 2017-08-21
 #-----------------------------------------------------------------
 # libraries
 #-----------------------------------------------------------------
@@ -47,6 +47,7 @@ read.data <- function (
       'invokeinterface',
       'manual_java',
       'signature_lookup',
+      'dynafun',
       'no_hierarchy',
       'signature_dispatch_value',
       'non_volatile_cache',
@@ -59,6 +60,7 @@ read.data <- function (
       'invokeinterface',
       'if-then-else instanceof',
       'if-then-else Signature',
+      'dynafun',
       'no hierarchy',
       'Signature dispatch-value',
       'non-volatile cache',
@@ -119,7 +121,8 @@ algorithm.colors <- c(
   'hashmap tables'='#377eb8',
   'non-volatile cache'='#377eb8',
   'Signature dispatch-value'='#377eb8',
-  'no hierarchy'='#377eb8')
+  'no hierarchy'='#377eb8',
+  'dynafun'='#a65628')
 #-----------------------------------------------------------------
 quantile.plot <- function(data,fname,palette='Dark2') {
   plot.file <- file.path(plot.folder,paste(fname,'quantiles','png',sep='.'))

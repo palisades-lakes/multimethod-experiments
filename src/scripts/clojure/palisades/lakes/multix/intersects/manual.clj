@@ -26,9 +26,9 @@
       (binding [*out* w]
         (let [data-map 
               (merge (benchtools/generate-datasets 
-                       0 g/generate-array data0 n) 
+                       0 g/generate-objects data0 n) 
                      (benchtools/generate-datasets 
-                       1 g/generate-array data1 n))]
+                       1 g/generate-objects data1 n))]
           (time 
             (benchtools/milliseconds defs/manual-java data-map)))))))
 (shutdown-agents)

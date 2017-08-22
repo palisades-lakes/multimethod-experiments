@@ -23,9 +23,9 @@
             (benchtools/print-system-info w)
             (let [data-map 
                   (merge (benchtools/generate-datasets 
-                           0 g/generate-array data0 type0 n) 
+                           0 g/generate-objects data0 type0 n) 
                          (benchtools/generate-datasets 
-                           1 g/generate-array data1 type1 n))]
+                           1 g/generate-objects data1 type1 n))]
               (reduce
                 (fn [records record]
                   (if record
@@ -73,8 +73,7 @@
   ;; 1st arg always IntegerInterval
   ;; 2nd randomly IntegerInterval or DoubleInterval
   (bench ii ran2
-         [defs/manual-java
-          defs/defmulti
+         [defs/defmulti
           defs/manual-java
           defs/dynafun
           defs/no-hierarchy
@@ -85,8 +84,7 @@
   ;; 1st and 2nd args randomly from IntegerInterval, 
   ;; DoubleInterval and SingletonSet
   (bench ran3 ran3
-         [defs/manual-java
-          defs/defmulti
+         [defs/defmulti
           defs/manual-java
           defs/dynafun
           defs/no-hierarchy

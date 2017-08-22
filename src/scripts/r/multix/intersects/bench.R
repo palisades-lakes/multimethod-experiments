@@ -2,7 +2,7 @@
 # intersects/bench.R
 # palisades dot lakes at gmail dot com
 # since 2017-07-30
-# version 2017-08-17
+# version 2017-08-21
 #-----------------------------------------------------------------
 #setwd('c:/porta/projects/multimethod-experiments')
 setwd('e:/porta/projects/multimethod-experiments')
@@ -15,7 +15,7 @@ baseline.generator <- 'integer_interval'
 bench.generator <- 'nested_uniform_generator'
 #nelements <- 8388608
 nelements <- 4194304
-theday = '20170817-[0-9]{4}'
+theday = '201708[12][09]-[0-9]{4}'
 folder <- 'bench'
 #-----------------------------------------------------------------
 bench1 <- read.data(folder,model,baseline.generator,baseline.generator,nelements,theday)
@@ -39,10 +39,12 @@ bench.algs <- c(
   'non-volatile cache',
   'Signature dispatch-value',
   'no hierarchy',
+  'dynafun',
   'if-then-else instanceof')
 bench.multi.algs <- c('clojure 1.8.0',bench.algs)
 
 overhead.algs <- c(
+  'dynafun',
   'hashmap tables',
   'non-volatile cache',
   'Signature dispatch-value',
@@ -107,7 +109,4 @@ overhead.plot(
   data=bench9[(bench9$algorithm %in% overhead.multi.algs),],
   fname='bench9-plus-defmulti',
   palette='Set1')
-
-
-
 
