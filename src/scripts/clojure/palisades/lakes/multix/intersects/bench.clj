@@ -61,7 +61,6 @@
          [defs/invokestatic
           defs/invokevirtual
           defs/invokeinterface
-          defs/manual-java
           defs/defmulti
           defs/manual-java
           defs/dynafun
