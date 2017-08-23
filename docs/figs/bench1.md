@@ -1,10 +1,11 @@
 |algorithm                |  0.05|  0.50|  0.95|  mean|
 |:------------------------|-----:|-----:|-----:|-----:|
-|invokestatic             |  67.5|  67.9|  71.2|  69.2|
-|invokevirtual            |  69.1|  69.7|  70.3|  69.8|
-|invokeinterface          |  67.7|  67.9|  69.3|  68.5|
-|if-then-else instanceof  |  69.0|  69.7|  73.0|  70.4|
-|no hierarchy             | 118.0| 121.1| 125.7| 122.2|
-|Signature dispatch-value | 150.2| 155.1| 159.1| 154.8|
-|non-volatile cache       | 279.5| 281.4| 298.7| 287.8|
-|hashmap tables           | 256.6| 263.7| 274.9| 265.1|
+|invokestatic             |  69.2|  69.9|  70.6|  69.9|
+|invokevirtual            |  67.2|  67.6|  68.3|  67.7|
+|invokeinterface          |  67.4|  68.0|  69.2|  68.3|
+|if-then-else instanceof  |  67.5|  67.9|  68.7|  68.1|
+|dynafun                  | 107.5| 108.0| 112.7| 110.0|
+|no hierarchy             | 118.3| 121.3| 126.5| 123.0|
+|Signature dispatch-value | 154.5| 161.3| 163.6| 159.2|
+|non-volatile cache       | 320.6| 334.2| 345.7| 333.2|
+|hashmap tables           | 267.1| 285.6| 289.1| 278.7|

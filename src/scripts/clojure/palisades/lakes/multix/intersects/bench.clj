@@ -73,8 +73,7 @@
   ;; 1st arg always IntegerInterval
   ;; 2nd randomly IntegerInterval or DoubleInterval
   (bench ii ran2
-         [defs/manual-java
-          defs/defmulti
+         [defs/defmulti
           defs/manual-java
           defs/dynafun
           defs/no-hierarchy
@@ -85,8 +84,7 @@
   ;; 1st and 2nd args randomly from IntegerInterval, 
   ;; DoubleInterval and SingletonSet
   (bench ran3 ran3
-         [defs/manual-java
-          defs/defmulti
+         [defs/defmulti
           defs/manual-java
           defs/dynafun
           defs/no-hierarchy
