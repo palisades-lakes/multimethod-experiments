@@ -44,6 +44,7 @@
       umax 100.0]
   (def ^IFn r1 (g/integer-intervals (prng/uniform-int-generator -100 100 urp)))
   (def ^IFn r2 (g/interval-of-2 umin umax urp))
+  (def ^IFn r3 (g/set-of-3 umin umax urp))
   (def ^IFn r7 (g/set-of-7 umin umax urp))
   (def ^IFn n1 (prng/uniformIntegerGenerator umin umax urp))
   (def ^IFn n2 (uniformDoubleOrIntegerGenerator umin umax urp))
@@ -80,7 +81,7 @@
 ;;----------------------------------------------------------------
 (defn bench 
   ([data0 type0 data1 type1 fns] 
-    (let [n (* 1 1 1024 1024)]
+    (let [n (* 1 4 1024 1024)]
       (println (benchtools/fn-name data0) n 
                (benchtools/fn-name data1) n 
                (.toString (java.time.LocalDateTime/now))) 

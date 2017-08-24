@@ -5,21 +5,21 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-23"}
+   :version "2017-08-24"}
   (:require [palisades.lakes.multix.contains.defs :as defs]))
 ;;----------------------------------------------------------------
 ;; baselines: args always IntegerInterval, Integer
-(defs/bench 
-  defs/r1 palisades.lakes.bench.java.sets.IntegerInterval 
-  defs/n1 Integer
-  [defs/defmulti
-   defs/manual-java
-   defs/dynafun
-   defs/no-hierarchy
-   defs/signature-dispatch-value
-   defs/non-volatile-cache
-   defs/hashmap-tables])
-(defs/bench 
+#_(defs/bench 
+   defs/r1 palisades.lakes.bench.java.sets.IntegerInterval 
+   defs/n1 Integer
+   [defs/defmulti
+    defs/manual-java
+    defs/dynafun
+    defs/no-hierarchy
+    defs/signature-dispatch-value
+    defs/non-volatile-cache
+    defs/hashmap-tables])
+#_(defs/bench 
   defs/r2 palisades.lakes.bench.java.sets.Set
   defs/n2 Number
   [defs/defmulti
