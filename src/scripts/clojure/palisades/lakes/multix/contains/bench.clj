@@ -19,7 +19,7 @@
    defs/signature-dispatch-value
    defs/non-volatile-cache
    defs/hashmap-tables])
-#_(defs/bench 
+(defs/bench 
   defs/r2 palisades.lakes.bench.java.sets.Set
   defs/n2 Number
   [defs/defmulti
@@ -29,7 +29,7 @@
    defs/signature-dispatch-value
    defs/non-volatile-cache
    defs/hashmap-tables])
-#_(defs/bench 
+(defs/bench 
   defs/r3 Object
   defs/n3 Number
   [defs/defmulti

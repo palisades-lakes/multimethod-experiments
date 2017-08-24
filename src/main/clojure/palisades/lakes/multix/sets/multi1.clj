@@ -63,7 +63,7 @@
 ;;----------------------------------------------------------------
 ;; contains? 43 methods
 ;;----------------------------------------------------------------
-(d/defmulti ^Double/TYPE contains?
+(d/defmulti contains?
   {:doc "Test for general set containment. 43 methods"}
   (fn contains?-dispatch [s0 s1] 
     [(.getClass ^Object s0) (.getClass ^Object s1)]))
@@ -91,8 +91,8 @@
 (d/defmethod contains? [FloatInterval Float] [^FloatInterval s ^Float x] (.contains s x))
 (d/defmethod contains? [FloatInterval Integer] [^FloatInterval s ^Integer x] (.contains s x))
 (d/defmethod contains? [FloatInterval Long] [^FloatInterval s ^Long x] (.contains s x))
-(d/defmethod contains? [FloatInterval Short] [^FloatInterval s Short x] (.contains s x))
-(d/defmethod contains? [FloatInterval Object] [^FloatInterval s Object x] false)
+(d/defmethod contains? [FloatInterval Short] [^FloatInterval s ^Short x] (.contains s x))
+(d/defmethod contains? [FloatInterval Object] [^FloatInterval s ^Object x] false)
 ;;----------------------------------------------------------------
 (d/defmethod contains? [IntegerInterval Byte] [^IntegerInterval s ^Byte x] (.contains s x))
 (d/defmethod contains? [IntegerInterval Double] [^IntegerInterval s ^Double x] (.contains s x))

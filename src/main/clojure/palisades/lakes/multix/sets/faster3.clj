@@ -64,9 +64,9 @@
 ;;----------------------------------------------------------------
 ;; contains? 43 methods
 ;;----------------------------------------------------------------
-(d/defmulti ^Double/TYPE contains?
+(d/defmulti contains?
   {:doc "Test for general set containment. 43 methods"}
-  (fn intersects?-dispatch [s0 s1] (d/extract-signature s0 s1)))
+  (fn contains?-dispatch [s0 s1] (d/extract-signature s0 s1)))
 ;;----------------------------------------------------------------
 (d/defmethod contains? (d/signature Set Object) [^Set s ^Object x] (.contains s x))
 ;;----------------------------------------------------------------
@@ -91,8 +91,8 @@
 (d/defmethod contains? (d/signature FloatInterval Float) [^FloatInterval s ^Float x] (.contains s x))
 (d/defmethod contains? (d/signature FloatInterval Integer) [^FloatInterval s ^Integer x] (.contains s x))
 (d/defmethod contains? (d/signature FloatInterval Long) [^FloatInterval s ^Long x] (.contains s x))
-(d/defmethod contains? (d/signature FloatInterval Short) [^FloatInterval s Short x] (.contains s x))
-(d/defmethod contains? (d/signature FloatInterval Object) [^FloatInterval s Object x] false)
+(d/defmethod contains? (d/signature FloatInterval Short) [^FloatInterval s ^Short x] (.contains s x))
+(d/defmethod contains? (d/signature FloatInterval Object) [^FloatInterval s ^Object x] false)
 ;;----------------------------------------------------------------
 (d/defmethod contains? (d/signature IntegerInterval Byte) [^IntegerInterval s ^Byte x] (.contains s x))
 (d/defmethod contains? (d/signature IntegerInterval Double) [^IntegerInterval s ^Double x] (.contains s x))
