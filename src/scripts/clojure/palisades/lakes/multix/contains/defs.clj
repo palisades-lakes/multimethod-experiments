@@ -1,7 +1,7 @@
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* :warn-on-boxed)
 ;;----------------------------------------------------------------
-(ns palisades.lakes.multix.intersects.defs
+(ns palisades.lakes.multix.contains.defs
   
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
@@ -13,8 +13,6 @@
   (:require [palisades.lakes.bench.random.prng :as prng]
             [palisades.lakes.bench.random.generators :as g]
             [palisades.lakes.bench.core :as benchtools]
-            [palisades.lakes.multix.sets.manual :as nested]
-            [palisades.lakes.multix.sets.signature :as signature]
             [palisades.lakes.multix.sets.multi :as multi]
             [palisades.lakes.multix.sets.multi0 :as multi0]
             [palisades.lakes.multix.sets.multi1 :as multi1]
@@ -24,28 +22,32 @@
             [palisades.lakes.multix.sets.dynafun :as dynafun])
   
   (:import [clojure.lang IFn] 
-           [palisades.lakes.bench.java.sets 
-            DoubleInterval IntegerInterval Intersects Set Sets]))
+           [org.apache.commons.rng UniformRandomProvider]
+           [org.apache.commons.rng.sampling CollectionSampler]
+           [palisades.lakes.bench.java.sets Contains]))
 ;;----------------------------------------------------------------
-(let [urp (prng/uniform-random-provider "seeds/Well44497b-2017-07-25.edn")
+(defn uniformDoubleOrIntegerGenerator 
+  ^clojure.lang.IFn [^double umin
+                     ^double umax
+                     ^UniformRandomProvider urp]
+  (let [lmin (long umin)
+        lmax (long umax)
+        ^CollectionSampler cs 
+        (CollectionSampler. 
+          urp 
+          [(prng/uniformDoubleGenerator umin umax urp)
+           (prng/uniformIntegerGenerator lmin lmax urp)])]
+    (fn UniformDoubleOrInteger ^Number [] ((.sample cs)))))
+;;----------------------------------------------------------------
+(let [urp (prng/uniform-random-provider "seeds/Well44497b-2017-06-13.edn")
       umin -100.0
       umax 100.0]
-  (def ^IFn r1 (g/integer-intervals 
-                 (prng/uniform-int-generator umin umax urp)))
+  (def ^IFn r1 (g/integer-intervals (prng/uniform-int-generator -100 100 urp)))
   (def ^IFn r2 (g/interval-of-2 umin umax urp))
-  (def ^IFn r7 (g/set-of-7 umin umax urp)))
-;;----------------------------------------------------------------
-(defn invokestatic ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
-                          ^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s1]
-  (Intersects/countIntersections s0 s1)) 
-;;----------------------------------------------------------------
-(defn invokevirtual ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
-                           ^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s1]
-  (Sets/countIntersections s0 s1))
-;;----------------------------------------------------------------
-(defn invokeinterface ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
-                             ^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s1]
-  (Sets/countIntersections s0 s1))
+  (def ^IFn r7 (g/set-of-7 umin umax urp))
+  (def ^IFn n1 (prng/uniformIntegerGenerator umin umax urp))
+  (def ^IFn n2 (uniformDoubleOrIntegerGenerator umin umax urp))
+  (def ^IFn n6 (prng/uniformNumberGenerator umin umax urp)))
 ;;----------------------------------------------------------------
 ;; macro for counting loop instead of function,
 ;; since some of the calls are to java methods and not functions, 
@@ -54,7 +56,7 @@
 
 (defmacro defbench [benchname fname]
   (let [s0 (gensym "sets") 
-        s1 (gensym "sets")
+        s1 (gensym "elements")
         args [(with-meta s0 {:tag 'objects})
               (with-meta s1 {:tag 'objects})]
         args (with-meta args {:tag 'long})]
@@ -67,20 +69,18 @@
                  (recur (inc i#) (inc total#))
                  :else (recur (inc i#) total#)))))))
 ;;----------------------------------------------------------------
-(defbench manual-java Intersects/manual)
-(defbench nested-lookup nested/intersects?)
-(defbench signature-lookup signature/intersects?)
-(defbench defmulti multi/intersects?)
-(defbench multi0 multi0/intersects?)
-(defbench hashmap-tables multi1/intersects?)
-(defbench no-hierarchy faster/intersects?)
-(defbench non-volatile-cache faster2/intersects?)
-(defbench signature-dispatch-value faster3/intersects?)
-(defbench dynafun dynafun/intersects?)
+(defbench manual-java Contains/contains)
+(defbench defmulti multi/contains?)
+(defbench multi0 multi0/contains?)
+(defbench hashmap-tables multi1/contains?)
+(defbench no-hierarchy faster/contains?)
+(defbench non-volatile-cache faster2/contains?)
+(defbench signature-dispatch-value faster3/contains?)
+(defbench dynafun dynafun/contains?)
 ;;----------------------------------------------------------------
 (defn bench 
   ([data0 type0 data1 type1 fns] 
-    (let [n (* 1 1 1 1024)]
+    (let [n (* 1 1 1024 1024)]
       (println (benchtools/fn-name data0) n 
                (benchtools/fn-name data1) n 
                (.toString (java.time.LocalDateTime/now))) 
