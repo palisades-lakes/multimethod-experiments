@@ -7,13 +7,13 @@
    :since "2017-06-14"
    :version "2017-07-30"}
   (:require [clojure.java.io :as io]
-            [palisades.lakes.bench.core :as benchtools]))
+            [palisades.lakes.bench.core :as bench]))
 ;;----------------------------------------------------------------
 (let [for-ns 
       (create-ns 'palisades.lakes.multix.intersects.bench)
-      folder (benchtools/data-folder for-ns)]
-  (benchtools/write-tsv 
-    (benchtools/summary-table
+      folder (bench/data-folder for-ns)]
+  (bench/write-tsv 
+    (bench/summary-table
       for-ns 
       "LENOVO.*.*.*.8388608.2017-07-30")
     (io/file folder "summary.tsv")))

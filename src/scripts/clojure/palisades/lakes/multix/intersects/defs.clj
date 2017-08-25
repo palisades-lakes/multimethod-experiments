@@ -6,13 +6,13 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-23"}
+   :version "2017-08-25"}
   
   (:refer-clojure :exclude [defmulti])
   
-  (:require [palisades.lakes.bench.random.prng :as prng]
-            [palisades.lakes.bench.random.generators :as g]
-            [palisades.lakes.bench.core :as benchtools]
+  (:require [palisades.lakes.bench.prng :as prng]
+            [palisades.lakes.bench.generators :as g]
+            [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.sets.manual :as nested]
             [palisades.lakes.multix.sets.signature :as signature]
             [palisades.lakes.multix.sets.multi :as multi]
@@ -52,7 +52,7 @@
 ;; and in any case would force dynamic function call rather than 
 ;; allowing static linking.
 
-(defmacro defbench [benchname fname]
+(defmacro defcounter [benchname fname]
   (let [s0 (gensym "Sets") 
         s1 (gensym "Sets")
         args [(with-meta s0 {:tag 'objects})
@@ -67,49 +67,14 @@
                  (recur (inc i#) (inc total#))
                  :else (recur (inc i#) total#)))))))
 ;;----------------------------------------------------------------
-(defbench manual-java Intersects/manual)
-(defbench nested-lookup nested/intersects?)
-(defbench signature-lookup signature/intersects?)
-(defbench defmulti multi/intersects?)
-(defbench multi0 multi0/intersects?)
-(defbench hashmap-tables multi1/intersects?)
-(defbench no-hierarchy faster/intersects?)
-(defbench non-volatile-cache faster2/intersects?)
-(defbench signature-dispatch-value faster3/intersects?)
-(defbench dynafun dynafun/intersects?)
-;;----------------------------------------------------------------
-(defn bench 
-  ([data0 type0 data1 type1 fns] 
-    (let [n (* 1 1 1 1024)]
-      (println (benchtools/fn-name data0) n 
-               (benchtools/fn-name data1) n 
-               (.toString (java.time.LocalDateTime/now))) 
-      (time
-        (with-open [w (benchtools/log-writer *ns* data0 data1 n)]
-          (binding [*out* w]
-            (benchtools/print-system-info w)
-            (let [data-map 
-                  (merge (benchtools/generate-datasets 
-                           0 g/generate-objects data0 type0 n) 
-                         (benchtools/generate-datasets 
-                           1 g/generate-objects data1 type1 n))]
-              (reduce
-                (fn [records record]
-                  (if record
-                    (let [records (conj records record)]
-                      (benchtools/write-tsv 
-                        records 
-                        (benchtools/data-file *ns* data0 data1 n))
-                      records)
-                    records))
-                []
-                (for [f fns]
-                  (do
-                    (Thread/sleep (int (* 64 1000))) 
-                    (time 
-                      (benchtools/criterium 
-                        f data-map 
-                        {:tail-quantile 0.05 :samples 100})))))))))))
-  ([data0 data1 fns] 
-    (bench data0 Object data1 Object fns)))
+(defcounter manual-java Intersects/manual)
+(defcounter nested-lookup nested/intersects?)
+(defcounter signature-lookup signature/intersects?)
+(defcounter defmulti multi/intersects?)
+(defcounter multi0 multi0/intersects?)
+(defcounter hashmap-tables multi1/intersects?)
+(defcounter no-hierarchy faster/intersects?)
+(defcounter non-volatile-cache faster2/intersects?)
+(defcounter signature-dispatch-value faster3/intersects?)
+(defcounter dynafun dynafun/intersects?)
 ;;----------------------------------------------------------------

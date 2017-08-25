@@ -6,14 +6,14 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-24"}
+   :version "2017-08-25"}
   
   (:refer-clojure :exclude [defmulti])
   
   (:require [clojure.pprint :as pp]
-            [palisades.lakes.bench.random.prng :as prng]
-            [palisades.lakes.bench.random.generators :as g]
-            [palisades.lakes.bench.core :as benchtools]
+            [palisades.lakes.bench.prng :as prng]
+            [palisades.lakes.bench.generators :as g]
+            [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.sets.multi :as multi]
             [palisades.lakes.multix.sets.multi0 :as multi0]
             [palisades.lakes.multix.sets.multi1 :as multi1]
@@ -115,51 +115,4 @@
 (defn sInteger-interface ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
                                 ^"[Ljava.lang.Integer;" s1]
   (Contains/countStatic s0 s1))
-;;----------------------------------------------------------------
-(defn bench 
-  ([dataset-generator0 element-generator0
-    dataset-generator1 element-generator1
-    fns] 
-    (let [n (* 1 1 1024 1024)]
-      (println (benchtools/fn-name dataset-generator0)  
-               (benchtools/fn-name element-generator0) n) 
-      (println (benchtools/fn-name dataset-generator1)  
-               (benchtools/fn-name element-generator1) n) 
-      (println (.toString (java.time.LocalDateTime/now))) 
-      (time
-        (with-open [w (benchtools/log-writer 
-                        *ns* 
-                        dataset-generator0 element-generator0 
-                        dataset-generator1 element-generator1 
-                        n)]
-          (binding [*out* w]
-            (benchtools/print-system-info w)
-            (let [data-map 
-                  (merge 
-                    (benchtools/generate-datasets 
-                      0 dataset-generator0 element-generator0 n) 
-                    (benchtools/generate-datasets 
-                      1 dataset-generator1 element-generator1 n))]
-              (reduce
-                (fn [records record]
-                  (if record
-                    (let [records (conj records record)]
-                      (benchtools/write-tsv 
-                        records 
-                        (benchtools/data-file 
-                          *ns* 
-                          dataset-generator0 element-generator0 
-                          dataset-generator1 element-generator1 
-                          n))
-                      records)
-                    records))
-                []
-                (for [f fns]
-                  (do
-                    (Thread/sleep (int (* 8 1000))) 
-                    (println (.toString (java.time.LocalDateTime/now))) 
-                    (time 
-                      (benchtools/criterium 
-                        f data-map 
-                        {:tail-quantile 0.05 :samples 100}))))))))))))
 ;;----------------------------------------------------------------

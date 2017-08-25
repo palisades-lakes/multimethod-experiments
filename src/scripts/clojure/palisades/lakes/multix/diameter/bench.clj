@@ -5,33 +5,35 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-24"}
-  (:require [palisades.lakes.bench.random.prng :as prng]
-            [palisades.lakes.bench.random.generators :as g]
+   :version "2017-08-25"}
+  (:require [palisades.lakes.bench.prng :as prng]
+            [palisades.lakes.bench.generators :as g]
+            [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.diameter.defs :as defs]))
 ;;----------------------------------------------------------------
-(defs/bench 
+(let [n (* 1 4 1024 1024)]
+  (bench/bench 
     [g/IntegerIntervals (g/integer-interval defs/uint)] 
     [defs/ii-static
      #_defs/ii-virtual
      #_defs/s-static
      #_defs/s-interface
      #_defs/o-lookup])
-#_(defs/bench 
-    [g/Sets r2] 
-    [defs/s-static
-     defs/s-interface
-     defs/o-lookup])
-#_(defs/bench 
-    [g/Sets r3] 
-    [defs/s-static
-     defs/s-interface
-     defs/o-lookup])
-#_(defs/bench 
-    [g/Sets r7] 
-    [defs/s-static
-     defs/s-interface
-     defs/o-lookup])
+  #_(bench/bench 
+      [g/Sets r2] 
+      [defs/s-static
+       defs/s-interface
+       defs/o-lookup])
+  #_(bench/bench 
+      [g/Sets r3] 
+      [defs/s-static
+       defs/s-interface
+       defs/o-lookup])
+  #_(bench/bench 
+      [g/Sets r7] 
+      [defs/s-static
+       defs/s-interface
+       defs/o-lookup]))
 ;;----------------------------------------------------------------
 (shutdown-agents)
 (System/exit 0)

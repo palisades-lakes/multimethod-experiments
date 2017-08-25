@@ -12,8 +12,8 @@
   
   (:require [clojure.string :as s]
             [clojure.pprint :as pp]
-            [palisades.lakes.bench.random.prng :as prng]
-            [palisades.lakes.bench.random.generators :as g]
+            [palisades.lakes.bench.prng :as prng]
+            [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.sets.multi :as multi]
             [palisades.lakes.multix.sets.multi0 :as multi0]
@@ -76,37 +76,4 @@
   (Diameter/maxInterface data)) 
 (defn o-lookup ^double [[^objects data]]
   (Diameter/maxLookup data))
-;;----------------------------------------------------------------
-(defn bench 
-  ([generators fns] 
-    (let [n (* 1 1 1024 1024)
-          [dataset-generator element-generator] generators]
-      (println (s/join " " (map bench/fn-name generators))  n) 
-      (println (.toString (java.time.LocalDateTime/now))) 
-      (time
-        (with-open [w (bench/log-writer *ns* generators n)]
-          (binding [*out* w]
-            (bench/print-system-info w)
-            (let [data-map 
-                  (bench/generate-datasets 
-                    0 dataset-generator element-generator n) ]
-              (reduce
-                (fn [records record]
-                  (if record
-                    (let [records (conj records record)]
-                      (bench/write-tsv 
-                        records 
-                        (bench/data-file 
-                          *ns* generators n))
-                      records)
-                    records))
-                []
-                (for [f fns]
-                  (do
-                    (Thread/sleep (int (* 8 1000))) 
-                    (println (.toString (java.time.LocalDateTime/now))) 
-                    (time 
-                      (bench/criterium 
-                        f data-map 
-                        {:tail-quantile 0.05 :samples 100}))))))))))))
 ;;----------------------------------------------------------------

@@ -5,7 +5,7 @@ import clojure.lang.IFn;
 import palisades.lakes.bench.java.matrices.DenseMatrix;
 import palisades.lakes.bench.java.matrices.DiagonalMatrix;
 import palisades.lakes.bench.java.matrices.Matrix;
-import palisades.lakes.bench.random.PRNG;
+import palisades.lakes.bench.PRNG;
 
 /**
  * @author palisades dot lakes at gmail dot com
