@@ -7,16 +7,27 @@
          for set intersection testing."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-08-19"
-   :version "2017-08-23"}
+   :version "2017-08-24"}
   
   (:refer-clojure :exclude [contains?])
   
   (:require [palisades.lakes.dynafun.core :as d])
   
-  (:import [java.util Collections Set]
+  (:import [java.util Collections]
            [palisades.lakes.bench.java.sets 
+            Diameter Set
             ByteInterval DoubleInterval FloatInterval
             IntegerInterval LongInterval ShortInterval]))
+;;----------------------------------------------------------------
+;; diameter 2 methods primitive return value
+;;----------------------------------------------------------------
+(d/dynafun ^Double/TYPE diameter
+           {:doc "Max distance between elements."})
+;;----------------------------------------------------------------
+(d/defmethod diameter ^double [^java.util.Set s] 
+  (Diameter/diameter s))
+;;----------------------------------------------------------------
+(d/defmethod diameter ^double [^Set s] (.diameter s))
 ;;----------------------------------------------------------------
 ;; intersects? 9 methods
 ;;----------------------------------------------------------------
@@ -37,19 +48,18 @@
 (d/defmethod intersects? [^DoubleInterval s0 ^java.util.Set s1]
   (.intersects s0 s1))
 ;;----------------------------------------------------------------
-(d/defmethod intersects? [^Set s0 ^IntegerInterval s1]
+(d/defmethod intersects? [^java.util.Set s0 ^IntegerInterval s1]
   (.intersects s1 s0))
-(d/defmethod intersects? [^Set s0 ^DoubleInterval s1]
+(d/defmethod intersects? [^java.util.Set s0 ^DoubleInterval s1]
   (.intersects s1 s0))
-(d/defmethod intersects? [^Set s0 ^Set s1] 
+(d/defmethod intersects? [^java.util.Set s0 ^java.util.Set s1] 
   (not (Collections/disjoint s0 s1)))
 ;;----------------------------------------------------------------
 ;; contains? 43 methods
 ;;----------------------------------------------------------------
-(d/dynafun ^Double/TYPE contains?
-           {:doc "Test for general set containment."})
+(d/dynafun contains? {:doc "Test for general set containment."})
 ;;----------------------------------------------------------------
-(d/defmethod contains? [^Set s ^Object x] (.contains s x))
+(d/defmethod contains? [^java.util.Set s ^Object x] (.contains s x))
 ;;----------------------------------------------------------------
 (d/defmethod contains? [^ByteInterval s ^Byte x] (.contains s x))
 (d/defmethod contains? [^ByteInterval s ^Double x] (.contains s x))

@@ -7,16 +7,32 @@
          with no hierarchy and Signature2 dispatch values."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-04-20"
-   :version "2017-08-23"}
+   :version "2017-08-24"}
   
   (:refer-clojure :exclude [contains?])
   
   (:require [palisades.lakes.multimethods.core :as d])
   
-  (:import [java.util Collections Set]
+  (:import [java.util Collections]
            [palisades.lakes.bench.java.sets 
+            Diameter Set
             ByteInterval DoubleInterval FloatInterval
             IntegerInterval LongInterval ShortInterval]))
+;;----------------------------------------------------------------
+;; diameter 2 methods primitive return value
+;;----------------------------------------------------------------
+(d/defmulti ^Double/TYPE diameter
+  "Max distance between elements. 2 methods."
+  {}
+  class
+  :hierarchy false)
+;;----------------------------------------------------------------
+(d/defmethod diameter java.util.Set ^double [^java.util.Set s] 
+  (Diameter/diameter s))
+;;----------------------------------------------------------------
+(d/defmethod diameter Set ^double [^Set s] (.diameter s))
+;;----------------------------------------------------------------
+;; intersects? 9 methods
 ;;----------------------------------------------------------------
 (d/defmulti intersects?
   "Test for general set intersection. 9 methods."
@@ -33,8 +49,8 @@
   [^IntegerInterval s0 ^DoubleInterval s1]
   (.intersects s0 s1))
 (d/defmethod intersects? 
-  (d/signature IntegerInterval Set)
-  [^IntegerInterval s0 ^Set s1]
+  (d/signature IntegerInterval java.util.Set)
+  [^IntegerInterval s0 ^java.util.Set s1]
   (.intersects s0 s1))
 ;;----------------------------------------------------------------
 (d/defmethod intersects? 
@@ -46,21 +62,21 @@
   [^DoubleInterval s0 ^DoubleInterval s1]
   (.intersects s0 s1))
 (d/defmethod intersects? 
-  (d/signature DoubleInterval Set)
-  [^DoubleInterval s0 ^Set s1]
+  (d/signature DoubleInterval java.util.Set)
+  [^DoubleInterval s0 ^java.util.Set s1]
   (.intersects s0 s1))
 ;;----------------------------------------------------------------
 (d/defmethod intersects? 
-  (d/signature Set IntegerInterval)
-  [^Set s0 ^IntegerInterval s1]
+  (d/signature java.util.Set IntegerInterval)
+  [^java.util.Set s0 ^IntegerInterval s1]
   (.intersects s1 s0))
 (d/defmethod intersects? 
-  (d/signature Set DoubleInterval)
-  [^Set s0 ^DoubleInterval s1]
+  (d/signature java.util.Set DoubleInterval)
+  [^java.util.Set s0 ^DoubleInterval s1]
   (.intersects s1 s0))
 (d/defmethod intersects? 
-  (d/signature Set Set)
-  [^Set s0 ^Set s1] 
+  (d/signature java.util.Set java.util.Set)
+  [^java.util.Set s0 ^java.util.Set s1] 
   (not (Collections/disjoint s0 s1)))
 ;;----------------------------------------------------------------
 ;; contains? 43 methods
@@ -69,7 +85,7 @@
   {:doc "Test for general set containment. 43 methods"}
   (fn contains?-dispatch [s0 s1] (d/extract-signature s0 s1)))
 ;;----------------------------------------------------------------
-(d/defmethod contains? (d/signature Set Object) [^Set s ^Object x] (.contains s x))
+(d/defmethod contains? (d/signature java.util.Set Object) [^java.util.Set s ^Object x] (.contains s x))
 ;;----------------------------------------------------------------
 (d/defmethod contains? (d/signature ByteInterval Byte) [^ByteInterval s ^Byte x] (.contains s x))
 (d/defmethod contains? (d/signature ByteInterval Double) [^ByteInterval s ^Double x] (.contains s x))

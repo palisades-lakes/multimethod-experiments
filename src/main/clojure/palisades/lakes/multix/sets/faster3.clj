@@ -7,7 +7,7 @@
          with no hierarchy and PersistentVector dispatch values."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-07-29"
-   :version "2017-08-23"}
+   :version "2017-08-24"}
 
   (:refer-clojure :exclude [contains?])
   
@@ -17,6 +17,21 @@
            [palisades.lakes.bench.java.sets 
             ByteInterval DoubleInterval FloatInterval
             IntegerInterval LongInterval ShortInterval]))
+;;----------------------------------------------------------------
+;; diameter 2 methods primitive return value
+;;----------------------------------------------------------------
+(d/defmulti ^Double/TYPE diameter
+  "Max distance between elements. 2 methods."
+  {}
+  class)
+;;----------------------------------------------------------------
+(d/defmethod diameter java.util.Set ^double [^java.util.Set s] 
+  (Diameter/diameter s))
+;;----------------------------------------------------------------
+(d/defmethod diameter Set ^double [^Set s] (.diameter s))
+;; diameter 2 methods primitive return value
+;;----------------------------------------------------------------
+;; intersects? 9 methods
 ;;----------------------------------------------------------------
 (d/defmulti intersects?
   "Test for general set intersection."

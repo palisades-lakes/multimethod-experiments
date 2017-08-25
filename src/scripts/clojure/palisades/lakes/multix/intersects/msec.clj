@@ -16,9 +16,9 @@
               "seeds/Well44497b-2017-07-25.edn")
         uig (prng/uniform-int-generator -1.0e6 1.0e6 urp)
         udg (prng/uniform-double-generator -1.0e6 1.0e6 urp)
-        data0 (g/integer-intervals uig)
+        data0 (g/IntegerIntervals uig)
         data1 (prng/nested-uniform-generator
-                [data0 (g/double-intervals udg)] urp)
+                [data0 (g/DoubleIntervals udg)] urp)
         n (* 1 4 1024 1024)]
     (println (benchtools/fn-name data0) n (benchtools/fn-name data1) n 
              (.toString (java.time.LocalDateTime/now)))

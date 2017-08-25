@@ -6,7 +6,7 @@
   {:doc "clojure.core/defmulti for set intersection testing."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-04-20"
-   :version "2017-08-23"}
+   :version "2017-08-24"}
   
   (:refer-clojure :exclude [contains?])
   
@@ -15,6 +15,21 @@
             ByteInterval DoubleInterval FloatInterval
             IntegerInterval LongInterval ShortInterval]))
 ;;----------------------------------------------------------------
+;; diameter 2 methods primitive return value
+;;----------------------------------------------------------------
+(defmulti ^Double/TYPE diameter
+  "Max distance between elements. 2 methods."
+  {}
+  class)
+;;----------------------------------------------------------------
+(defmethod diameter java.util.Set ^double [^java.util.Set s] 
+  (Diameter/diameter s))
+;;----------------------------------------------------------------
+(defmethod diameter Set ^double [^Set s] (.diameter s))
+;; diameter 2 methods primitive return value
+;;;----------------------------------------------------------------
+;; intersects? 9 methods
+;----------------------------------------------------------------
 (defmulti intersects?
   "Test for general set intersection. 9 methods."
   {}

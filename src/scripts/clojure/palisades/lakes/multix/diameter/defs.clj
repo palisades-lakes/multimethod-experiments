@@ -1,7 +1,7 @@
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* :warn-on-boxed)
 ;;----------------------------------------------------------------
-(ns palisades.lakes.multix.contains.defs
+(ns palisades.lakes.multix.diameter.defs
   
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
@@ -25,121 +25,92 @@
   (:import [clojure.lang IFn IFn$L] 
            [org.apache.commons.rng UniformRandomProvider]
            [org.apache.commons.rng.sampling CollectionSampler]
-           [palisades.lakes.bench.java.sets Contains]))
-;;----------------------------------------------------------------
-(defn uniformDoubleOrInteger
-  ^clojure.lang.IFn [^double umin
-                     ^double umax
-                     ^UniformRandomProvider urp]
-  (let [lmin (long umin)
-        lmax (long umax)
-        ^CollectionSampler cs 
-        (CollectionSampler. 
-          urp 
-          [(prng/uniformDouble umin umax urp)
-           (prng/uniformInteger lmin lmax urp)])]
-    (fn uniformDoubleOrInteger ^Number [] ((.sample cs)))))
+           [palisades.lakes.bench.java.sets Diameter]))
 ;;----------------------------------------------------------------
 (let [urp (prng/uniform-random-provider "seeds/Well44497b-2017-06-13.edn")
       umin -100.0
       umax 100.0]
-  (def ^IFn$L uint (prng/uniform-int -100 100 urp))
   (def ^IFn r2 (g/interval-of-2 umin umax urp))
   (def ^IFn r3 (g/set-of-3 umin umax urp))
-  (def ^IFn r7 (g/set-of-7 umin umax urp))
-  (def ^IFn uInteger (prng/uniformInteger umin umax urp))
-  (def ^IFn n2 (uniformDoubleOrInteger umin umax urp))
-  (def ^IFn n6 (prng/uniformNumber umin umax urp)))
+  (def ^IFn r7 (g/set-of-7 umin umax urp)))
 ;;----------------------------------------------------------------
 ;; macro for counting loop instead of function,
 ;; since some of the calls are to java methods and not functions, 
 ;; and in any case would force dynamic function call rather than 
 ;; allowing static linking.
 
-(defmacro defcounter [benchname fname element-array-type]
-  (let [s0 (gensym "Sets") 
-        s1 (gensym "elements")
-        args [(with-meta s0 {:tag 'objects})
-              (with-meta s1 {:tag `~element-array-type})]
-        args (with-meta args {:tag 'long})]
+(defmacro defcounter [benchname fname]
+  (let [s (gensym "Sets") 
+        args [(with-meta s {:tag 'objects})]
+        args (with-meta args {:tag 'double})]
     #_(binding [*print-meta* true] (pp/pprint args))
     `(defn ~benchname ~args
-       (let [n# (int (min (alength ~s0) (alength ~s1)))]
+       (let [n# (int (alength ~s))]
          (loop [i# (int 0)
-                total# (long 0)]
-           (cond (>= i# n#) (long total#)
-                 (~fname (aget ~s0 i#) (aget ~s1 i#)) 
-                 (recur (inc i#) (inc total#))
-                 :else (recur (inc i#) total#)))))))
+                total# (double 0)]
+           (if (>= i# n#) 
+             (double total#)
+             (recur (inc i#) (+ total# (~fname (aget ~s i#)) ))))))))
 ;;----------------------------------------------------------------
-(defcounter manual-java Contains/contains objects)
-(defcounter defmulti multi/contains? objects)
-(defcounter multi0 multi0/contains? objects)
-(defcounter hashmap-tables multi1/contains? objects)
-(defcounter no-hierarchy faster/contains? objects)
-(defcounter non-volatile-cache faster2/contains? objects)
-(defcounter signature-dispatch-value faster3/contains? objects)
-(defcounter dynafun dynafun/contains? objects)
+(defcounter manual-java Diameter/diameter)
+(defcounter defmulti multi/diameter?)
+(defcounter multi0 multi0/diameter?)
+(defcounter hashmap-tables multi1/diameter?)
+(defcounter no-hierarchy faster/diameter?)
+(defcounter non-volatile-cache faster2/diameter?)
+(defcounter signature-dispatch-value faster3/diameter?)
+(defcounter dynafun dynafun/diameter?)
 ;;----------------------------------------------------------------
 (defn iiint-static ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
                           ^"[I" s1]
-  (Contains/countStatic s0 s1)) 
+  (Diameter/countStatic s0 s1)) 
 
 (defn iiInteger-static ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
                               ^"[Ljava.lang.Integer;" s1]
-  (Contains/countStatic s0 s1))
+  (Diameter/countStatic s0 s1))
 
 (defn sint-static ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
                          ^"[I" s1]
-  (Contains/countStatic s0 s1))
+  (Diameter/countStatic s0 s1))
 
 (defn sInteger-static ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
                              ^"[Ljava.lang.Integer;" s1]
-  (Contains/countStatic s0 s1))
+  (Diameter/countStatic s0 s1))
 
 (defn oo-static ^long [^objects s0 ^objects s1]
-  (Contains/countStatic s0 s1))
+  (Diameter/countStatic s0 s1))
 ;;----------------------------------------------------------------
 (defn iiint-virtual ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
                            ^"[I" s1]
-  (Contains/countStatic s0 s1)) 
+  (Diameter/countStatic s0 s1)) 
 
 (defn iiInteger-virtual ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
                                ^"[Ljava.lang.Integer;" s1]
-  (Contains/countStatic s0 s1))
+  (Diameter/countStatic s0 s1))
 ;;----------------------------------------------------------------
 (defn sint-interface ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
                             ^"[I" s1]
-  (Contains/countStatic s0 s1))
+  (Diameter/countStatic s0 s1))
 
 (defn sInteger-interface ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
                                 ^"[Ljava.lang.Integer;" s1]
-  (Contains/countStatic s0 s1))
+  (Diameter/countStatic s0 s1))
 ;;----------------------------------------------------------------
 (defn bench 
-  ([dataset-generator0 element-generator0
-    dataset-generator1 element-generator1
-    fns] 
+  ([dataset-generator element-generator fns] 
     (let [n (* 1 1 1024 1024)]
-      (println (benchtools/fn-name dataset-generator0)  
-               (benchtools/fn-name element-generator0) n) 
-      (println (benchtools/fn-name dataset-generator1)  
-               (benchtools/fn-name element-generator1) n) 
+      (println (benchtools/fn-name dataset-generator)  
+               (benchtools/fn-name element-generator) 
+               n) 
       (println (.toString (java.time.LocalDateTime/now))) 
       (time
         (with-open [w (benchtools/log-writer 
-                        *ns* 
-                        dataset-generator0 element-generator0 
-                        dataset-generator1 element-generator1 
-                        n)]
+                        *ns* [dataset-generator element-generator] n)]
           (binding [*out* w]
             (benchtools/print-system-info w)
             (let [data-map 
-                  (merge 
-                    (benchtools/generate-datasets 
-                      0 dataset-generator0 element-generator0 n) 
-                    (benchtools/generate-datasets 
-                      1 dataset-generator1 element-generator1 n))]
+                  (benchtools/generate-datasets 
+                      0 dataset-generator element-generator n) ]
               (reduce
                 (fn [records record]
                   (if record
@@ -147,10 +118,7 @@
                       (benchtools/write-tsv 
                         records 
                         (benchtools/data-file 
-                          *ns* 
-                          dataset-generator0 element-generator0 
-                          dataset-generator1 element-generator1 
-                          n))
+                          *ns* [dataset-generator element-generator] n))
                       records)
                     records))
                 []

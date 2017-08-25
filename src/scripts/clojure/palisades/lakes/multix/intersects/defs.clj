@@ -30,14 +30,14 @@
 (let [urp (prng/uniform-random-provider "seeds/Well44497b-2017-07-25.edn")
       umin -100.0
       umax 100.0]
-  (def ^IFn r1 (g/integer-intervals 
-                 (prng/uniform-int-generator umin umax urp)))
+  (def ^IFn r1 (g/IntegerIntervals 
+                 (prng/uniform-int umin umax urp)))
   (def ^IFn r2 (g/interval-of-2 umin umax urp))
   (def ^IFn r7 (g/set-of-7 umin umax urp)))
 ;;----------------------------------------------------------------
 (defn invokestatic ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
                           ^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s1]
-  (Intersects/countIntersections s0 s1)) 
+  (Intersects/count s0 s1)) 
 ;;----------------------------------------------------------------
 (defn invokevirtual ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
                            ^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s1]
@@ -53,8 +53,8 @@
 ;; allowing static linking.
 
 (defmacro defbench [benchname fname]
-  (let [s0 (gensym "sets") 
-        s1 (gensym "sets")
+  (let [s0 (gensym "Sets") 
+        s1 (gensym "Sets")
         args [(with-meta s0 {:tag 'objects})
               (with-meta s1 {:tag 'objects})]
         args (with-meta args {:tag 'long})]

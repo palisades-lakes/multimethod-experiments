@@ -30,7 +30,7 @@ public final class MethodLookup {
       PRNG.uniformRandomProvider(
         "seeds/Well44497b-2017-07-25.edn");
     final IFn.D generator = 
-      PRNG.uniformDoubleGenerator(-1.0e6,1.0e6,urp);
+      PRNG.uniformDouble(-1.0e6,1.0e6,urp);
     
     final Matrix m0 = DenseMatrix.generate(generator,16,8);
     final Matrix m1 = DiagonalMatrix.generate(generator,16,8);
