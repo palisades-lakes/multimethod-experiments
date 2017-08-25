@@ -15,7 +15,7 @@
   
   (:import [java.util Collections]
            [palisades.lakes.bench.java.sets 
-            Diameter Set
+            Contains Diameter Intersects Set Sets
             ByteInterval DoubleInterval FloatInterval
             IntegerInterval LongInterval ShortInterval]))
 ;;----------------------------------------------------------------
