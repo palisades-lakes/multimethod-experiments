@@ -43,7 +43,7 @@
 
 (defmacro defmax [benchname fname]
   (let [s (gensym "Sets") 
-        args [[(with-meta s {:tag 'objects})]]
+        args [(with-meta s {:tag 'objects})]
         args (with-meta args {:tag 'double})]
     `(defn ~benchname ~args
        (let [n# (int (alength ~s))]
@@ -57,19 +57,18 @@
 ;;----------------------------------------------------------------
 (defmax manual-java Diameter/diameter)
 (defmax defmulti multi/diameter)
-(defmax multi0 multi0/diameter)
 (defmax hashmap-tables multi1/diameter)
 (defmax no-hierarchy faster/diameter)
 (defmax non-volatile-cache faster2/diameter)
 (defmax signature-dispatch-value faster3/diameter)
 (defmax dynafun dynafun/diameter)
 ;;----------------------------------------------------------------
-(defn ii-static ^double [[^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" data]]
+(defn ii-static ^double [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" data]
   (Diameter/maxStatic data)) 
-(defn ii-virtual ^double [[^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" data]]
+(defn ii-virtual ^double [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" data]
   (Diameter/maxStatic data)) 
-(defn s-interface ^double [[^"[Lpalisades.lakes.bench.java.sets.Set;" data]]
+(defn s-interface ^double [^"[Lpalisades.lakes.bench.java.sets.Set;" data]
   (Diameter/maxInterface data)) 
-(defn o-lookup ^double [[^objects data]]
+(defn o-lookup ^double [^objects data]
   (Diameter/maxLookup data))
 ;;----------------------------------------------------------------

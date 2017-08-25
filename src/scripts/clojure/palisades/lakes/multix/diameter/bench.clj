@@ -14,30 +14,49 @@
 (let [n (* 1 4 1024 1024)]
   (bench/bench 
     [g/IntegerIntervals (g/integer-interval defs/uint)] 
-    [defs/ii-static
-     #_defs/ii-virtual
-     #_defs/s-static
-     #_defs/s-interface
-     #_defs/o-lookup]
+    [defs/defmulti
+     defs/ii-static
+     defs/ii-virtual
+     defs/s-interface
+     defs/o-lookup
+     defs/dynafun
+     defs/no-hierarchy
+     defs/signature-dispatch-value
+     defs/non-volatile-cache
+     defs/hashmap-tables
+     defs/defmulti]
     n)
-  #_(bench/bench 
-      [g/Sets r2] 
-      [defs/s-static
-       defs/s-interface
-       defs/o-lookup]
-      n)
-  #_(bench/bench 
-      [g/Sets r3] 
-      [defs/s-static
-       defs/s-interface
-       defs/o-lookup]
-      n)
-  #_(bench/bench 
-      [g/Sets r7] 
-      [defs/s-static
-       defs/s-interface
-       defs/o-lookup]
-      n))
+  (bench/bench 
+    [g/Sets defs/r2] 
+    [defs/s-interface
+     defs/o-lookup
+     defs/dynafun
+     defs/no-hierarchy
+     defs/signature-dispatch-value
+     defs/non-volatile-cache
+     defs/hashmap-tables
+     defs/defmulti]
+    n)
+  (bench/bench 
+    [prng/objects defs/r3] 
+    [defs/o-lookup
+     defs/dynafun
+     defs/no-hierarchy
+     defs/signature-dispatch-value
+     defs/non-volatile-cache
+     defs/hashmap-tables
+     defs/defmulti]
+    n)
+  (bench/bench 
+    [prng/objects defs/r7] 
+    [defs/o-lookup
+     defs/dynafun
+     defs/no-hierarchy
+     defs/signature-dispatch-value
+     defs/non-volatile-cache
+     defs/hashmap-tables
+     defs/defmulti]
+    n))
 ;;----------------------------------------------------------------
 (shutdown-agents)
 (System/exit 0)

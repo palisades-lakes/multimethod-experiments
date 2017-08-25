@@ -14,57 +14,67 @@
 (let [n (* 1 4 1024 1024)]
   ;; baselines: args always IntegerInterval, Integer
   (bench/bench 
-    [g/IntegerIntervals (g/integer-interval defs/uint)
+    [g/IntegerIntervals defs/ii
      prng/ints defs/uint]
     [defs/iiint-static
      defs/iiint-virtual
      defs/sint-static
-     defs/sint-interface])
-  #_(bench/bench 
-      [g/IntegerIntervals (g/integer-interval defs/uint)
-       prng/IntegerArray defs/uInteger]
-      [defs/iiInteger-static
-       defs/iiInteger-virtual
-       defs/sInteger-static
-       defs/sInteger-interface
+     defs/sint-interface]
+    n)
+  (bench/bench 
+    [g/IntegerIntervals defs/ii
+     prng/IntegerArray defs/uInteger]
+    [defs/iiInteger-static
+     defs/iiInteger-virtual
+     defs/sInteger-static
+     defs/sInteger-interface
+     defs/oo-static
+     defs/manual-java
+     defs/dynafun
+     defs/defmulti
+     defs/no-hierarchy
+     defs/signature-dispatch-value
+     defs/non-volatile-cache
+     defs/hashmap-tables]
+    n)
+  (bench/bench 
+      [g/Sets defs/r2
+       prng/NumberArray defs/n2]
+      [defs/sInteger-interface
        defs/oo-static
-       defs/manual-java
-       defs/dynafun
        defs/defmulti
-       defs/no-hierarchy
-       #_defs/signature-dispatch-value
-       #_defs/non-volatile-cache
-       #_defs/hashmap-tables])
-  #_(bench/bench 
-      [defs/r2 palisades.lakes.bench.java.sets.Set
-       defs/n2 Number]
-      [defs/defmulti
        defs/manual-java
        defs/dynafun
        defs/no-hierarchy
        defs/signature-dispatch-value
        defs/non-volatile-cache
-       defs/hashmap-tables])
-  #_(bench/bench 
-      [defs/r3 Object
-       defs/n3 Number]
-      [defs/defmulti
+       defs/hashmap-tables]
+    n)
+  (bench/bench 
+      [prng/objects defs/r3
+       prng/NumberArray defs/n2]
+      [defs/oo-static
+       defs/defmulti
        defs/manual-java
        defs/dynafun
        defs/no-hierarchy
        defs/signature-dispatch-value
        defs/non-volatile-cache
-       defs/hashmap-tables])
-  #_(bench/bench 
-      [defs/r7 Object
-       defs/n6 Object]
-      [defs/defmulti
+       defs/hashmap-tables]
+    n)
+  (bench/bench 
+      [prng/objects defs/r7
+       prng/objects defs/n6]
+      [defs/oo-static
+       defs/defmulti
        defs/manual-java
        defs/dynafun
        defs/no-hierarchy
        defs/signature-dispatch-value
        defs/non-volatile-cache
-       defs/hashmap-tables]))
+       defs/hashmap-tables]
+    n))
 ;;----------------------------------------------------------------
 (shutdown-agents)
 (System/exit 0)
+ 

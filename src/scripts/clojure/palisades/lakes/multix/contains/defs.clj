@@ -44,6 +44,7 @@
       umin -100.0
       umax 100.0]
   (def ^IFn$L uint (prng/uniform-int -100 100 urp))
+  (def ^IFn ii (g/integer-interval uint))
   (def ^IFn r2 (g/interval-of-2 umin umax urp))
   (def ^IFn r3 (g/set-of-3 umin umax urp))
   (def ^IFn r7 (g/set-of-7 umin umax urp))

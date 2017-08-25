@@ -23,16 +23,17 @@
             [palisades.lakes.multix.sets.faster3 :as faster3]
             [palisades.lakes.multix.sets.dynafun :as dynafun])
   
-  (:import [clojure.lang IFn] 
+  (:import [clojure.lang IFn IFn$L] 
            [palisades.lakes.bench.java.sets 
             DoubleInterval IntegerInterval Intersects Set Sets]))
 ;;----------------------------------------------------------------
 (let [urp (prng/uniform-random-provider "seeds/Well44497b-2017-07-25.edn")
       umin -100.0
       umax 100.0]
-  (def ^IFn r1 (g/IntegerIntervals 
-                 (prng/uniform-int umin umax urp)))
+  (def ^IFn$L uint (prng/uniform-int -100 100 urp))
+  (def ^IFn ii (g/integer-interval uint))
   (def ^IFn r2 (g/interval-of-2 umin umax urp))
+  (def ^IFn r3 (g/set-of-3 umin umax urp))
   (def ^IFn r7 (g/set-of-7 umin umax urp)))
 ;;----------------------------------------------------------------
 (defn invokestatic ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 

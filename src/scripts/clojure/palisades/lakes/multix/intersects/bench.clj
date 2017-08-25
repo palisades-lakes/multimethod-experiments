@@ -8,14 +8,16 @@
    :since "2017-05-29"
    :version "2017-08-25"}
   
-  (:require [palisades.lakes.bench.core :as bench]
+  (:require [palisades.lakes.bench.prng :as prng]
+            [palisades.lakes.bench.generators :as g]
+            [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.intersects.defs :as defs]))
 ;;----------------------------------------------------------------
 (let [n (* 1 4 1024 1024)]
   ;; baselines: both args always IntegerInterval
   (bench/bench 
-    [defs/r1 palisades.lakes.bench.java.sets.IntegerInterval 
-     defs/r1 palisades.lakes.bench.java.sets.IntegerInterval]
+    [g/IntegerIntervals defs/ii
+     g/IntegerIntervals defs/ii]
     [defs/invokestatic
      defs/invokevirtual
      defs/invokeinterface
@@ -31,8 +33,8 @@
   ;; 1st arg always IntegerInterval
   ;; 2nd randomly IntegerInterval or DoubleInterval
   (bench/bench 
-    [defs/r1 palisades.lakes.bench.java.sets.IntegerInterval 
-     defs/r2 palisades.lakes.bench.java.sets.Set]
+    [g/IntegerIntervals defs/ii
+     g/Sets defs/r2]
     [defs/defmulti
      defs/manual-java
      defs/dynafun
@@ -45,8 +47,8 @@
   ;; 1st and 2nd args randomly from IntegerInterval, 
   ;; DoubleInterval and SingletonSet
   (bench/bench 
-    [defs/r3 Object
-     defs/r3 Object]
+    [prng/objects defs/r3
+     prng/objects defs/r3]
     [defs/defmulti
      defs/manual-java
      defs/dynafun
