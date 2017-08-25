@@ -55,10 +55,6 @@
                (inc i#) 
                (Math/max dmax# (double (~fname (aget ~s i#)))))))))))
 ;;----------------------------------------------------------------
-(binding [*print-meta* true]
-  (pp/pprint
-    (macroexpand
-      '(defmax manual-java Diameter/diameter))))
 (defmax manual-java Diameter/diameter)
 (defmax defmulti multi/diameter)
 (defmax multi0 multi0/diameter)

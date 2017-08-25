@@ -18,22 +18,26 @@
      #_defs/ii-virtual
      #_defs/s-static
      #_defs/s-interface
-     #_defs/o-lookup])
+     #_defs/o-lookup]
+    n)
   #_(bench/bench 
       [g/Sets r2] 
       [defs/s-static
        defs/s-interface
-       defs/o-lookup])
+       defs/o-lookup]
+      n)
   #_(bench/bench 
       [g/Sets r3] 
       [defs/s-static
        defs/s-interface
-       defs/o-lookup])
+       defs/o-lookup]
+      n)
   #_(bench/bench 
       [g/Sets r7] 
       [defs/s-static
        defs/s-interface
-       defs/o-lookup]))
+       defs/o-lookup]
+      n))
 ;;----------------------------------------------------------------
 (shutdown-agents)
 (System/exit 0)

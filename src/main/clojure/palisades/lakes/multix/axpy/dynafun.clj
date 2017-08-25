@@ -7,7 +7,7 @@
          testing 3 arg dispatch and too many methods"
    :author "palisades dot lakes at gmail dot com"
    :since "2017-08-22"
-   :version "2017-08-22"}
+   :version "2017-08-25"}
 
   (:require [clojure.pprint :as pp]
             [palisades.lakes.dynafun.core :as d])
@@ -24,7 +24,7 @@
         [atags a xtags x ytags y] arglist]
     `(let []
        ~@(mapv
-           (fn [[atag xtag ytag]]
+           (fn emit-defmethod [[atag xtag ytag]]
              #_(println atag xtag ytag)
              (let [args [(with-meta a {:tag atag})
                          (with-meta x {:tag xtag})
