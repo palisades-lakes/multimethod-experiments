@@ -7,7 +7,7 @@
          with (unused) hierarchy and PersistentVector dispatch values."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-07-29"
-   :version "2017-08-24"}
+   :version "2017-08-26"}
   
   (:refer-clojure :exclude [contains?])
   
@@ -34,7 +34,7 @@
 ;; intersects? 9 methods
 ;;----------------------------------------------------------------
 (d/defmulti intersects?
-  "Test for general set intersection."
+  "Test for general set intersection. 9 methods."
   {}
   (fn intersects?-dispatch [s0 s1] 
     [(.getClass ^Object s0) (.getClass ^Object s1)]))

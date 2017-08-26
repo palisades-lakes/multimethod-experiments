@@ -1,11 +1,12 @@
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* :warn-on-boxed)
 ;;----------------------------------------------------------------
-(ns defmulti.intersects.table
-  "Table benchmark dispatch of (intersects? set0 set1)."
+(ns palisades.lakes.multix.table
+  "Table benchmark data. 
+   TODO: get this working again? For all the benchmarks?"
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-06-14"
-   :version "2017-07-30"}
+   :version "2017-08-26"}
   (:require [clojure.java.io :as io]
             [palisades.lakes.bench.core :as bench]))
 ;;----------------------------------------------------------------

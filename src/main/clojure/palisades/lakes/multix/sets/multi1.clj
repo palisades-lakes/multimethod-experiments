@@ -3,9 +3,10 @@
 ;;----------------------------------------------------------------
 (ns palisades.lakes.multix.sets.multi1
   
-  {:author "palisades dot lakes at gmail dot com"
+  {:doc "Replace PesistantHashMap with HashMap in MultiFn."
+   :author "palisades dot lakes at gmail dot com"
    :since "2017-07-29"
-   :version "2017-08-24"}
+   :version "2017-08-26"}
   
   (:refer-clojure :exclude [contains?])
   
@@ -28,12 +29,11 @@
   (Diameter/diameter s))
 ;;----------------------------------------------------------------
 (d/defmethod diameter Set ^double [^Set s] (.diameter s))
-;; diameter 2 methods primitive return value
 ;;----------------------------------------------------------------
 ;; intersects? 9 methods
-;----------------------------------------------------------------
+;;----------------------------------------------------------------
 (d/defmulti intersects?
-  "Test for general set intersection."
+  "Test for general set intersection. 9 methods."
   {}
   (fn intersects?-dispatch [s0 s1] 
     [(.getClass ^Object s0) (.getClass ^Object s1)]))
@@ -47,7 +47,7 @@
   [^IntegerInterval s0 ^DoubleInterval s1]
   (.intersects s0 s1))
 (d/defmethod intersects? 
-  [IntegerInterval Set]
+  [IntegerInterval java.util.Set]
   [^IntegerInterval s0 ^java.util.Set s1]
   (.intersects s0 s1))
 ;;----------------------------------------------------------------
