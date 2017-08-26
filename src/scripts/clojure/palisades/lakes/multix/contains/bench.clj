@@ -40,8 +40,7 @@
   (bench/bench 
       [g/Sets defs/r2
        prng/NumberArray defs/n2]
-      [defs/sInteger-interface
-       defs/oo-static
+      [defs/oo-static
        defs/defmulti
        defs/manual-java
        defs/dynafun
@@ -75,6 +74,6 @@
        defs/hashmap-tables]
     n))
 ;;----------------------------------------------------------------
-(shutdown-agents)
-(System/exit 0)
+#_(shutdown-agents)
+#_(System/exit 0)
  
