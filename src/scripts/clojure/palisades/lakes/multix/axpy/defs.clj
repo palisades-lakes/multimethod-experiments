@@ -14,10 +14,10 @@
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.r2.multi :as multi]
-            [palisades.lakes.multix.r2.multi1 :as multi1]
-            [palisades.lakes.multix.r2.faster :as faster]
-            [palisades.lakes.multix.r2.faster2 :as faster2]
-            [palisades.lakes.multix.r2.faster3 :as faster3]
+            [palisades.lakes.multix.r2.hashmaps :as hashmaps]
+            [palisades.lakes.multix.r2.nohierarchy :as nohierarchy]
+            [palisades.lakes.multix.r2.nonvolatile :as nonvolatile]
+            [palisades.lakes.multix.r2.signatures :as signatures]
             [palisades.lakes.multix.r2.dynafun :as dynafun])
   
   (:import [clojure.lang IFn IFn$D]
@@ -33,19 +33,17 @@
   (def ^IFn d22 (g/d22 udouble))
   (def ^IFn m22 (g/m22 umin umax urp)))
 ;;----------------------------------------------------------------
-;; not implemented
+;; not implemented, too much internal state to expose
 #_(defn invokestatic 
    ^double [^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D22;" a 
            ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" x 
            ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" y]
   (Axpy/sumL1Static a x y)) 
-
 (defn invokevirtual 
   ^double [^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D22;" a 
            ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" x 
            ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" y]
   (Axpy/sumL1Virtual a x y)) 
-
 (defn invokeinterface 
   ^double [^"[Lpalisades.lakes.bench.java.spaces.linear.LinearFunction;" a 
            ^"[Lpalisades.lakes.bench.java.spaces.linear.Vector;" x 
@@ -76,12 +74,12 @@
              (let [^Vector v# (~f (aget ~a i#) (aget ~x i#) (aget ~y i#))]
                (recur (inc i#) (+ total# (.l1Norm v#))))))))))
 ;;----------------------------------------------------------------
-;; not implemented
+;; not implemented: 216=6x6x6 cases
 #_(defsum if-then-else-instanceof Axpy/axpy)
 (defsum defmulti multi/axpy)
-(defsum hashmap-tables multi1/axpy)
-(defsum no-hierarchy faster/axpy)
-(defsum non-volatile-cache faster2/axpy)
-(defsum signature-dispatch-value faster3/axpy)
+(defsum hashmaps hashmaps/axpy)
+(defsum nonvolatile nonvolatile/axpy)
+(defsum signatures signatures/axpy)
+(defsum nohierarchy nohierarchy/axpy)
 (defsum dynafun dynafun/axpy)
 ;;----------------------------------------------------------------

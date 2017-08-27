@@ -51,7 +51,7 @@ import clojure.lang.Var;
  * @version 2017-08-03
  */
 @SuppressWarnings("unchecked")
-public final class MultiFn1 extends AFn {
+public final class HashMapMultiFn extends AFn {
 
   private final IFn dispatchFn;
   private final Object defaultDispatchVal;
@@ -68,7 +68,7 @@ public final class MultiFn1 extends AFn {
 
   // --------------------------------------------------------------
 
-  public MultiFn1 (final String n, final IFn dispatchF,
+  public HashMapMultiFn (final String n, final IFn dispatchF,
     final Object defaultDispatchV, final IRef hierarky) {
     rw = new ReentrantReadWriteLock();
     name = n;
@@ -83,7 +83,7 @@ public final class MultiFn1 extends AFn {
 
   // --------------------------------------------------------------
 
-  public MultiFn1 reset () {
+  public HashMapMultiFn reset () {
     rw.writeLock().lock();
     try {
       methodTable = Collections.emptyMap();
@@ -128,7 +128,7 @@ public final class MultiFn1 extends AFn {
 
   // --------------------------------------------------------------
 
-  public MultiFn1 addMethod (final Object dispatchV,
+  public HashMapMultiFn addMethod (final Object dispatchV,
                              final IFn method) {
     rw.writeLock().lock();
     try {
@@ -141,7 +141,7 @@ public final class MultiFn1 extends AFn {
     }
   }
 
-  public MultiFn1 removeMethod (final Object dispatchV) {
+  public HashMapMultiFn removeMethod (final Object dispatchV) {
     rw.writeLock().lock();
     try {
       methodTable = dissoc(methodTable,dispatchV);
@@ -153,7 +153,7 @@ public final class MultiFn1 extends AFn {
     }
   }
 
-  public MultiFn1 preferMethod (final Object dispatchValX,
+  public HashMapMultiFn preferMethod (final Object dispatchValX,
                                 final Object dispatchValY) {
     rw.writeLock().lock();
     try {

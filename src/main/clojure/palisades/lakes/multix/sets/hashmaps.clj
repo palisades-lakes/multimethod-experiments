@@ -1,7 +1,7 @@
 (set! *warn-on-reflection* true) 
 (set! *unchecked-math* :warn-on-boxed)
 ;;----------------------------------------------------------------
-(ns palisades.lakes.multix.sets.multi1
+(ns palisades.lakes.multix.sets.hashmaps
   
   {:doc "Replace PesistantHashMap with HashMap in MultiFn."
    :author "palisades dot lakes at gmail dot com"
@@ -10,7 +10,7 @@
   
   (:refer-clojure :exclude [contains?])
   
-  (:require [palisades.lakes.multix.multi1 :as d])
+  (:require [palisades.lakes.multix.hashmaps :as d])
   
   (:import [java.util Collections]
            [palisades.lakes.bench.java.sets 

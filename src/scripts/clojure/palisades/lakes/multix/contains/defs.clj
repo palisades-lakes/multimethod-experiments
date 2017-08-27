@@ -14,10 +14,10 @@
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.sets.multi :as multi]
-            [palisades.lakes.multix.sets.multi1 :as multi1]
+            [palisades.lakes.multix.sets.hashmaps :as hashmaps]
             [palisades.lakes.multix.sets.faster :as faster]
-            [palisades.lakes.multix.sets.faster2 :as faster2]
-            [palisades.lakes.multix.sets.faster3 :as faster3]
+            [palisades.lakes.multix.sets.nonvolatile :as nonvolatile]
+            [palisades.lakes.multix.sets.signatures :as signatures]
             [palisades.lakes.multix.sets.dynafun :as dynafun])
   
   (:import [clojure.lang IFn IFn$L] 
@@ -97,9 +97,9 @@
 ;;----------------------------------------------------------------
 (defcounter if-then-else-instanceof Contains/contains)
 (defcounter defmulti multi/contains? objects)
-(defcounter hashmap-tables multi1/contains? objects)
-(defcounter no-hierarchy faster/contains? objects)
-(defcounter non-volatile-cache faster2/contains? objects)
-(defcounter signature-dispatch-value faster3/contains? objects)
+(defcounter hashmaps hashmaps/contains? objects)
+(defcounter nonvolatile nonvolatile/contains? objects)
+(defcounter signatures signatures/contains? objects)
+(defcounter nohierarchy nohierarchy/contains? objects)
 (defcounter dynafun dynafun/contains? objects)
 ;----------------------------------------------------------------

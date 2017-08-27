@@ -1,7 +1,8 @@
 (set! *warn-on-reflection* true) 
 (set! *unchecked-math* :warn-on-boxed)
 ;;----------------------------------------------------------------
-(ns palisades.lakes.multix.sets.faster
+(ns palisades.lakes.multix.sets.nohierarchy
+  
   
   {:doc "palisades.lakes.multimethods.core/defmulti for set intersection testing;
          with no hierarchy and Signature2 dispatch values."

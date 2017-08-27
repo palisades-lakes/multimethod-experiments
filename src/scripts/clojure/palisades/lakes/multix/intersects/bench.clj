@@ -20,13 +20,13 @@
   [defs/invokestatic
    defs/invokevirtual
    defs/invokeinterface
-   defs/defmulti
    defs/if-then-else-instanceof
-   defs/dynafun
-   defs/no-hierarchy
-   defs/signature-dispatch-value
-   defs/non-volatile-cache
-   defs/hashmap-tables])
+   defs/defmulti
+   defs/hashmaps
+   defs/nonvolatile
+   defs/signatures
+   defs/nohierarchy
+   defs/dynafun])
 ;; 50% probability of repeat same method, 
 ;; 1st arg always IntegerInterval
 ;; 2nd randomly IntegerInterval or DoubleInterval
@@ -35,26 +35,26 @@
    g/Sets defs/r2]
   [defs/invokevirtual
    defs/invokeinterface
-   defs/defmulti
    defs/if-then-else-instanceof
-   defs/dynafun
-   defs/no-hierarchy
-   defs/signature-dispatch-value
-   defs/non-volatile-cache
-   defs/hashmap-tables])
+   defs/defmulti
+   defs/hashmaps
+   defs/nonvolatile
+   defs/signatures
+   defs/nohierarchy
+   defs/dynafun])
 ;; 1/9 probability of same method
 ;; 1st and 2nd args randomly from IntegerInterval, 
 ;; DoubleInterval and SingletonSet
 (bench/bench 
   [prng/objects defs/r3
    prng/objects defs/r3]
-  [defs/defmulti
-   defs/if-then-else-instanceof
-   defs/dynafun
-   defs/no-hierarchy
-   defs/signature-dispatch-value
-   defs/non-volatile-cache
-   defs/hashmap-tables])
+  [defs/if-then-else-instanceof
+   defs/defmulti
+   defs/hashmaps
+   defs/nonvolatile
+   defs/signatures
+   defs/nohierarchy
+   defs/dynafun])
 ;;----------------------------------------------------------------
 #_(shutdown-agents)
 #_(System/exit 0)

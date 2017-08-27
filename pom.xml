@@ -328,21 +328,21 @@
   <dependency>
    <groupId>palisades-lakes</groupId>
    <artifactId>benchtools</artifactId>
-   <version>[0.0.4-SNAPSHOT,)</version>
+   <version>[0.0.6-SNAPSHOT,)</version>
   </dependency>
   <dependency>
    <groupId>palisades-lakes</groupId>
    <artifactId>faster-multimethods</artifactId>
-   <version>[0.0.5-SNAPSHOT,)</version>
+   <version>[0.0.6-SNAPSHOT,)</version>
   </dependency>
   <dependency>
    <groupId>palisades-lakes</groupId>
    <artifactId>dynamic-functions</artifactId>
-   <version>[0.0.0-SNAPSHOT,)</version>
+   <version>[0.0.6-SNAPSHOT,)</version>
   </dependency>
  </dependencies>
  <groupId>palisades-lakes</groupId>
  <artifactId>multimethod-experiments</artifactId>
- <version>0.0.2-SNAPSHOT</version>
+ <version>0.0.6-SNAPSHOT</version>
  <description>Benchmarks for alternative to clojure 1.8.0 multimethods.</description>
 </project>

@@ -17,10 +17,10 @@
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.sets.multi :as multi]
             [palisades.lakes.multix.sets.multi0 :as multi0]
-            [palisades.lakes.multix.sets.multi1 :as multi1]
+            [palisades.lakes.multix.sets.hashmaps :as hashmaps]
             [palisades.lakes.multix.sets.faster :as faster]
-            [palisades.lakes.multix.sets.faster2 :as faster2]
-            [palisades.lakes.multix.sets.faster3 :as faster3]
+            [palisades.lakes.multix.sets.nonvolatile :as nonvolatile]
+            [palisades.lakes.multix.sets.signatures :as signatures]
             [palisades.lakes.multix.sets.dynafun :as dynafun])
   
   (:import [clojure.lang IFn IFn$L] 
@@ -64,9 +64,9 @@
 ;;----------------------------------------------------------------
 (defmax if-then-else-instanceof Diameter/diameter)
 (defmax defmulti multi/diameter)
-(defmax hashmap-tables multi1/diameter)
-(defmax no-hierarchy faster/diameter)
-(defmax non-volatile-cache faster2/diameter)
-(defmax signature-dispatch-value faster3/diameter)
+(defmax hashmaps hashmaps/diameter)
+(defmax nonvolatile nonvolatile/diameter)
+(defmax signatures signatures/diameter)
+(defmax nohierarchy nohierarchy/diameter)
 (defmax dynafun dynafun/diameter)
 ;;----------------------------------------------------------------

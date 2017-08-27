@@ -17,10 +17,10 @@
             [palisades.lakes.multix.sets.signature :as signature]
             [palisades.lakes.multix.sets.multi :as multi]
             [palisades.lakes.multix.sets.multi0 :as multi0]
-            [palisades.lakes.multix.sets.multi1 :as multi1]
+            [palisades.lakes.multix.sets.hashmaps :as hashmaps]
             [palisades.lakes.multix.sets.faster :as faster]
-            [palisades.lakes.multix.sets.faster2 :as faster2]
-            [palisades.lakes.multix.sets.faster3 :as faster3]
+            [palisades.lakes.multix.sets.nonvolatile :as nonvolatile]
+            [palisades.lakes.multix.sets.signatures :as signatures]
             [palisades.lakes.multix.sets.dynafun :as dynafun])
   
   (:import [clojure.lang IFn IFn$L] 
@@ -70,9 +70,9 @@
 ;;----------------------------------------------------------------
 (defcounter if-then-else-instanceof Intersects/intersects)
 (defcounter defmulti multi/intersects?)
-(defcounter hashmap-tables multi1/intersects?)
-(defcounter no-hierarchy faster/intersects?)
-(defcounter non-volatile-cache faster2/intersects?)
-(defcounter signature-dispatch-value faster3/intersects?)
+(defcounter hashmaps hashmaps/intersects?)
+(defcounter nohierarchy nohierarchy/intersects?)
+(defcounter nonvolatile nonvolatile/intersects?)
+(defcounter signatures signatures/intersects?)
 (defcounter dynafun dynafun/intersects?)
 ;;----------------------------------------------------------------

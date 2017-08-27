@@ -24,44 +24,44 @@
   [defs/invokestatic
    defs/invokevirtual
    defs/invokeinterface
-   defs/defmulti
    defs/if-then-else-instanceof
-   defs/dynafun
-   defs/no-hierarchy
-   defs/signature-dispatch-value
-   defs/non-volatile-cache
-   defs/hashmap-tables])
+   defs/defmulti
+   defs/hashmaps
+   defs/nonvolatile
+   defs/signatures
+   defs/nohierarchy
+   defs/dynafun])
 (bench/bench 
   [g/Sets defs/r2
    prng/NumberArray defs/n2]
   [defs/invokeinterface
-   defs/defmulti
    defs/if-then-else-instanceof
-   defs/dynafun
-   defs/no-hierarchy
-   defs/signature-dispatch-value
-   defs/non-volatile-cache
-   defs/hashmap-tables])
+   defs/defmulti
+   defs/hashmaps
+   defs/nonvolatile
+   defs/signatures
+   defs/nohierarchy
+   defs/dynafun])
 (bench/bench 
   [prng/objects defs/r3
    prng/NumberArray defs/n2]
-  [defs/defmulti
-   defs/if-then-else-instanceof
-   defs/dynafun
-   defs/no-hierarchy
-   defs/signature-dispatch-value
-   defs/non-volatile-cache
-   defs/hashmap-tables])
+  [defs/if-then-else-instanceof
+   defs/defmulti
+   defs/hashmaps
+   defs/nonvolatile
+   defs/signatures
+   defs/nohierarchy
+   defs/dynafun])
 (bench/bench 
   [prng/objects defs/r7
    prng/objects defs/n6]
-  [defs/defmulti
-   defs/if-then-else-instanceof
-   defs/dynafun
-   defs/no-hierarchy
-   defs/signature-dispatch-value
-   defs/non-volatile-cache
-   defs/hashmap-tables])
+  [defs/if-then-else-instanceof
+   defs/defmulti
+   defs/hashmaps
+   defs/nonvolatile
+   defs/signatures
+   defs/nohierarchy
+   defs/dynafun])
 ;;----------------------------------------------------------------
 #_(shutdown-agents)
 #_(System/exit 0)

@@ -1,12 +1,11 @@
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* :warn-on-boxed)
 ;;----------------------------------------------------------------
-(ns palisades.lakes.multix.multi1
-  
+(ns palisades.lakes.multix.hashmaps
   {:doc "Fork of defmulti/defmethod for performance experiments."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-06-02"
-   :version "2017-08-03"}
+   :version "2017-08-27"}
   (:refer-clojure :exclude [defmulti defmethod remove-all-methods
                             remove-method prefer-method methods
                             get-method prefers]))
@@ -76,28 +75,28 @@
           hierarchy (get options :hierarchy #'clojure.core/global-hierarchy)]
       (check-valid-options options :default :hierarchy)
       `(let [v# (def ~mm-name)]
-         (when-not (and (.hasRoot v#) (instance? palisades.lakes.multix.java.MultiFn1 (deref v#)))
+         (when-not (and (.hasRoot v#) (instance? palisades.lakes.multix.java.HashMapMultiFn (deref v#)))
            (def ~(with-meta mm-name m)
-                (new palisades.lakes.multix.java.MultiFn1 ~(name mm-name) ~dispatch-fn ~default ~hierarchy)))))))
+                (new palisades.lakes.multix.java.HashMapMultiFn ~(name mm-name) ~dispatch-fn ~default ~hierarchy)))))))
 
 (defmacro defmethod
   "Creates and installs a new method of multimethod associated with dispatch-value. "
   {:added "1.0"}
   [multifn dispatch-val & fn-tail]
-  `(. ~(with-meta multifn {:tag 'palisades.lakes.multix.java.MultiFn1}) addMethod ~dispatch-val (fn ~@fn-tail)))
+  `(. ~(with-meta multifn {:tag 'palisades.lakes.multix.java.HashMapMultiFn}) addMethod ~dispatch-val (fn ~@fn-tail)))
 
 (defn remove-all-methods
 "Removes all of the methods of multimethod."
 {:added "1.2"
  :static true} 
-[^palisades.lakes.multix.java.MultiFn1 multifn]
+[^palisades.lakes.multix.java.HashMapMultiFn multifn]
 (.reset multifn))
 
 (defn remove-method
 "Removes the method of multimethod associated with dispatch-value."
 {:added "1.0"
  :static true}
-[^palisades.lakes.multix.java.MultiFn1 multifn dispatch-val]
+[^palisades.lakes.multix.java.HashMapMultiFn multifn dispatch-val]
 (. multifn removeMethod dispatch-val))
 
 (defn prefer-method
@@ -105,25 +104,25 @@
    when there is a conflict"
   {:added "1.0"
    :static true}
-  [^palisades.lakes.multix.java.MultiFn1 multifn dispatch-val-x dispatch-val-y]
+  [^palisades.lakes.multix.java.HashMapMultiFn multifn dispatch-val-x dispatch-val-y]
   (. multifn preferMethod dispatch-val-x dispatch-val-y))
 
 (defn methods
 "Given a multimethod, returns a map of dispatch values -> dispatch fns"
 {:added "1.0"
  :static true}
-[^palisades.lakes.multix.java.MultiFn1 multifn] (.getMethodTable multifn))
+[^palisades.lakes.multix.java.HashMapMultiFn multifn] (.getMethodTable multifn))
 
 (defn get-method
 "Given a multimethod and a dispatch value, returns the dispatch fn
   that would apply to that value, or nil if none apply and no default"
 {:added "1.0"
  :static true}
-[^palisades.lakes.multix.java.MultiFn1 multifn dispatch-val] (.getMethod multifn dispatch-val))
+[^palisades.lakes.multix.java.HashMapMultiFn multifn dispatch-val] (.getMethod multifn dispatch-val))
 
 (defn prefers
 "Given a multimethod, returns a map of preferred value -> set of other values"
 {:added "1.0"
  :static true}
-[^palisades.lakes.multix.java.MultiFn1 multifn] (.getPreferTable multifn))
+[^palisades.lakes.multix.java.HashMapMultiFn multifn] (.getPreferTable multifn))
 

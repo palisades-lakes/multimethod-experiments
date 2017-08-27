@@ -1,7 +1,7 @@
 (set! *warn-on-reflection* true) 
 (set! *unchecked-math* :warn-on-boxed)
 ;;----------------------------------------------------------------
-(ns palisades.lakes.multix.sets.faster2
+(ns palisades.lakes.multix.sets.nonvolatile
   
   {:doc "palisades.lakes.multimethods.core/defmulti for set intersection testing;
          with (unused) hierarchy and PersistentVector dispatch values."
