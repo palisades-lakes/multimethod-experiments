@@ -6,7 +6,7 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-08-26"
-   :version "2017-08-26"}
+   :version "2017-08-27"}
   
   (:refer-clojure :exclude [defmulti])
   
@@ -14,7 +14,10 @@
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.r2.multi :as multi]
+            [palisades.lakes.multix.r2.multi1 :as multi1]
             [palisades.lakes.multix.r2.faster :as faster]
+            [palisades.lakes.multix.r2.faster2 :as faster2]
+            [palisades.lakes.multix.r2.faster3 :as faster3]
             [palisades.lakes.multix.r2.dynafun :as dynafun])
   
   (:import [clojure.lang IFn IFn$D]
@@ -29,6 +32,25 @@
   (def ^IFn v2 (g/v2 umin umax urp))
   (def ^IFn d22 (g/d22 udouble))
   (def ^IFn m22 (g/m22 umin umax urp)))
+;;----------------------------------------------------------------
+;; not implemented
+#_(defn invokestatic 
+   ^double [^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D22;" a 
+           ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" x 
+           ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" y]
+  (Axpy/sumL1Static a x y)) 
+
+(defn invokevirtual 
+  ^double [^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D22;" a 
+           ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" x 
+           ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" y]
+  (Axpy/sumL1Virtual a x y)) 
+
+(defn invokeinterface 
+  ^double [^"[Lpalisades.lakes.bench.java.spaces.linear.LinearFunction;" a 
+           ^"[Lpalisades.lakes.bench.java.spaces.linear.Vector;" x 
+           ^"[Lpalisades.lakes.bench.java.spaces.linear.Vector;" y]
+  (Axpy/sumL1Interface a x y)) 
 ;;----------------------------------------------------------------
 ;; macro for counting loop instead of function,
 ;; since some of the calls are to java methods and not functions, 
@@ -54,22 +76,12 @@
              (let [^Vector v# (~f (aget ~a i#) (aget ~x i#) (aget ~y i#))]
                (recur (inc i#) (+ total# (.l1Norm v#))))))))))
 ;;----------------------------------------------------------------
+;; not implemented
+#_(defsum if-then-else-instanceof Axpy/axpy)
 (defsum defmulti multi/axpy)
+(defsum hashmap-tables multi1/axpy)
 (defsum no-hierarchy faster/axpy)
+(defsum non-volatile-cache faster2/axpy)
+(defsum signature-dispatch-value faster3/axpy)
 (defsum dynafun dynafun/axpy)
 ;;----------------------------------------------------------------
-(defn ddd-static ^double [^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D22;" a 
-                          ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" x 
-                          ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" y]
-  (Axpy/sumL1Norms a x y)) 
-
-(defn lvv-static ^double [^"[Lpalisades.lakes.bench.java.spaces.linear.LinearFunction;" a 
-                          ^"[Lpalisades.lakes.bench.java.spaces.linear.Vector;" x 
-                          ^"[Lpalisades.lakes.bench.java.spaces.linear.Vector;" y]
-  (Axpy/sumL1Norms a x y)) 
-
-(defn ooo-static ^double [^objects a 
-                          ^objects x 
-                          ^objects y]
-  (Axpy/sumL1Norms a x y)) 
-

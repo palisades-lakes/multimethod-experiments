@@ -11,69 +11,57 @@
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.contains.defs :as defs]))
 ;;----------------------------------------------------------------
-(let [n (* 1 4 1024 1024)]
-  ;; baselines: args always IntegerInterval, Integer
-  (bench/bench 
-    [g/IntegerIntervals defs/ii
-     prng/ints defs/uint]
-    [defs/iiint-static
-     defs/iiint-virtual
-     defs/sint-static
-     defs/sint-interface]
-    n)
-  (bench/bench 
-    [g/IntegerIntervals defs/ii
-     prng/IntegerArray defs/uInteger]
-    [defs/iiInteger-static
-     defs/iiInteger-virtual
-     defs/sInteger-static
-     defs/sInteger-interface
-     defs/oo-static
-     defs/manual-java
-     defs/dynafun
-     defs/defmulti
-     defs/no-hierarchy
-     defs/signature-dispatch-value
-     defs/non-volatile-cache
-     defs/hashmap-tables]
-    n)
-  (bench/bench 
-      [g/Sets defs/r2
-       prng/NumberArray defs/n2]
-      [defs/oo-static
-       defs/defmulti
-       defs/manual-java
-       defs/dynafun
-       defs/no-hierarchy
-       defs/signature-dispatch-value
-       defs/non-volatile-cache
-       defs/hashmap-tables]
-    n)
-  (bench/bench 
-      [prng/objects defs/r3
-       prng/NumberArray defs/n2]
-      [defs/oo-static
-       defs/defmulti
-       defs/manual-java
-       defs/dynafun
-       defs/no-hierarchy
-       defs/signature-dispatch-value
-       defs/non-volatile-cache
-       defs/hashmap-tables]
-    n)
-  (bench/bench 
-      [prng/objects defs/r7
-       prng/objects defs/n6]
-      [defs/oo-static
-       defs/defmulti
-       defs/manual-java
-       defs/dynafun
-       defs/no-hierarchy
-       defs/signature-dispatch-value
-       defs/non-volatile-cache
-       defs/hashmap-tables]
-    n))
+;; baselines: args always IntegerInterval, Integer
+(bench/bench 
+  [g/IntegerIntervals defs/ii
+   prng/ints defs/uint]
+  [defs/invokestaticPrimitive
+   defs/invokevirtualPrimitive
+   defs/invokeinterfacePrimitive])
+(bench/bench 
+  [g/IntegerIntervals defs/ii
+   prng/IntegerArray defs/uInteger]
+  [defs/invokestatic
+   defs/invokevirtual
+   defs/invokeinterface
+   defs/defmulti
+   defs/if-then-else-instanceof
+   defs/dynafun
+   defs/no-hierarchy
+   defs/signature-dispatch-value
+   defs/non-volatile-cache
+   defs/hashmap-tables])
+(bench/bench 
+  [g/Sets defs/r2
+   prng/NumberArray defs/n2]
+  [defs/invokeinterface
+   defs/defmulti
+   defs/if-then-else-instanceof
+   defs/dynafun
+   defs/no-hierarchy
+   defs/signature-dispatch-value
+   defs/non-volatile-cache
+   defs/hashmap-tables])
+(bench/bench 
+  [prng/objects defs/r3
+   prng/NumberArray defs/n2]
+  [defs/defmulti
+   defs/if-then-else-instanceof
+   defs/dynafun
+   defs/no-hierarchy
+   defs/signature-dispatch-value
+   defs/non-volatile-cache
+   defs/hashmap-tables])
+(bench/bench 
+  [prng/objects defs/r7
+   prng/objects defs/n6]
+  [defs/defmulti
+   defs/if-then-else-instanceof
+   defs/dynafun
+   defs/no-hierarchy
+   defs/signature-dispatch-value
+   defs/non-volatile-cache
+   defs/hashmap-tables])
 ;;----------------------------------------------------------------
 #_(shutdown-agents)
 #_(System/exit 0)
- 

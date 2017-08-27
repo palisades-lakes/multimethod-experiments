@@ -11,16 +11,13 @@ require('knitr')
 require('kableExtra')
 #-----------------------------------------------------------------
 data.files <- function (
-  folder='bench',
+  benchmark='axpy',
   model='20ERCTO1WW',
-  generator0='nested_uniform_generator',
-  generator1='nested_uniform_generator',
   nelements=4194304,
   theday='[0-9]{8}-[0-9]{4}') {
   
-  data.folder <- paste('data/intersects/',folder,sep='')
-  pattern <- paste('LENOVO',model,generator0,generator1,nelements,
-    theday,'tsv',sep='.')
+  data.folder <- paste('data',benchmark,'bench',sep='/')
+  pattern <- paste('LENOVO',model,'*',nelements,theday,'tsv',sep='.')
   print(data.folder)
   print(pattern)
   list.files(path=data.folder,pattern=pattern,full.names=TRUE) }
@@ -28,48 +25,46 @@ data.files <- function (
 read.data <- function (
   folder='bench',
   model='20ERCTO1WW',
-  generator0='nested_uniform_generator',
-  generator1='nested_uniform_generator',
   nelements=4194304,
-  theday='20170817-*') {
+  theday='20170826-*') {
   
   data <- NULL
-  for (f in data.files(folder,model,generator0,generator1,nelements,theday)) {
+  for (f in data.files(folder,model,nelements,theday)) {
     print(f)
     tmp <- read.csv(f,sep='\t',as.is=TRUE)
     data <- rbind(data,tmp) }
   
-  data$algorithm <- factor(
-    data$algorithm,
-    levels=c(
-      'invokestatic',
-      'invokevirtual',
-      'invokeinterface',
-      'manual_java',
-      'signature_lookup',
-      'dynafun',
-      'no_hierarchy',
-      'signature_dispatch_value',
-      'non_volatile_cache',
-      'hashmap_tables',
-      'defmulti'
-    ),
-    labels=c(
-      'invokestatic',
-      'invokevirtual',
-      'invokeinterface',
-      'if-then-else instanceof',
-      'if-then-else Signature',
-      'dynafun',
-      'no hierarchy',
-      'Signature dispatch-value',
-      'non-volatile cache',
-      'hashmap tables',
-      'clojure 1.8.0'))
-  baseline <- data$millisec[(data$algorithm=='if-then-else instanceof')]
-  data$overhead <- data$millisec - baseline
-  baseline <- data$overhead[data$algorithm=='clojure 1.8.0']
-  data$overhead <- data$overhead / baseline
+#  data$algorithm <- factor(
+#    data$algorithm,
+#    levels=c(
+#      'invokestatic',
+#      'invokevirtual',
+#      'invokeinterface',
+#      'manual_java',
+#      'signature_lookup',
+#      'dynafun',
+#      'no_hierarchy',
+#      'signature_dispatch_value',
+#      'non_volatile_cache',
+#      'hashmap_tables',
+#      'defmulti'
+#    ),
+#    labels=c(
+#      'invokestatic',
+#      'invokevirtual',
+#      'invokeinterface',
+#      'if-then-else instanceof',
+#      'if-then-else Signature',
+#      'dynafun',
+#      'no hierarchy',
+#      'Signature dispatch-value',
+#      'non-volatile cache',
+#      'hashmap tables',
+#      'clojure 1.8.0'))
+#  baseline <- data$millisec[(data$algorithm=='if-then-else instanceof')]
+#  data$overhead <- data$millisec - baseline
+#  baseline <- data$overhead[data$algorithm=='clojure 1.8.0']
+#  data$overhead <- data$overhead / baseline
   
   data }
 #-----------------------------------------------------------------

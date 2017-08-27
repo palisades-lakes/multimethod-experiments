@@ -38,15 +38,15 @@
 ;;----------------------------------------------------------------
 (defn invokestatic ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
                           ^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s1]
-  (Intersects/count s0 s1)) 
+  (Intersects/countStatic s0 s1)) 
 ;;----------------------------------------------------------------
 (defn invokevirtual ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
                            ^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s1]
-  (Sets/countIntersections s0 s1))
+  (Intersects/countVirtual s0 s1))
 ;;----------------------------------------------------------------
 (defn invokeinterface ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
                              ^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s1]
-  (Sets/countIntersections s0 s1))
+  (Intersects/countInterface s0 s1))
 ;;----------------------------------------------------------------
 ;; macro for counting loop instead of function,
 ;; since some of the calls are to java methods and not functions, 
@@ -68,11 +68,8 @@
                  (recur (inc i#) (inc total#))
                  :else (recur (inc i#) total#)))))))
 ;;----------------------------------------------------------------
-(defcounter manual-java Intersects/manual)
-(defcounter nested-lookup nested/intersects?)
-(defcounter signature-lookup signature/intersects?)
+(defcounter if-then-else-instanceof Intersects/intersects)
 (defcounter defmulti multi/intersects?)
-(defcounter multi0 multi0/intersects?)
 (defcounter hashmap-tables multi1/intersects?)
 (defcounter no-hierarchy faster/intersects?)
 (defcounter non-volatile-cache faster2/intersects?)

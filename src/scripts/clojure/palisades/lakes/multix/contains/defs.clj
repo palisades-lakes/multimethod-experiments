@@ -6,16 +6,14 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-25"}
+   :version "2017-08-27"}
   
   (:refer-clojure :exclude [defmulti])
   
-  (:require [clojure.pprint :as pp]
-            [palisades.lakes.bench.prng :as prng]
+  (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.sets.multi :as multi]
-            [palisades.lakes.multix.sets.multi0 :as multi0]
             [palisades.lakes.multix.sets.multi1 :as multi1]
             [palisades.lakes.multix.sets.faster :as faster]
             [palisades.lakes.multix.sets.faster2 :as faster2]
@@ -52,6 +50,30 @@
   (def ^IFn n2 (uniformDoubleOrInteger umin umax urp))
   (def ^IFn n6 (prng/uniformNumber umin umax urp)))
 ;;----------------------------------------------------------------
+(defn invokestaticPrimitive ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
+                                   ^"[I" s1]
+  (Contains/countStatic s0 s1)) 
+
+(defn invokestatic ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
+                          ^"[Ljava.lang.Integer;" s1]
+  (Contains/countStatic s0 s1))
+
+(defn invokevirtualPrimitive ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
+                                    ^"[I" s1]
+  (Contains/countVirtual s0 s1)) 
+
+(defn invokevirtual ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
+                           ^"[Ljava.lang.Integer;" s1]
+  (Contains/countVirtual s0 s1))
+
+(defn invokeinterfacePrimitive ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
+                                      ^"[I" s1]
+  (Contains/countInterface s0 s1))
+
+(defn invokeinterface ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
+                             ^"[Ljava.lang.Integer;" s1]
+  (Contains/countInterface s0 s1))
+;;----------------------------------------------------------------
 ;; macro for counting loop instead of function,
 ;; since some of the calls are to java methods and not functions, 
 ;; and in any case would force dynamic function call rather than 
@@ -73,47 +95,11 @@
                  (recur (inc i#) (inc total#))
                  :else (recur (inc i#) total#)))))))
 ;;----------------------------------------------------------------
-(defcounter manual-java Contains/contains objects)
+(defcounter if-then-else-instanceof Contains/contains)
 (defcounter defmulti multi/contains? objects)
-(defcounter multi0 multi0/contains? objects)
 (defcounter hashmap-tables multi1/contains? objects)
 (defcounter no-hierarchy faster/contains? objects)
 (defcounter non-volatile-cache faster2/contains? objects)
 (defcounter signature-dispatch-value faster3/contains? objects)
 (defcounter dynafun dynafun/contains? objects)
-;;----------------------------------------------------------------
-(defn iiint-static ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
-                          ^"[I" s1]
-  (Contains/countStatic s0 s1)) 
-
-(defn iiInteger-static ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
-                              ^"[Ljava.lang.Integer;" s1]
-  (Contains/countStatic s0 s1))
-
-(defn sint-static ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
-                         ^"[I" s1]
-  (Contains/countStatic s0 s1))
-
-(defn sInteger-static ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
-                             ^"[Ljava.lang.Integer;" s1]
-  (Contains/countStatic s0 s1))
-
-(defn oo-static ^long [^objects s0 ^objects s1]
-  (Contains/countStatic s0 s1))
-;;----------------------------------------------------------------
-(defn iiint-virtual ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
-                           ^"[I" s1]
-  (Contains/countStatic s0 s1)) 
-
-(defn iiInteger-virtual ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
-                               ^"[Ljava.lang.Integer;" s1]
-  (Contains/countStatic s0 s1))
-;;----------------------------------------------------------------
-(defn sint-interface ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
-                            ^"[I" s1]
-  (Contains/countStatic s0 s1))
-
-(defn sInteger-interface ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
-                                ^"[Ljava.lang.Integer;" s1]
-  (Contains/countStatic s0 s1))
-;;----------------------------------------------------------------
+;----------------------------------------------------------------

@@ -6,7 +6,7 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-24"}
+   :version "2017-08-27"}
   
   (:refer-clojure :exclude [defmulti])
   
@@ -36,6 +36,13 @@
   (def ^IFn r3 (g/set-of-3 umin umax urp))
   (def ^IFn r7 (g/set-of-7 umin umax urp)))
 ;;----------------------------------------------------------------
+(defn invokestatic ^double [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" data]
+  (Diameter/maxStatic data)) 
+(defn invokevirtual ^double [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" data]
+  (Diameter/maxVirtual data)) 
+(defn invokeinterface ^double [^"[Lpalisades.lakes.bench.java.sets.Set;" data]
+  (Diameter/maxInterface data)) 
+;;----------------------------------------------------------------
 ;; macro for counting loop instead of function,
 ;; since some of the calls are to java methods and not functions, 
 ;; and in any case would force dynamic function call rather than 
@@ -55,20 +62,11 @@
                (inc i#) 
                (Math/max dmax# (double (~fname (aget ~s i#)))))))))))
 ;;----------------------------------------------------------------
-(defmax manual-java Diameter/diameter)
+(defmax if-then-else-instanceof Diameter/diameter)
 (defmax defmulti multi/diameter)
 (defmax hashmap-tables multi1/diameter)
 (defmax no-hierarchy faster/diameter)
 (defmax non-volatile-cache faster2/diameter)
 (defmax signature-dispatch-value faster3/diameter)
 (defmax dynafun dynafun/diameter)
-;;----------------------------------------------------------------
-(defn ii-static ^double [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" data]
-  (Diameter/maxStatic data)) 
-(defn ii-virtual ^double [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" data]
-  (Diameter/maxStatic data)) 
-(defn s-interface ^double [^"[Lpalisades.lakes.bench.java.sets.Set;" data]
-  (Diameter/maxInterface data)) 
-(defn o-lookup ^double [^objects data]
-  (Diameter/maxLookup data))
 ;;----------------------------------------------------------------
