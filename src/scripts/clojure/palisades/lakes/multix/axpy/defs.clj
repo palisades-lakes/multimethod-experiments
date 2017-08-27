@@ -17,17 +17,18 @@
             [palisades.lakes.multix.r2.faster :as faster]
             [palisades.lakes.multix.r2.dynafun :as dynafun])
   
-  (:import [clojure.lang IFn IFn$L] 
-           [palisades.lakes.bench.java.axpy 
-            DoubleInterval IntegerInterval Intersects Set Sets]))
+  (:import [clojure.lang IFn IFn$D]
+           [palisades.lakes.bench.java.spaces.linear 
+            Axpy LinearFunction Vector]))
 ;;----------------------------------------------------------------
 (let [urp (prng/uniform-random-provider "seeds/Well44497b-2017-06-12.edn")
       umin -100.0
       umax 100.0]
-  (def ^IFn d2 (g/d2 umin umax urp))
+  (def ^IFn$D udouble (prng/uniform-double -100 100 urp))
+  (def ^IFn d2 (g/d2 udouble))
   (def ^IFn v2 (g/v2 umin umax urp))
-  (def ^IFn d22 (g/d22 umin umax urp))
-  (def ^IFn v22 (g/v22 umin umax urp)))
+  (def ^IFn d22 (g/d22 udouble))
+  (def ^IFn m22 (g/m22 umin umax urp)))
 ;;----------------------------------------------------------------
 ;; macro for counting loop instead of function,
 ;; since some of the calls are to java methods and not functions, 
@@ -44,18 +45,31 @@
               (with-meta y {:tag 'objects})]
         args (with-meta args {:tag 'double})]
     `(defn ~benchname ~args
-       (assert (== (alength ~a) (alength ~x) (alength ~y))
-       (let [n# (int (min (alength ~s0) (alength ~s1)))]
+       (assert (== (alength ~a) (alength ~x) (alength ~y)))
+       (let [n# (int (alength ~a))]
          (loop [i# (int 0)
                 total# (double 0)]
            (if (>= i# n#) 
-             (long total#)
-             (let [^Vector v (~f (aget ~a i#) 
-                                 (aget ~x i#) 
-                                 (aget ~y i#))]
-                  (recur (inc i#) (+ total# (.l1norm v)))))))))))
+             (double total#)
+             (let [^Vector v# (~f (aget ~a i#) (aget ~x i#) (aget ~y i#))]
+               (recur (inc i#) (+ total# (.l1Norm v#))))))))))
 ;;----------------------------------------------------------------
-(defcounter defmulti multi/axpy)
-(defcounter no-hierarchy faster/axpy)
-(defcounter dynafun dynafun/axpy)
+(defsum defmulti multi/axpy)
+(defsum no-hierarchy faster/axpy)
+(defsum dynafun dynafun/axpy)
 ;;----------------------------------------------------------------
+(defn ddd-static ^double [^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D22;" a 
+                          ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" x 
+                          ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" y]
+  (Axpy/sumL1Norms a x y)) 
+
+(defn lvv-static ^double [^"[Lpalisades.lakes.bench.java.spaces.linear.LinearFunction;" a 
+                          ^"[Lpalisades.lakes.bench.java.spaces.linear.Vector;" x 
+                          ^"[Lpalisades.lakes.bench.java.spaces.linear.Vector;" y]
+  (Axpy/sumL1Norms a x y)) 
+
+(defn ooo-static ^double [^objects a 
+                          ^objects x 
+                          ^objects y]
+  (Axpy/sumL1Norms a x y)) 
+
