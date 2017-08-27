@@ -13,36 +13,36 @@
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.intersects.defs :as defs]))
 ;;----------------------------------------------------------------
-(let [n (* 1 1 1024 1024)]
+(let [n (* 1 4 1024 1024)]
   ;; baselines: both args always IntegerInterval
-  #_(bench/bench 
-     [g/IntegerIntervals defs/ii
-      g/IntegerIntervals defs/ii]
-     [defs/invokestatic
-      defs/invokevirtual
-      defs/invokeinterface
-      defs/defmulti
-      defs/manual-java
-      defs/dynafun
-      defs/no-hierarchy
-      defs/signature-dispatch-value
-      defs/non-volatile-cache
-      defs/hashmap-tables]
-     n)
+  (bench/bench 
+    [g/IntegerIntervals defs/ii
+     g/IntegerIntervals defs/ii]
+    [defs/invokestatic
+     defs/invokevirtual
+     defs/invokeinterface
+     defs/defmulti
+     defs/manual-java
+     defs/dynafun
+     defs/no-hierarchy
+     defs/signature-dispatch-value
+     defs/non-volatile-cache
+     defs/hashmap-tables]
+    n)
   ;; 50% probability of repeat same method, 
   ;; 1st arg always IntegerInterval
   ;; 2nd randomly IntegerInterval or DoubleInterval
-  #_(bench/bench 
-     [g/IntegerIntervals defs/ii
-      g/Sets defs/r2]
-     [defs/defmulti
-      defs/manual-java
-      defs/dynafun
-      defs/no-hierarchy
-      defs/signature-dispatch-value
-      defs/non-volatile-cache
-      defs/hashmap-tables]
-     n)
+  (bench/bench 
+   [g/IntegerIntervals defs/ii
+    g/Sets defs/r2]
+   [defs/defmulti
+    defs/manual-java
+    defs/dynafun
+    defs/no-hierarchy
+    defs/signature-dispatch-value
+    defs/non-volatile-cache
+    defs/hashmap-tables]
+   n)
   ;; 1/9 probability of same method
   ;; 1st and 2nd args randomly from IntegerInterval, 
   ;; DoubleInterval and SingletonSet
