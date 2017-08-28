@@ -16,9 +16,8 @@
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.sets.multi :as multi]
-            [palisades.lakes.multix.sets.multi0 :as multi0]
             [palisades.lakes.multix.sets.hashmaps :as hashmaps]
-            [palisades.lakes.multix.sets.faster :as faster]
+            [palisades.lakes.multix.sets.nohierarchy :as nohierarchy]
             [palisades.lakes.multix.sets.nonvolatile :as nonvolatile]
             [palisades.lakes.multix.sets.signatures :as signatures]
             [palisades.lakes.multix.sets.dynafun :as dynafun])

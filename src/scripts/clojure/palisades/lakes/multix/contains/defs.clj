@@ -15,7 +15,7 @@
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.sets.multi :as multi]
             [palisades.lakes.multix.sets.hashmaps :as hashmaps]
-            [palisades.lakes.multix.sets.faster :as faster]
+            [palisades.lakes.multix.sets.nohierarchy :as nohierarchy]
             [palisades.lakes.multix.sets.nonvolatile :as nonvolatile]
             [palisades.lakes.multix.sets.signatures :as signatures]
             [palisades.lakes.multix.sets.dynafun :as dynafun])
@@ -71,7 +71,7 @@
   (Contains/countInterface s0 s1))
 
 (defn invokeinterface ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
-                             ^"[Ljava.lang.Integer;" s1]
+                             ^"[Ljava.lang.Number;" s1]
   (Contains/countInterface s0 s1))
 ;;----------------------------------------------------------------
 ;; macro for counting loop instead of function,
@@ -79,11 +79,11 @@
 ;; and in any case would force dynamic function call rather than 
 ;; allowing static linking.
 
-(defmacro defcounter [benchname fname element-array-type]
+(defmacro defcounter [benchname fname ]
   (let [s0 (gensym "Sets") 
         s1 (gensym "elements")
         args [(with-meta s0 {:tag 'objects})
-              (with-meta s1 {:tag `~element-array-type})]
+              (with-meta s1 {:tag 'objects})]
         args (with-meta args {:tag 'long})]
     #_(binding [*print-meta* true] (pp/pprint args))
     `(defn ~benchname ~args
@@ -96,10 +96,10 @@
                  :else (recur (inc i#) total#)))))))
 ;;----------------------------------------------------------------
 (defcounter if-then-else-instanceof Contains/contains)
-(defcounter defmulti multi/contains? objects)
-(defcounter hashmaps hashmaps/contains? objects)
-(defcounter nonvolatile nonvolatile/contains? objects)
-(defcounter signatures signatures/contains? objects)
-(defcounter nohierarchy nohierarchy/contains? objects)
-(defcounter dynafun dynafun/contains? objects)
+(defcounter defmulti multi/contains?)
+(defcounter hashmaps hashmaps/contains?)
+(defcounter nonvolatile nonvolatile/contains?)
+(defcounter signatures signatures/contains?)
+(defcounter nohierarchy nohierarchy/contains?)
+(defcounter dynafun dynafun/contains?)
 ;----------------------------------------------------------------

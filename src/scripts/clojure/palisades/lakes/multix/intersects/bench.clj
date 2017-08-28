@@ -14,10 +14,10 @@
             [palisades.lakes.multix.intersects.defs :as defs]))
 ;;----------------------------------------------------------------
 ;; baselines: both args always IntegerInterval
-(bench/bench 
-  [g/IntegerIntervals defs/ii
-   g/IntegerIntervals defs/ii]
-  [defs/invokestatic
+#(bench/bench 
+   [g/IntegerIntervals defs/ii
+    g/IntegerIntervals defs/ii]
+   [defs/invokestatic
    defs/invokevirtual
    defs/invokeinterface
    defs/if-then-else-instanceof
@@ -31,11 +31,9 @@
 ;; 1st arg always IntegerInterval
 ;; 2nd randomly IntegerInterval or DoubleInterval
 (bench/bench 
-  [g/IntegerIntervals defs/ii
-   g/Sets defs/r2]
-  [defs/invokevirtual
-   defs/invokeinterface
-   defs/if-then-else-instanceof
+  [g/Sets defs/r2
+   g/Sets defs/ii]
+  [defs/if-then-else-instanceof
    defs/defmulti
    defs/hashmaps
    defs/nonvolatile

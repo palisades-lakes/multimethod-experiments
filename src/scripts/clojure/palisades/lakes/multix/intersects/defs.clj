@@ -6,7 +6,7 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-25"}
+   :version "2017-08-27"}
   
   (:refer-clojure :exclude [defmulti])
   
@@ -16,9 +16,8 @@
             [palisades.lakes.multix.sets.manual :as nested]
             [palisades.lakes.multix.sets.signature :as signature]
             [palisades.lakes.multix.sets.multi :as multi]
-            [palisades.lakes.multix.sets.multi0 :as multi0]
             [palisades.lakes.multix.sets.hashmaps :as hashmaps]
-            [palisades.lakes.multix.sets.faster :as faster]
+            [palisades.lakes.multix.sets.nohierarchy :as nohierarchy]
             [palisades.lakes.multix.sets.nonvolatile :as nonvolatile]
             [palisades.lakes.multix.sets.signatures :as signatures]
             [palisades.lakes.multix.sets.dynafun :as dynafun])
