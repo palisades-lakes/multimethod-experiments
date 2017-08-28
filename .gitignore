@@ -37,3 +37,5 @@
 /.settings/
 /.README.md.html
 /perf.bat
+/.RData
+/.Rhistory
