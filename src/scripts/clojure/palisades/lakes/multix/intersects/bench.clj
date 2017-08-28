@@ -20,7 +20,7 @@
    [defs/invokestatic
    defs/invokevirtual
    defs/invokeinterface
-   defs/if-then-else-instanceof
+   defs/instanceof
    defs/defmulti
    defs/hashmaps
    defs/nonvolatile
@@ -33,7 +33,8 @@
 (bench/bench 
   [g/Sets defs/r2
    g/Sets defs/ii]
-  [defs/if-then-else-instanceof
+  [defs/invokeinterface
+   defs/instanceof
    defs/defmulti
    defs/hashmaps
    defs/nonvolatile
@@ -46,7 +47,7 @@
 (bench/bench 
   [prng/objects defs/r3
    prng/objects defs/r3]
-  [defs/if-then-else-instanceof
+  [defs/instanceof
    defs/defmulti
    defs/hashmaps
    defs/nonvolatile

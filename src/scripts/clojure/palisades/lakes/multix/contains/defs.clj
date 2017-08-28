@@ -6,7 +6,7 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-27"}
+   :version "2017-08-28"}
   
   (:refer-clojure :exclude [defmulti])
   
@@ -54,24 +54,29 @@
                                    ^"[I" s1]
   (Contains/countStatic s0 s1)) 
 
-(defn invokestatic ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
-                          ^"[Ljava.lang.Integer;" s1]
+(defn invokestatic 
+  ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
+         ^"[Ljava.lang.Integer;" s1]
   (Contains/countStatic s0 s1))
 
-(defn invokevirtualPrimitive ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
-                                    ^"[I" s1]
+(defn invokevirtualPrimitive 
+  ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
+         ^"[I" s1]
   (Contains/countVirtual s0 s1)) 
 
-(defn invokevirtual ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
-                           ^"[Ljava.lang.Integer;" s1]
+(defn invokevirtual 
+  ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
+         ^"[Ljava.lang.Integer;" s1]
   (Contains/countVirtual s0 s1))
 
-(defn invokeinterfacePrimitive ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
-                                      ^"[I" s1]
+(defn invokeinterfacePrimitive 
+  ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
+         ^"[I" s1]
   (Contains/countInterface s0 s1))
 
-(defn invokeinterface ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
-                             ^"[Ljava.lang.Number;" s1]
+(defn invokeinterface 
+  ^long [^"[Lpalisades.lakes.bench.java.sets.Set;" s0 
+         ^"[Ljava.lang.Number;" s1]
   (Contains/countInterface s0 s1))
 ;;----------------------------------------------------------------
 ;; macro for counting loop instead of function,
@@ -95,7 +100,7 @@
                  (recur (inc i#) (inc total#))
                  :else (recur (inc i#) total#)))))))
 ;;----------------------------------------------------------------
-(defcounter if-then-else-instanceof Contains/contains)
+(defcounter instanceof Contains/contains)
 (defcounter defmulti multi/contains?)
 (defcounter hashmaps hashmaps/contains?)
 (defcounter nonvolatile nonvolatile/contains?)

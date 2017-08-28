@@ -4,10 +4,10 @@
 (ns palisades.lakes.multix.sets.signatures
   
   {:doc "palisades.lakes.multimethods.core/defmulti for set intersection testing;
-         with no hierarchy and PersistentVector dispatch values."
+         with (unused) hierarchy and Signature dispatch values."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-07-29"
-   :version "2017-08-24"}
+   :version "2017-08-28"}
 
   (:refer-clojure :exclude [contains?])
   
@@ -30,12 +30,11 @@
   (Diameter/diameter s))
 ;;----------------------------------------------------------------
 (d/defmethod diameter Set ^double [^Set s] (.diameter s))
-;; diameter 2 methods primitive return value
 ;;----------------------------------------------------------------
 ;; intersects? 9 methods
 ;;----------------------------------------------------------------
 (d/defmulti intersects?
-  "Test for general set intersection."
+  "Test for general set intersection. 9 methods."
   {}
   (fn intersects?-dispatch [s0 s1] (d/extract-signature s0 s1)))
 ;;----------------------------------------------------------------

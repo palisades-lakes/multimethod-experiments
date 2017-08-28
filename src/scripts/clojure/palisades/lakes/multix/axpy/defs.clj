@@ -75,7 +75,7 @@
                (recur (inc i#) (+ total# (.l1Norm v#))))))))))
 ;;----------------------------------------------------------------
 ;; not implemented: 216=6x6x6 cases
-#_(defsum if-then-else-instanceof Axpy/axpy)
+#_(defsum instanceof Axpy/axpy)
 (defsum defmulti multi/axpy)
 (defsum hashmaps hashmaps/axpy)
 (defsum nonvolatile nonvolatile/axpy)

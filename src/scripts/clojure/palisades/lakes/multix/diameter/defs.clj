@@ -61,7 +61,7 @@
                (inc i#) 
                (Math/max dmax# (double (~fname (aget ~s i#)))))))))))
 ;;----------------------------------------------------------------
-(defmax if-then-else-instanceof Diameter/diameter)
+(defmax instanceof Diameter/diameter)
 (defmax defmulti multi/diameter)
 (defmax hashmaps hashmaps/diameter)
 (defmax nonvolatile nonvolatile/diameter)

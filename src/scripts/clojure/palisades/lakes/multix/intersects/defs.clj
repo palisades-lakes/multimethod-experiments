@@ -67,7 +67,7 @@
                  (recur (inc i#) (inc total#))
                  :else (recur (inc i#) total#)))))))
 ;;----------------------------------------------------------------
-(defcounter if-then-else-instanceof Intersects/intersects)
+(defcounter instanceof Intersects/intersects)
 (defcounter defmulti multi/intersects?)
 (defcounter hashmaps hashmaps/intersects?)
 (defcounter nohierarchy nohierarchy/intersects?)

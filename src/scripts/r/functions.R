@@ -2,16 +2,17 @@
 # intersects/baselines.R
 # palisades dot lakes at gmail dot com
 # since 2017-07-30
-# version 2017-08-21
+# version 2017-08-28
 #-----------------------------------------------------------------
 # libraries
 #-----------------------------------------------------------------
 require('ggplot2')
+require('scales')
 require('knitr')
 require('kableExtra')
 #-----------------------------------------------------------------
 data.files <- function (
-  benchmark='axpy',
+  benchmark='foo',
   model='20ERCTO1WW',
   nelements=4194304,
   theday='[0-9]{8}-[0-9]{4}') {
@@ -22,50 +23,86 @@ data.files <- function (
   print(pattern)
   list.files(path=data.folder,pattern=pattern,full.names=TRUE) }
 #-----------------------------------------------------------------
+# how many different methods are called for each generator?
+
+nmethods <- data.frame(
+  generators=c(
+    'IntegerIntervals-integer_interval',
+    'objects-SetOf3',
+    'objects-SetOf7',
+    'Sets-IntervalOf2',
+    'IntegerIntervals-integer_interval-IntegerArray-uniformInteger',
+    'IntegerIntervals-integer_interval-ints-uniform_int',
+    'objects-SetOf3-NumberArray-uniformDoubleOrInteger',
+    'objects-SetOf7-objects-uniformNumber',
+    'Sets-IntervalOf2-NumberArray-uniformDoubleOrInteger',
+    'IntegerIntervals-integer_interval-IntegerIntervals-integer_interval',
+    'IntegerIntervals-integer_interval-Sets-IntervalOf2',
+    'objects-SetOf3-objects-SetOf3',
+    'Sets-IntervalOf2-Sets-integer_interval',
+    'd22s-d22-d2s-d2-d2s-d2',
+    'linearfunctions-m22-vectors-v2-vectors-v2',
+    'objects-m22-objects-v2-objects-v2'),
+  nmethods=c(
+    1,
+    3,
+    7,
+    2,
+    1,
+    1,
+    6,
+    42,
+    4,
+    1,
+    2,
+    9,
+    2,
+    1,
+    216,
+    216))
+#-----------------------------------------------------------------
 read.data <- function (
-  folder='bench',
+  benchmark='foo',
   model='20ERCTO1WW',
   nelements=4194304,
   theday='20170826-*') {
-  
+  files <- data.files(benchmark,model,nelements,theday)
+  #print(files)
   data <- NULL
-  for (f in data.files(folder,model,nelements,theday)) {
+  for (f in files) {
     print(f)
     tmp <- read.csv(f,sep='\t',as.is=TRUE)
+    #summary(tmp)
+    tmp$benchmark <- benchmark
     data <- rbind(data,tmp) }
-  
-#  data$algorithm <- factor(
-#    data$algorithm,
-#    levels=c(
-#      'invokestatic',
-#      'invokevirtual',
-#      'invokeinterface',
-#      'manual_java',
-#      'signature_lookup',
-#      'dynafun',
-#      'no_hierarchy',
-#      'signature_dispatch_value',
-#      'non_volatile_cache',
-#      'hashmap_tables',
-#      'defmulti'
-#    ),
-#    labels=c(
-#      'invokestatic',
-#      'invokevirtual',
-#      'invokeinterface',
-#      'if-then-else instanceof',
-#      'if-then-else Signature',
-#      'dynafun',
-#      'no hierarchy',
-#      'Signature dispatch-value',
-#      'non-volatile cache',
-#      'hashmap tables',
-#      'clojure 1.8.0'))
-#  baseline <- data$millisec[(data$algorithm=='if-then-else instanceof')]
-#  data$overhead <- data$millisec - baseline
-#  baseline <- data$overhead[data$algorithm=='clojure 1.8.0']
-#  data$overhead <- data$overhead / baseline
-  
+  # temp correction for old benchmarks
+  data$algorithm[data$algorithm=='manual_java'] <- 'if_then_else_instanceof'
+  data$algorithm[data$algorithm=='no_hierarchy'] <- 'nohierarchy'
+  data$algorithm[data$algorithm=='hashmap_tables'] <- 'hashmaps'
+  data$algorithm[data$algorithm=='signature_dispatch_value'] <- 'signatures'
+  data$algorithm[data$algorithm=='non_volatile_cache'] <- 'nonvolatile'
+  data$algorithm[data$algorithm=='if_then_else_instanceof'] <- 'instanceof'
+  data$algorithm <- factor(
+    data$algorithm,
+    levels=c(
+      'invokestaticPrimitive',
+      'invokevirtualPrimitive',
+      'invokeinterfacePrimitive',
+      'invokestatic',
+      'invokevirtual',
+      'invokeinterface',
+      'instanceof',
+      'dynafun',
+      'nohierarchy',
+      'signatures',
+      'nonvolatile',
+      'hashmaps',
+      'defmulti'))
+
+  #baseline <- data$millisec[(data$algorithm=='instanceof')]
+  #data$overhead <- data$millisec - baseline
+  #baseline <- data$overhead[data$algorithm=='clojure 1.8.0']
+  #data$overhead <- data$overhead / baseline
   data }
 #-----------------------------------------------------------------
 html.table <- function(data,fname,n) {
@@ -96,56 +133,73 @@ md.table <- function(data,fname,n) {
     open='wb')
   writeLines(
     kable(
-      data[order(data$algorithm),],
+      data[order(data$benchmark,data$algorithm),],
       format='markdown',
       digits=1,
       caption=paste('milliseconds for',n,'intersection tests'),
       row.names=FALSE,
-      col.names = c('algorithm','0.05','0.50','0.95','mean')),
+      col.names = c('benchmark','algorithm','nmethods',
+        '0.05','0.50','0.95','mean')),
     con=md.file,
     sep='\n') 
   close(md.file) }
 #-----------------------------------------------------------------
 algorithm.colors <- c(
+  'invokestaticPrimitive'='#888888',
+  'invokevirtualPrimitive'='#888888',
+  'invokeinterfacePrimitive'='#888888',
   'invokestatic'='#666666',
   'invokevirtual'='#666666',
   'invokeinterface'='#666666',
-  'if-then-else instanceof'='#1b9e77',
-  'if-then-else Signature'='#1b9e77',
-  'clojure 1.8.0'='#e41a1c',
-  'hashmap tables'='#377eb8',
-  'non-volatile cache'='#377eb8',
-  'Signature dispatch-value'='#377eb8',
-  'no hierarchy'='#377eb8',
-  'dynafun'='#a65628')
+  'instanceof'='#1b9e77',
+  'dynafun'='#a65628',
+  'nohierarchy'='#377eb8',
+  'signatures'='#377eb8',
+  'nonvolatile'='#377eb8',
+  'hashmaps'='#377eb8',
+  'defmulti'='#e41a1c')
 #-----------------------------------------------------------------
-quantile.plot <- function(data,fname,palette='Dark2') {
-  plot.file <- file.path(plot.folder,paste(fname,'quantiles','png',sep='.'))
+quantile.plot <- function(data,fname,
+  width=30,height=20) {
+  plot.file <- file.path(
+    plot.folder,paste(fname,'quantiles','png',sep='.'))
+  
   p <- ggplot(
       data=data,
-      aes(x=algorithm, y=median, 
-        #fill=algorithm, 
-        color=algorithm,  
+      aes(
+        x=algorithm, 
+        y=median, 
+        group=generators,
+        #fill=log2(nmethods), 
+        color=nmethods,  
         ymin=lower.q, 
         ymax=upper.q))  +
+    facet_wrap(~benchmark,scales='free_y') +
     theme_bw() +
     theme(plot.title = element_text(hjust = 0.5)) +
-    theme(axis.text.x=element_text(angle=-90,hjust=0,vjust=0.5),
+    theme(
+      axis.text.x=element_text(angle=-90,hjust=0,vjust=0.5),
       axis.title.x=element_blank()) + 
-    theme(legend.position="none") +
-    scale_fill_manual(values=algorithm.colors) +
-    scale_color_manual(values=algorithm.colors) +
+    #theme(legend.position="none") +
+    #scale_fill_manual(values=algorithm.colors) +
+    #scale_color_manual(values=algorithm.colors) +
     #scale_fill_brewer(palette=palette) +
     #scale_color_brewer(palette=palette) +
+    scale_color_gradient( 
+      #low=muted("blue"), high=muted("red"),
+      low='#0571b0', high='#ca0020',
+      trans="log") +
     ylab('milliseconds') +
     geom_crossbar(width=0.25) +
+    geom_line() +
     ggtitle("[0.5,0.95] quantiles for runtimes") +
     expand_limits(y=0); 
+  print(plot.file)
   ggsave(p , 
     device='png', 
     file=plot.file, 
-    width=15, 
-    height=8.5, 
+    width=width, 
+    height=height, 
     units='cm', 
     dpi=300) }
 #-----------------------------------------------------------------

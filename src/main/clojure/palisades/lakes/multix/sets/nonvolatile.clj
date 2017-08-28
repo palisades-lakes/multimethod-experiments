@@ -7,8 +7,8 @@
          with (unused) hierarchy and PersistentVector dispatch values."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-07-29"
-   :version "2017-08-26"}
-  
+   :version "2017-08-28"}
+
   (:refer-clojure :exclude [contains?])
   
   (:require [palisades.lakes.multimethods.core :as d])
