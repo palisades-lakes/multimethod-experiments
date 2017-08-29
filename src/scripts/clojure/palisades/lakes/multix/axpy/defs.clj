@@ -43,12 +43,12 @@
   ^double [^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D22;" a 
            ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" x 
            ^"[Lpalisades.lakes.bench.java.spaces.linear.r2.D2;" y]
-  (Axpy/sumL1Virtual a x y)) 
+  (Axpy/maxL1Virtual a x y)) 
 (defn invokeinterface 
   ^double [^"[Lpalisades.lakes.bench.java.spaces.linear.LinearFunction;" a 
            ^"[Lpalisades.lakes.bench.java.spaces.linear.Vector;" x 
            ^"[Lpalisades.lakes.bench.java.spaces.linear.Vector;" y]
-  (Axpy/sumL1Interface a x y)) 
+  (Axpy/maxL1Interface a x y)) 
 ;;----------------------------------------------------------------
 ;; macro for counting loop instead of function,
 ;; since some of the calls are to java methods and not functions, 
@@ -68,11 +68,12 @@
        (assert (== (alength ~a) (alength ~x) (alength ~y)))
        (let [n# (int (alength ~a))]
          (loop [i# (int 0)
-                total# (double 0)]
+                max# Double/NEGATIVE_INFINITY]
            (if (>= i# n#) 
-             (double total#)
-             (let [^Vector v# (~f (aget ~a i#) (aget ~x i#) (aget ~y i#))]
-               (recur (inc i#) (+ total# (.l1Norm v#))))))))))
+             max#
+             (let [^Vector v# (~f (aget ~a i#) (aget ~x i#) (aget ~y i#))
+                   l1 (.l1Norm v#)]
+               (recur (inc i#) (Math/max max# l1)))))))))
 ;;----------------------------------------------------------------
 ;; not implemented: 216=6x6x6 cases
 #_(defsum instanceof Axpy/axpy)
