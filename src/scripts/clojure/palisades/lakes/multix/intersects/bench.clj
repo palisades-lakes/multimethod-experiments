@@ -6,7 +6,7 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-27"}
+   :version "2017-08-29"}
   
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
@@ -14,10 +14,10 @@
             [palisades.lakes.multix.intersects.defs :as defs]))
 ;;----------------------------------------------------------------
 ;; baselines: both args always IntegerInterval
-#(bench/bench 
-   [g/IntegerIntervals defs/ii
-    g/IntegerIntervals defs/ii]
-   [defs/invokestatic
+(bench/bench 
+  [g/IntegerIntervals defs/ii
+   g/IntegerIntervals defs/ii]
+  [defs/invokestatic
    defs/invokevirtual
    defs/invokeinterface
    defs/instanceof
@@ -33,8 +33,7 @@
 (bench/bench 
   [g/Sets defs/r2
    g/Sets defs/ii]
-  [defs/invokeinterface
-   defs/instanceof
+  [defs/instanceof
    defs/defmulti
    defs/hashmaps
    defs/nonvolatile
