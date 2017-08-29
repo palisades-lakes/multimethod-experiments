@@ -6,7 +6,7 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-08-26"
-   :version "2017-08-27"}
+   :version "2017-08-28"}
   
   (:refer-clojure :exclude [defmulti])
   
@@ -56,7 +56,7 @@
 ;; allowing static linking.
 ;; TODO: pass int lexical type hints for arrays and elements
 
-(defmacro defsum [benchname f]
+(defmacro defmax [benchname f]
   (let [a (gensym "a") 
         x (gensym "x")
         y (gensym "y")
@@ -72,15 +72,14 @@
            (if (>= i# n#) 
              max#
              (let [^Vector v# (~f (aget ~a i#) (aget ~x i#) (aget ~y i#))
-                   l1 (.l1Norm v#)]
-               (recur (inc i#) (Math/max max# l1)))))))))
+                   l1# (.l1Norm v#)]
+               (recur (inc i#) (Math/max max# l1#)))))))))
 ;;----------------------------------------------------------------
-;; not implemented: 216=6x6x6 cases
-#_(defsum instanceof Axpy/axpy)
-(defsum defmulti multi/axpy)
-(defsum hashmaps hashmaps/axpy)
-(defsum nonvolatile nonvolatile/axpy)
-(defsum signatures signatures/axpy)
-(defsum nohierarchy nohierarchy/axpy)
-(defsum dynafun dynafun/axpy)
+(defmax instanceof Axpy/axpy)
+(defmax defmulti multi/axpy)
+(defmax hashmaps hashmaps/axpy)
+(defmax nonvolatile nonvolatile/axpy)
+(defmax signatures signatures/axpy)
+(defmax nohierarchy nohierarchy/axpy)
+(defmax dynafun dynafun/axpy)
 ;;----------------------------------------------------------------

@@ -20,6 +20,7 @@
    g/d2s defs/d2]
   [defs/invokevirtual
    defs/invokeinterface
+   defs/instanceof
    defs/defmulti
    defs/hashmaps
    defs/nonvolatile
@@ -33,6 +34,7 @@
    g/vectors defs/v2 
    g/vectors defs/v2]
   [defs/invokeinterface
+   defs/instanceof
    defs/defmulti
    defs/hashmaps
    defs/nonvolatile
@@ -45,7 +47,8 @@
   [prng/objects defs/m22 
    prng/objects defs/v2 
    prng/objects defs/v2]
-  [defs/defmulti
+  [defs/instanceof
+   defs/defmulti
    defs/hashmaps
    defs/nonvolatile
    defs/signatures
