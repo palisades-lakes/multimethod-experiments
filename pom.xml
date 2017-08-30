@@ -325,6 +325,7 @@
   </repository>
  </repositories>
  <dependencies>
+ <!-- 
   <dependency>
    <groupId>palisades-lakes</groupId>
    <artifactId>benchtools</artifactId>
@@ -339,6 +340,22 @@
    <groupId>palisades-lakes</groupId>
    <artifactId>dynamic-functions</artifactId>
    <version>[0.0.6-SNAPSHOT,)</version>
+  </dependency>
+   -->
+  <dependency>
+   <groupId>palisades-lakes</groupId>
+   <artifactId>benchtools</artifactId>
+   <version>0.0.6</version>
+  </dependency>
+  <dependency>
+   <groupId>palisades-lakes</groupId>
+   <artifactId>faster-multimethods</artifactId>
+   <version>0.0.6</version>
+  </dependency>
+  <dependency>
+   <groupId>palisades-lakes</groupId>
+   <artifactId>dynamic-functions</artifactId>
+   <version>0.0.6</version>
   </dependency>
  </dependencies>
  <groupId>palisades-lakes</groupId>
