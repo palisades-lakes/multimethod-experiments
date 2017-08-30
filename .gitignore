@@ -2,8 +2,6 @@
 /.classpath
 /.project
 /lib/
-/logs/
-/data/
 *.jar
 *.class
 /java.hprof.txt

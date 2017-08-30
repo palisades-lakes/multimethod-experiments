@@ -2,7 +2,7 @@
 # intersects/bench.R
 # palisades dot lakes at gmail dot com
 # since 2017-07-30
-# version 2017-08-28
+# version 2017-08-29
 #-----------------------------------------------------------------
 setwd('c:/porta/projects/multimethod-experiments')
 #setwd('e:/porta/projects/multimethod-experiments')
@@ -11,13 +11,13 @@ source('src/scripts/r/functions.R')
 #model <- '20HRCTO1WW' # X1
 model <- '20ERCTO1WW' # P70
 nelements <- 4194304
-theday = '2017082[78]-[0-9]{4}'
+theday = '2017082[89]-[0-9]{4}'
 benchmarks <- c('diameter','contains','intersects','axpy')
 #-----------------------------------------------------------------
 data <- NULL
 for (b in benchmarks) {
   tmp <- read.data(b,model,nelements,theday)
-  tmp$benchmark <- b
+  #tmp$benchmark <- b
   data <- rbind(data,tmp) }
 data$benchmark <- factor(data$benchmark,levels=benchmarks)
 data$generators <- as.factor(data$generators)
@@ -62,10 +62,22 @@ dynamic.algs <- c(
 dynamic <- data[(data$algorithm %in% dynamic.algs),]
 quantile.plot(data=dynamic,fname='dynamic')
 md.table(data=dynamic[,cols],fname='dynamic',n=nelements)
+quantile.plot(data=dynamic,fname='dynamic-overhead',
+  suffix='overhead relative to instanceof as fraction of defmulti',
+  scales='fixed',
+  ymin='overhead.lower.q',
+  y='overhead.median',
+  ymax='overhead.upper.q')
 #-----------------------------------------------------------------
 dynamic.multi.algs <- c(dynamic.algs,'defmulti')
 #-----------------------------------------------------------------
 dynamic.multi <- data[(data$algorithm %in% dynamic.multi.algs),]
 quantile.plot(data=dynamic.multi,fname='dynamic-multi')
 md.table(data=dynamic.multi[,cols],fname='dynamic-multi',n=nelements)
+quantile.plot(data=dynamic.multi,fname='dynamic-multi-overhead',
+  suffix='overhead relative to instanceof as fraction of defmulti',
+  scales='fixed',
+  ymin='overhead.lower.q',
+  y='overhead.median',
+  ymax='overhead.upper.q')
 #-----------------------------------------------------------------

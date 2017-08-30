@@ -72,16 +72,36 @@ read.data <- function (
   for (f in files) {
     print(f)
     tmp <- read.csv(f,sep='\t',as.is=TRUE)
-    #summary(tmp)
+    # print(summary(tmp))
+    # TODO: use min. max rather than 'instaneof' and 'defmulti' ?
+    if (1==nrow(tmp[tmp$algorithm=='instanceof',])) {
+      base.lower.q <- tmp[tmp$algorithm=='instanceof','lower.q']
+      base.median <- tmp[tmp$algorithm=='instanceof','median']
+      base.millisec <- tmp[tmp$algorithm=='instanceof','millisec']
+      base.upper.q <- tmp[tmp$algorithm=='instanceof','upper.q']
+      denom.lower.q <- tmp[tmp$algorithm=='defmulti','lower.q'] - base.lower.q
+      denom.median <- tmp[tmp$algorithm=='defmulti','median'] - base.median
+      denom.millisec <- tmp[tmp$algorithm=='defmulti','millisec'] - base.millisec
+      denom.upper.q <- tmp[tmp$algorithm=='defmulti','upper.q'] - base.upper.q
+      tmp$overhead.lower.q <- (tmp$lower.q - base.lower.q) / denom.lower.q
+      tmp$overhead.median <- (tmp$median - base.median) / denom.median
+      tmp$overhead.millisec <- (tmp$millisec - base.millisec) / denom.millisec
+      tmp$overhead.upper.q <- (tmp$upper.q - base.upper.q) / denom.upper.q
+    } else {
+      tmp$overhead.lower.q <- 0
+      tmp$overhead.median <- 0
+      tmp$overhead.millisec <- 0
+      tmp$overhead.upper.q <- 0   }
     tmp$benchmark <- benchmark
+    #print(summary(tmp))
     data <- rbind(data,tmp) }
   # temp correction for old benchmarks
-  data$algorithm[data$algorithm=='manual_java'] <- 'if_then_else_instanceof'
-  data$algorithm[data$algorithm=='no_hierarchy'] <- 'nohierarchy'
-  data$algorithm[data$algorithm=='hashmap_tables'] <- 'hashmaps'
-  data$algorithm[data$algorithm=='signature_dispatch_value'] <- 'signatures'
-  data$algorithm[data$algorithm=='non_volatile_cache'] <- 'nonvolatile'
-  data$algorithm[data$algorithm=='if_then_else_instanceof'] <- 'instanceof'
+#  data$algorithm[data$algorithm=='manual_java'] <- 'if_then_else_instanceof'
+#  data$algorithm[data$algorithm=='no_hierarchy'] <- 'nohierarchy'
+#  data$algorithm[data$algorithm=='hashmap_tables'] <- 'hashmaps'
+#  data$algorithm[data$algorithm=='signature_dispatch_value'] <- 'signatures'
+#  data$algorithm[data$algorithm=='non_volatile_cache'] <- 'nonvolatile'
+#  data$algorithm[data$algorithm=='if_then_else_instanceof'] <- 'instanceof'
   data$algorithm <- factor(
     data$algorithm,
     levels=c(
@@ -98,7 +118,7 @@ read.data <- function (
       'nonvolatile',
       'hashmaps',
       'defmulti'))
-
+  
   #baseline <- data$millisec[(data$algorithm=='instanceof')]
   #data$overhead <- data$millisec - baseline
   #baseline <- data$overhead[data$algorithm=='clojure 1.8.0']
@@ -110,7 +130,7 @@ html.table <- function(data,fname,n) {
     description=file.path(
       plot.folder,
       paste(fname,'html',sep='.')),
-    encoding="UTF-8",
+    encoding='UTF-8',
     open='wb')
   writeLines(
     kable(
@@ -129,11 +149,11 @@ md.table <- function(data,fname,n) {
     description=file.path(
       plot.folder,
       paste(fname,'md',sep='.')),
-    encoding="UTF-8",
+    encoding='UTF-8',
     open='wb')
   writeLines(
     kable(
-      data[order(data$benchmark,data$algorithm),],
+      data[order(data$benchmark,data$nmethods,data$algorithm),],
       format='markdown',
       digits=1,
       caption=paste('milliseconds for',n,'intersection tests'),
@@ -159,40 +179,40 @@ algorithm.colors <- c(
   'hashmaps'='#377eb8',
   'defmulti'='#e41a1c')
 #-----------------------------------------------------------------
-quantile.plot <- function(data,fname,
-  width=30,height=20) {
+quantile.plot <- function(data, fname,
+  ymin='lower.q', y='median', ymax='upper.q',
+  suffix='runtimes', scales='free_y',
+  width=30, height=20) {
   plot.file <- file.path(
     plot.folder,paste(fname,'quantiles','png',sep='.'))
   
   p <- ggplot(
       data=data,
-      aes(
-        x=algorithm, 
-        y=median, 
-        group=generators,
+      aes_string(
+        x='algorithm',  
+        ymin=ymin, y=y, ymax=ymax, 
+        group='generators',
         #fill=log2(nmethods), 
-        color=nmethods,  
-        ymin=lower.q, 
-        ymax=upper.q))  +
-    facet_wrap(~benchmark,scales='free_y') +
+        color='nmethods'))  +
+    facet_wrap(~benchmark,scales=scales) +
     theme_bw() +
     theme(plot.title = element_text(hjust = 0.5)) +
     theme(
       axis.text.x=element_text(angle=-90,hjust=0,vjust=0.5),
       axis.title.x=element_blank()) + 
-    #theme(legend.position="none") +
+    #theme(legend.position='none') +
     #scale_fill_manual(values=algorithm.colors) +
     #scale_color_manual(values=algorithm.colors) +
     #scale_fill_brewer(palette=palette) +
     #scale_color_brewer(palette=palette) +
     scale_color_gradient( 
-      #low=muted("blue"), high=muted("red"),
+      #low=muted('blue'), high=muted('red'),
       low='#0571b0', high='#ca0020',
-      trans="log") +
+      trans='log') +
     ylab('milliseconds') +
     geom_crossbar(width=0.25) +
     geom_line() +
-    ggtitle("[0.5,0.95] quantiles for runtimes") +
+    ggtitle(paste('[0.05,0.50,0.95] quantiles for', suffix)) +
     expand_limits(y=0); 
   print(plot.file)
   ggsave(p , 
@@ -200,37 +220,6 @@ quantile.plot <- function(data,fname,
     file=plot.file, 
     width=width, 
     height=height, 
-    units='cm', 
-    dpi=300) }
-#-----------------------------------------------------------------
-overhead.plot <- function(data,fname,palette='Dark2') {
-  plot.file <- file.path(plot.folder,paste(fname,'overhead','png',sep='.'))
-  p <- ggplot(
-      data=data,
-      aes(
-        x=algorithm, 
-        y=overhead, 
-      #fill='grey', 
-      #color=algorithm,
-      ))  +
-    theme_bw() +
-    theme(plot.title = element_text(hjust = 0.5)) +
-    theme(axis.text.x=element_text(angle=-90,hjust=0,vjust=0.5),
-      axis.title.x=element_blank()) + 
-    theme(legend.position="none") +
-    #scale_fill_manual(values=algorithm.colors) +
-    #scale_color_manual(values=algorithm.colors) +
-    #scale_fill_brewer(palette=palette) +
-    #scale_color_brewer(palette=palette) +
-    ylab('fraction of clojure 1.8.0') +
-    geom_col(width=0.25,fill='gray') +
-    ggtitle("method lookup overhead") +
-    expand_limits(y=0); 
-  ggsave(p , 
-    device='png', 
-    file=plot.file, 
-    width=15, 
-    height=8.5, 
     units='cm', 
     dpi=300) }
 #-----------------------------------------------------------------
