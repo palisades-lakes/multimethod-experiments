@@ -1,33 +1,33 @@
-|benchmark  |algorithm                | nmethods|  0.05|  0.50|  0.95|  mean|
-|:----------|:------------------------|--------:|-----:|-----:|-----:|-----:|
-|diameter   |invokestatic             |        1|  32.5|  33.1|  33.2|  32.9|
-|diameter   |invokevirtual            |        1|  32.5|  32.8|  32.9|  32.7|
-|diameter   |invokeinterface          |        1|  32.6|  33.0|  33.2|  32.8|
-|diameter   |instanceof               |        1|  33.3|  33.7|  34.1|  33.8|
-|diameter   |invokeinterface          |        2|  46.0|  46.1|  47.5|  46.7|
-|diameter   |instanceof               |        2|  57.5|  58.1|  58.2|  57.8|
-|diameter   |instanceof               |        3| 109.7| 110.1| 116.3| 111.1|
-|diameter   |instanceof               |        7| 136.6| 137.4| 138.4| 137.5|
-|contains   |invokestaticPrimitive    |        1|  49.2|  49.8|  49.9|  49.5|
-|contains   |invokevirtualPrimitive   |        1|  49.3|  49.4|  49.6|  49.4|
-|contains   |invokeinterfacePrimitive |        1|  49.3|  49.4|  51.8|  50.2|
-|contains   |invokestatic             |        1|  52.5|  52.9|  53.2|  52.7|
-|contains   |invokevirtual            |        1|  51.6|  51.9|  52.0|  51.8|
-|contains   |invokeinterface          |        1|  51.7|  51.8|  62.9|  56.3|
-|contains   |instanceof               |        1|  80.3|  81.1|  82.6|  81.3|
-|contains   |invokeinterface          |        4| 158.0| 158.5| 160.0| 159.1|
-|contains   |instanceof               |        4| 143.9| 145.5| 147.3| 145.6|
-|contains   |instanceof               |        6| 159.7| 161.3| 162.3| 161.0|
-|contains   |instanceof               |       42| 188.6| 190.3| 191.6| 190.1|
-|intersects |invokestatic             |        1|  68.3|  68.6|  72.8|  69.4|
-|intersects |invokevirtual            |        1|  68.0|  68.6|  69.0|  68.5|
-|intersects |invokeinterface          |        1|  66.4|  66.5|  67.9|  67.1|
-|intersects |instanceof               |        1|  66.9|  67.0|  70.8|  69.0|
-|intersects |instanceof               |        2|  91.7|  92.5|  93.4|  92.6|
-|intersects |instanceof               |        9| 177.5| 179.1| 185.1| 179.8|
-|axpy       |invokevirtual            |        1| 138.1| 142.4| 143.6| 142.2|
-|axpy       |invokeinterface          |        1| 198.6| 200.5| 201.6| 200.0|
-|axpy       |instanceof               |        1| 141.6| 142.3| 143.6| 142.7|
-|axpy       |invokeinterface          |      216| 322.7| 326.0| 344.0| 333.4|
-|axpy       |instanceof               |      216| 348.4| 354.8| 359.4| 353.6|
-|axpy       |instanceof               |      216| 348.2| 352.9| 357.8| 353.1|
+|benchmark  |algorithm                | nmethods|   0.05|   0.50|   0.95|   mean| overhead 0.05| overhead 0.50| overhead 0.95| overhead mean|
+|:----------|:------------------------|--------:|------:|------:|------:|------:|-------------:|-------------:|-------------:|-------------:|
+|diameter   |invokestatic             |        1|  32.48|  33.11|  33.17|  32.88|          0.00|          0.00|          0.00|          0.00|
+|diameter   |invokevirtual            |        1|  32.48|  32.82|  32.93|  32.72|          0.00|          0.00|          0.00|          0.00|
+|diameter   |invokeinterface          |        1|  32.60|  32.95|  33.21|  32.84|          0.00|          0.00|          0.00|          0.00|
+|diameter   |instanceof               |        1|  33.32|  33.71|  34.07|  33.76|          0.00|          0.00|          0.00|          0.00|
+|diameter   |invokeinterface          |        2|  45.96|  46.08|  47.49|  46.65|         -0.04|         -0.04|         -0.04|         -0.04|
+|diameter   |instanceof               |        2|  57.48|  58.07|  58.17|  57.84|          0.00|          0.00|          0.00|          0.00|
+|diameter   |instanceof               |        3| 109.71| 110.14| 116.28| 111.10|          0.00|          0.00|          0.00|          0.00|
+|diameter   |instanceof               |        7| 136.63| 137.38| 138.38| 137.54|          0.00|          0.00|          0.00|          0.00|
+|contains   |invokestaticPrimitive    |        1|  49.23|  49.79|  49.88|  49.46|          0.00|          0.00|          0.00|          0.00|
+|contains   |invokevirtualPrimitive   |        1|  49.28|  49.42|  49.61|  49.44|          0.00|          0.00|          0.00|          0.00|
+|contains   |invokeinterfacePrimitive |        1|  49.27|  49.37|  51.81|  50.18|          0.00|          0.00|          0.00|          0.00|
+|contains   |invokestatic             |        1|  52.46|  52.91|  53.22|  52.75|         -0.01|         -0.01|         -0.01|         -0.01|
+|contains   |invokevirtual            |        1|  51.59|  51.86|  52.02|  51.82|         -0.01|         -0.01|         -0.01|         -0.01|
+|contains   |invokeinterface          |        1|  51.72|  51.80|  62.85|  56.34|         -0.01|         -0.01|         -0.01|         -0.01|
+|contains   |instanceof               |        1|  80.34|  81.08|  82.58|  81.35|          0.00|          0.00|          0.00|          0.00|
+|contains   |invokeinterface          |        4| 158.00| 158.47| 159.99| 159.09|          0.01|          0.01|          0.01|          0.01|
+|contains   |instanceof               |        4| 143.94| 145.54| 147.31| 145.61|          0.00|          0.00|          0.00|          0.00|
+|contains   |instanceof               |        6| 159.73| 161.30| 162.33| 160.97|          0.00|          0.00|          0.00|          0.00|
+|contains   |instanceof               |       42| 188.62| 190.30| 191.58| 190.10|          0.00|          0.00|          0.00|          0.00|
+|intersects |invokestatic             |        1|  68.34|  68.59|  72.83|  69.43|          0.00|          0.00|          0.00|          0.00|
+|intersects |invokevirtual            |        1|  68.04|  68.58|  68.99|  68.53|          0.00|          0.00|          0.00|          0.00|
+|intersects |invokeinterface          |        1|  66.39|  66.50|  67.87|  67.06|          0.00|          0.00|          0.00|          0.00|
+|intersects |instanceof               |        1|  66.87|  66.97|  70.77|  69.03|          0.00|          0.00|          0.00|          0.00|
+|intersects |instanceof               |        2|  91.65|  92.53|  93.41|  92.55|          0.00|          0.00|          0.00|          0.00|
+|intersects |instanceof               |        9| 177.48| 179.06| 185.09| 179.76|          0.00|          0.00|          0.00|          0.00|
+|axpy       |invokevirtual            |        1| 138.06| 142.41| 143.64| 142.24|          0.00|          0.00|          0.00|          0.00|
+|axpy       |invokeinterface          |        1| 198.56| 200.52| 201.64| 200.01|          0.04|          0.04|          0.04|          0.04|
+|axpy       |instanceof               |        1| 141.62| 142.32| 143.57| 142.68|          0.00|          0.00|          0.00|          0.00|
+|axpy       |invokeinterface          |      216| 322.66| 326.00| 343.97| 333.42|         -0.02|         -0.02|         -0.01|         -0.01|
+|axpy       |instanceof               |      216| 348.38| 354.77| 359.38| 353.56|          0.00|          0.00|          0.00|          0.00|
+|axpy       |instanceof               |      216| 348.19| 352.91| 357.82| 353.13|          0.00|          0.00|          0.00|          0.00|

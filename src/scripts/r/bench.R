@@ -30,13 +30,16 @@ dir.create(plot.folder, showWarnings=FALSE, recursive=TRUE,
   mode='0777')
 #-----------------------------------------------------------------
 cols <- c('benchmark','algorithm','nmethods',
-  'lower.q','median', 'upper.q','millisec')
+  'lower.q','median', 'upper.q','millisec',
+  'overhead.lower.q','overhead.median', 'overhead.upper.q',
+  'overhead.millisec')
 #-----------------------------------------------------------------
 quantile.plot(data=data,fname='all')
 md.table(data=data[,cols],fname='all',n=nelements)
 fast <- data[data$algorithm!='defmulti',]
 quantile.plot(data=fast,fname='fast')
 md.table(data=fast[,cols],fname='fast',n=nelements)
+md.table(data=data[data$algorithm=='dynafun',cols],fname='dynafun',n=nelements)
 #-----------------------------------------------------------------
 baseline.algs <- c(
   'invokestaticPrimitive',

@@ -14,7 +14,7 @@ set TRACE=
 ::set PROF=
 ::set PROF=-agentlib:hprof=cpu=samples,interval=1,depth=64,thread=n,doe=y
 ::set PROF=-agentlib:hprof=cpu=samples,interval=1,depth=128
-set PROF=-agentpath:"C:\Program Files\YourKit Java Profiler 2017.02-b63\bin\win64\yjpagent.dll"
+set PROF=-agentpath:"C:\Program Files\YourKit Java Profiler 2017.02-b65\bin\win64\yjpagent.dll"
 
 ::set THRUPUT=-d64 -server -XX:+AggressiveOpts 
 set THRUPUT=-d64 -server

@@ -7,7 +7,7 @@
          for set intersection testing."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-08-19"
-   :version "2017-08-24"}
+   :version "2017-08-30"}
   
   (:refer-clojure :exclude [contains?])
   
@@ -26,8 +26,37 @@
 ;;----------------------------------------------------------------
 (d/defmethod diameter ^double [^java.util.Set s] 
   (Diameter/diameter s))
+#_(d/defmethod diameter ^double [^java.util.Set s] 
+  (if (>= 1 (.size s)) 
+     0.0
+     (let [it (.iterator s)
+           x0 (double (.doubleValue ^Number (.next it)))]
+       (if (Double/isNaN x0)
+         Double/NaN
+         (loop [smin x0
+               smax x0]
+           (if-not (.hasNext it)
+             (- smax smin)
+             (let [^Number x (.next it)
+                   xx (.doubleValue x)]
+              (cond (Double/isNaN xx) Double/NaN
+                    (xx < smin) (recur xx smax)
+                    (xx > smax) (recur smin xx)
+                     :else (recur smin smax)))))))))
 ;;----------------------------------------------------------------
 (d/defmethod diameter ^double [^Set s] (.diameter s))
+;(d/defmethod diameter ^double [^ByteInterval s] (.diameter s))
+;(d/defmethod diameter ^double [^DoubleInterval s] (.diameter s))
+;(d/defmethod diameter ^double [^FloatInterval s] (.diameter s))
+;(d/defmethod diameter ^double [^IntegerInterval s] (.diameter s))
+;(d/defmethod diameter ^double [^LongInterval s] (.diameter s))
+;(d/defmethod diameter ^double [^ShortInterval s] (.diameter s))
+;(d/defmethod diameter ^double [^ByteInterval s] (double (- (.max s) (.min s))))
+;(d/defmethod diameter ^double [^DoubleInterval s] (- (.max s) (.min s)))
+;(d/defmethod diameter ^double [^FloatInterval s] (- (.max s) (.min s)))
+;(d/defmethod diameter ^double [^IntegerInterval s] (double (- (.max s) (.min s))))
+;(d/defmethod diameter ^double [^LongInterval s] (double (- (.max s) (.min s))))
+;(d/defmethod diameter ^double [^ShortInterval s] (double (- (.max s) (.min s))))
 ;;----------------------------------------------------------------
 ;; intersects? 9 methods
 ;;----------------------------------------------------------------

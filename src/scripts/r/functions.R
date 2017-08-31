@@ -155,11 +155,12 @@ md.table <- function(data,fname,n) {
     kable(
       data[order(data$benchmark,data$nmethods,data$algorithm),],
       format='markdown',
-      digits=1,
+      digits=2,
       caption=paste('milliseconds for',n,'intersection tests'),
       row.names=FALSE,
       col.names = c('benchmark','algorithm','nmethods',
-        '0.05','0.50','0.95','mean')),
+        '0.05','0.50','0.95','mean',
+        'overhead 0.05','overhead 0.50','overhead 0.95','overhead mean')),
     con=md.file,
     sep='\n') 
   close(md.file) }
