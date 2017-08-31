@@ -1,28 +1,18 @@
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* :warn-on-boxed)
 ;;----------------------------------------------------------------
-(ns palisades.lakes.multix.diameter.bench2
-  "Use criterium for alternative multimethod implementations."
+(ns palisades.lakes.multix.diameter.dynafun
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-08-30"
-   :version "2017-08-31"}
+   :version "2017-08-30"}
   (:require [palisades.lakes.bench.prng :as prng]
-            [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.diameter.defs :as defs]))
 ;;----------------------------------------------------------------
-(bench/bench 
-  [prng/objects defs/r7] 
-  [defs/instanceof
-   defs/nohierarchy
-   defs/dynafun
-   defs/dynarity
-   #_defs/instanceof
-   #_defs/nohierarchy
-   #_defs/dynafun
-   #_defs/dynarity]
-  {:n (* 1024 1024)
-   :samples 256})
+(bench/profile [prng/objects defs/r7] 
+               [defs/dynarity]
+               {:n (* 4 1024 1024)
+                :samples 1024})
 ;;----------------------------------------------------------------
 (shutdown-agents)
-(System/exit 0)
+#_(System/exit 0)

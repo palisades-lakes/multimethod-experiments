@@ -6,7 +6,7 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-27"}
+   :version "2017-08-31"}
   
   (:refer-clojure :exclude [defmulti])
   
@@ -20,7 +20,8 @@
             [palisades.lakes.multix.sets.nohierarchy :as nohierarchy]
             [palisades.lakes.multix.sets.nonvolatile :as nonvolatile]
             [palisades.lakes.multix.sets.signatures :as signatures]
-            [palisades.lakes.multix.sets.dynafun :as dynafun])
+            [palisades.lakes.multix.sets.dynafun :as dynafun]
+            [palisades.lakes.multix.sets.dynarity :as dynarity])
   
   (:import [clojure.lang IFn IFn$L] 
            [org.apache.commons.rng UniformRandomProvider]
@@ -68,4 +69,5 @@
 (defmax signatures signatures/diameter)
 (defmax nohierarchy nohierarchy/diameter)
 (defmax dynafun dynafun/diameter)
+(defmax dynarity dynarity/diameter)
 ;;----------------------------------------------------------------
