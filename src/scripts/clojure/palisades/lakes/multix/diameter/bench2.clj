@@ -13,9 +13,14 @@
 ;;----------------------------------------------------------------
 (bench/bench 
   [prng/objects defs/r7] 
-  [defs/nohierarchy
+  [defs/instanceof
+   defs/nohierarchy
+   defs/dynafun
+   defs/instanceof
+   defs/nohierarchy
    defs/dynafun]
-  {:n (* 4 1024 1024)})
+  {:n (* 1024 1024)
+   :samples 1024})
 ;;----------------------------------------------------------------
 (shutdown-agents)
 (System/exit 0)
