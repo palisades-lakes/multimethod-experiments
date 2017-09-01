@@ -40,23 +40,6 @@
 ;;----------------------------------------------------------------
 (d/defmethod diameter ^double [^java.util.Set s] 
   (Diameter/diameter s))
-#_(d/defmethod diameter ^double [^java.util.Set s] 
-  (if (>= 1 (.size s)) 
-     0.0
-     (let [it (.iterator s)
-           x0 (double (.doubleValue ^Number (.next it)))]
-       (if (Double/isNaN x0)
-         Double/NaN
-         (loop [smin x0
-               smax x0]
-           (if-not (.hasNext it)
-             (- smax smin)
-             (let [^Number x (.next it)
-                   xx (.doubleValue x)]
-              (cond (Double/isNaN xx) Double/NaN
-                    (xx < smin) (recur xx smax)
-                    (xx > smax) (recur smin xx)
-                     :else (recur smin smax)))))))))
 ;;----------------------------------------------------------------
 ;; intersects? 9 methods
 ;;----------------------------------------------------------------

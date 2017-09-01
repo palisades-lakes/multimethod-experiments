@@ -1,7 +1,6 @@
 package palisades.lakes.dynarity.java;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,7 +24,7 @@ public final class DynaFun1 implements DynaFun {
 
   private final Map<Class,Set> preferTable;
 
-  private Map<Class,IFn> methodCache;
+  private MethodCache methodCache;
 
   //--------------------------------------------------------------
   // construction
@@ -40,7 +39,7 @@ public final class DynaFun1 implements DynaFun {
     methodTable = mTable;
     preferTable = pTable;
     // won't work for Signatures!
-    methodCache = new HashMap(mTable); }
+    methodCache = MethodCache.empty(); }
 
   public static final DynaFun1 make (final String name) {
     return new DynaFun1(
@@ -146,7 +145,7 @@ public final class DynaFun1 implements DynaFun {
                 bestEntry.getKey())); } } }
     if (null == bestEntry) { return null; }
     final IFn method = (IFn) bestEntry.getValue();
-    methodCache = Maps.assoc(methodCache,c,method);
+    methodCache = methodCache.assoc(c,method);
     return method; }
 
   //--------------------------------------------------------------
