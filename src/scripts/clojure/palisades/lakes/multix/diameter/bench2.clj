@@ -12,9 +12,10 @@
             [palisades.lakes.multix.diameter.defs :as defs]))
 ;;----------------------------------------------------------------
 (bench/bench 
-  [prng/objects defs/r7] 
+  [g/Sets defs/r2] 
+  #_[prng/objects defs/r7] 
   [defs/instanceof
-   defs/nohierarchy
+   #_defs/nohierarchy
    defs/dynafun
    defs/dynarity
    #_defs/instanceof

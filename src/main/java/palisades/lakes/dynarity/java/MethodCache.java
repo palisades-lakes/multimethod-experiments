@@ -52,7 +52,7 @@ public final class MethodCache {
     final IFn[] ms = Arrays.copyOf(methods,n+1);
     cs[n] = c;
     ms[n] = m;
-    System.out.println(c.getSimpleName() + " " + n);
+    System.out.println(c.getSimpleName() + " " + m + " " + n);
     return new MethodCache(cs,ms); }
 
   //--------------------------------------------------------------

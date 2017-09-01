@@ -24,11 +24,11 @@
 (d/dynafun ^Double/TYPE diameter
            {:doc "Max distance between elements."})
 ;;----------------------------------------------------------------
-(d/defmethod diameter ^double [^Set s] (.diameter s))
+;(d/defmethod diameter ^double [^Set s] (.diameter s))
 ;(d/defmethod diameter ^double [^ByteInterval s] (.diameter s))
-;(d/defmethod diameter ^double [^DoubleInterval s] (.diameter s))
+(d/defmethod diameter ^double [^DoubleInterval s] (.diameter s))
 ;(d/defmethod diameter ^double [^FloatInterval s] (.diameter s))
-;(d/defmethod diameter ^double [^IntegerInterval s] (.diameter s))
+(d/defmethod diameter ^double [^IntegerInterval s] (.diameter s))
 ;(d/defmethod diameter ^double [^LongInterval s] (.diameter s))
 ;(d/defmethod diameter ^double [^ShortInterval s] (.diameter s))
 ;(d/defmethod diameter ^double [^ByteInterval s] (double (- (.max s) (.min s))))
