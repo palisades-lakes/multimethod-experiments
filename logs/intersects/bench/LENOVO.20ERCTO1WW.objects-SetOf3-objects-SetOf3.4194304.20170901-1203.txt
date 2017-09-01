@@ -1,0 +1,68 @@
+{:spec-vendor "Oracle Corporation",
+ :spec-name "Java Virtual Machine Specification",
+ :vm-version "25.141-b15",
+ :name "9916@LAPTOP-2HQMV1AK",
+ :clojure-version-string "1.8.0",
+ :java-runtime-version "1.8.0_141-b15",
+ :java-version "1.8.0_141",
+ :vm-name "Java HotSpot(TM) 64-Bit Server VM",
+ :vm-vendor "Oracle Corporation",
+ :clojure-version {:major 1, :minor 8, :incremental 0, :qualifier nil},
+ :spec-version "1.8",
+ :sun-arch-data-model "64",
+ :input-arguments
+ ["-ea" "-dsa" "-Xbatch" "-Xms12g" "-Xmx12g" "-Xmn5g"]}
+---------------
+Microsoft Windows 10 build 15063
+manufacturer: LENOVO
+model: 20ERCTO1WW
+firmware:
+  manufacturer: LENOVO
+  name: N1DET90W (2.16 )
+  description: N1DET90W (2.16 )
+  version: LENOVO - 2160
+  release date: 07/12/2017
+baseboard:
+  manufacturer: LENOVO
+  model: unknown
+  version: 0B98417 WIN
+Intel(R) Xeon(R) CPU E3-1505M v5 @ 2.80GHz
+ 4 physical CPU(s)
+ 8 logical CPU(s)
+Identifier: Intel64 Family 6 Model 94 Stepping 3
+Memory: 47.8 GiB/63.8 GiB
+Swap used: 2.6 MiB/9.5 GiB
+Uptime: 3 days, 17:10:54
+CPU, IOWait, and IRQ ticks @ 0 sec:[746881937, 0, 37021105, 655549687, 0, 169005, 147562, 0]
+CPU, IOWait, and IRQ ticks @ 1 sec:[746882250, 0, 37021255, 655557156, 0, 169011, 147562, 0]
+User: 3.9% Nice: 0.0% System: 1.9% Idle: 94.1% IOwait: 0.0% IRQ: 0.1% SoftIRQ: 0.0% Steal: 0.0%
+CPU load: 6.4% (counting ticks)
+CPU load: -100.0% (OS MXBean)
+CPU load averages: N/A N/A N/A
+CPU load per processor: 5.7% 1.4% 8.4% 0.0% 7.1% 0.0% 31.0% 0.0%
+---------------
+generate-datasets
+(("objects" "SetOf3") ("objects" "SetOf3"))
+"Elapsed time: 0.816865 msecs"
+2017-09-01T12:03:39.126
+{:nelements 4194304,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "instanceof",
+ :now "20170901-1211",
+ :value 11176637,
+ :execution-count 6,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "intersects",
+ :lower-q 178.78379983333335,
+ :millisec 184.55747866333337,
+ :warmup-executions 71,
+ :threads 6,
+ :sample-count 100,
+ :median 185.73599616666667,
+ :upper-q 188.0875799166667,
+ :total-time 110.731947254,
+ :generators "objects-SetOf3-objects-SetOf3"}
+
+"Elapsed time: 494274.964071 msecs"
+2017-09-01T12:12:01.390
