@@ -3,14 +3,15 @@
 ;;----------------------------------------------------------------
 (ns palisades.lakes.multix.sets.hashmaps
   
-  {:doc "Replace PesistantHashMap with HashMap in MultiFn."
+  {:doc "palisades.lakes.multimethods.core/defmulti for set intersection testing;
+         with (unused) hierarchy and PersistentVector dispatch values."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-07-29"
-   :version "2017-08-26"}
+   :version "2017-08-31"}
   
   (:refer-clojure :exclude [contains?])
   
-  (:require [palisades.lakes.multix.hashmaps :as d])
+  (:require [palisades.lakes.multimethods.core :as d])
   
   (:import [java.util Collections]
            [palisades.lakes.bench.java.sets 

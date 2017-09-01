@@ -6,7 +6,7 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-31"}
+   :version "2017-09-01"}
   
   (:refer-clojure :exclude [defmulti])
   
@@ -16,7 +16,6 @@
             [palisades.lakes.multix.sets.multi :as multi]
             [palisades.lakes.multix.sets.hashmaps :as hashmaps]
             [palisades.lakes.multix.sets.nohierarchy :as nohierarchy]
-            [palisades.lakes.multix.sets.nonvolatile :as nonvolatile]
             [palisades.lakes.multix.sets.signatures :as signatures]
             [palisades.lakes.multix.sets.dynafun :as dynafun]
             [palisades.lakes.multix.sets.dynarity :as dynarity])
@@ -80,33 +79,11 @@
          ^"[Ljava.lang.Number;" s1]
   (Contains/countInterface s0 s1))
 ;;----------------------------------------------------------------
-;; macro for counting loop instead of function,
-;; since some of the calls are to java methods and not functions, 
-;; and in any case would force dynamic function call rather than 
-;; allowing static linking.
-
-(defmacro defcounter [benchname fname ]
-  (let [s0 (gensym "Sets") 
-        s1 (gensym "elements")
-        args [(with-meta s0 {:tag 'objects})
-              (with-meta s1 {:tag 'objects})]
-        args (with-meta args {:tag 'long})]
-    #_(binding [*print-meta* true] (pp/pprint args))
-    `(defn ~benchname ~args
-       (let [n# (int (min (alength ~s0) (alength ~s1)))]
-         (loop [i# (int 0)
-                total# (long 0)]
-           (cond (>= i# n#) (long total#)
-                 (~fname (aget ~s0 i#) (aget ~s1 i#)) 
-                 (recur (inc i#) (inc total#))
-                 :else (recur (inc i#) total#)))))))
-;;----------------------------------------------------------------
-(defcounter instanceof Contains/contains)
-(defcounter defmulti multi/contains?)
-(defcounter hashmaps hashmaps/contains?)
-(defcounter nonvolatile nonvolatile/contains?)
-(defcounter signatures signatures/contains?)
-(defcounter nohierarchy nohierarchy/contains?)
-(defcounter dynafun dynafun/contains?)
-(defcounter dynarity dynarity/contains?)
+(bench/defcounter instanceof Contains/contains)
+(bench/defcounter defmulti multi/contains?)
+(bench/defcounter hashmaps hashmaps/contains?)
+(bench/defcounter signatures signatures/contains?)
+(bench/defcounter nohierarchy nohierarchy/contains?)
+(bench/defcounter dynafun dynafun/contains?)
+(bench/defcounter dynarity dynarity/contains?)
 ;----------------------------------------------------------------

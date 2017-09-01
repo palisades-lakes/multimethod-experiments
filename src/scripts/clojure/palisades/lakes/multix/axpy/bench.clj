@@ -23,7 +23,6 @@
    defs/instanceof
    defs/defmulti
    defs/hashmaps
-   defs/nonvolatile
    defs/signatures
    defs/nohierarchy
    defs/dynafun
@@ -38,7 +37,6 @@
    defs/instanceof
    defs/defmulti
    defs/hashmaps
-   defs/nonvolatile
    defs/signatures
    defs/nohierarchy
    defs/dynafun
@@ -52,7 +50,6 @@
   [defs/instanceof
    defs/defmulti
    defs/hashmaps
-   defs/nonvolatile
    defs/signatures
    defs/nohierarchy
    defs/dynafun

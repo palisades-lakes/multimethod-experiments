@@ -16,7 +16,6 @@
             [palisades.lakes.multix.r2.multi :as multi]
             [palisades.lakes.multix.r2.hashmaps :as hashmaps]
             [palisades.lakes.multix.r2.nohierarchy :as nohierarchy]
-            [palisades.lakes.multix.r2.nonvolatile :as nonvolatile]
             [palisades.lakes.multix.r2.signatures :as signatures]
             [palisades.lakes.multix.r2.dynafun :as dynafun]
             [palisades.lakes.multix.r2.dynarity :as dynarity])
@@ -51,37 +50,11 @@
            ^"[Lpalisades.lakes.bench.java.spaces.linear.Vector;" y]
   (Axpy/maxL1Interface a x y)) 
 ;;----------------------------------------------------------------
-;; macro for counting loop instead of function,
-;; since some of the calls are to java methods and not functions, 
-;; and in any case would force dynamic function call rather than 
-;; allowing static linking.
-;; TODO: pass int lexical type hints for arrays and elements
-
-(defmacro defmax [benchname f]
-  (let [a (gensym "a") 
-        x (gensym "x")
-        y (gensym "y")
-        args [(with-meta a {:tag 'objects})
-              (with-meta x {:tag 'objects})
-              (with-meta y {:tag 'objects})]
-        args (with-meta args {:tag 'double})]
-    `(defn ~benchname ~args
-       (assert (== (alength ~a) (alength ~x) (alength ~y)))
-       (let [n# (int (alength ~a))]
-         (loop [i# (int 0)
-                max# Double/NEGATIVE_INFINITY]
-           (if (>= i# n#) 
-             max#
-             (let [^Vector v# (~f (aget ~a i#) (aget ~x i#) (aget ~y i#))
-                   l1# (.l1Norm v#)]
-               (recur (inc i#) (Math/max max# l1#)))))))))
-;;----------------------------------------------------------------
-(defmax instanceof Axpy/axpy)
-(defmax defmulti multi/axpy)
-(defmax hashmaps hashmaps/axpy)
-(defmax nonvolatile nonvolatile/axpy)
-(defmax signatures signatures/axpy)
-(defmax nohierarchy nohierarchy/axpy)
-(defmax dynafun dynafun/axpy)
-(defmax dynarity dynarity/axpy)
+(bench/defmaxl1 instanceof Axpy/axpy)
+(bench/defmaxl1 defmulti multi/axpy)
+(bench/defmaxl1 hashmaps hashmaps/axpy)
+(bench/defmaxl1 signatures signatures/axpy)
+(bench/defmaxl1 nohierarchy nohierarchy/axpy)
+(bench/defmaxl1 dynafun dynafun/axpy)
+(bench/defmaxl1 dynarity dynarity/axpy)
 ;;----------------------------------------------------------------

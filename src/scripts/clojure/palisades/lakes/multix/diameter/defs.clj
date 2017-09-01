@@ -6,7 +6,7 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-31"}
+   :version "2017-09-01"}
   
   (:refer-clojure :exclude [defmulti])
   
@@ -18,7 +18,6 @@
             [palisades.lakes.multix.sets.multi :as multi]
             [palisades.lakes.multix.sets.hashmaps :as hashmaps]
             [palisades.lakes.multix.sets.nohierarchy :as nohierarchy]
-            [palisades.lakes.multix.sets.nonvolatile :as nonvolatile]
             [palisades.lakes.multix.sets.signatures :as signatures]
             [palisades.lakes.multix.sets.dynafun :as dynafun]
             [palisades.lakes.multix.sets.dynarity :as dynarity])
@@ -43,31 +42,11 @@
 (defn invokeinterface ^double [^"[Lpalisades.lakes.bench.java.sets.Set;" data]
   (Diameter/maxInterface data)) 
 ;;----------------------------------------------------------------
-;; macro for counting loop instead of function,
-;; since some of the calls are to java methods and not functions, 
-;; and in any case would force dynamic function call rather than 
-;; allowing static linking.
-
-(defmacro defmax [benchname fname]
-  (let [s (gensym "Sets") 
-        args [(with-meta s {:tag 'objects})]
-        args (with-meta args {:tag 'double})]
-    `(defn ~benchname ~args
-       (let [n# (int (alength ~s))]
-         (loop [i# (int 0)
-                dmax# Double/NEGATIVE_INFINITY]
-           (if (>= i# n#) 
-             dmax#
-             (recur 
-               (inc i#) 
-               (Math/max dmax# (double (~fname (aget ~s i#)))))))))))
-;;----------------------------------------------------------------
-(defmax instanceof Diameter/diameter)
-(defmax defmulti multi/diameter)
-(defmax hashmaps hashmaps/diameter)
-(defmax nonvolatile nonvolatile/diameter)
-(defmax signatures signatures/diameter)
-(defmax nohierarchy nohierarchy/diameter)
-(defmax dynafun dynafun/diameter)
-(defmax dynarity dynarity/diameter)
+(bench/defmax instanceof Diameter/diameter)
+(bench/defmax defmulti multi/diameter)
+(bench/defmax hashmaps hashmaps/diameter)
+(bench/defmax signatures signatures/diameter)
+(bench/defmax nohierarchy nohierarchy/diameter)
+(bench/defmax dynafun dynafun/diameter)
+(bench/defmax dynarity dynarity/diameter)
 ;;----------------------------------------------------------------

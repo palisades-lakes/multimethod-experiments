@@ -19,38 +19,38 @@
    defs/instanceof
    defs/defmulti
    defs/hashmaps
-   defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 (bench/bench 
   [g/Sets defs/r2] 
   [defs/invokeinterface
    defs/instanceof
    defs/defmulti
    defs/hashmaps
-   defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 (bench/bench 
   [prng/objects defs/r3] 
   [defs/instanceof
    defs/defmulti
    defs/hashmaps
-   defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 (bench/bench 
   [prng/objects defs/r7] 
   [defs/instanceof
    defs/defmulti
    defs/hashmaps
-   defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 ;;----------------------------------------------------------------
 #_(shutdown-agents)
 #_(System/exit 0)

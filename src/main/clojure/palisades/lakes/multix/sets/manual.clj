@@ -3,13 +3,16 @@
 ;;----------------------------------------------------------------
 (ns palisades.lakes.multix.sets.manual
   
-  {:doc "Manual 'method' (function) nested class lookup."
+  {:doc "Measure cost of using CLojure IFn as methods,
+         rather than direct Java method call."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-06-09"
-   :version "2017-07-18"}
+   :version "2017-09-01"}
   
   (:import [java.util Collections Set]
            [palisades.lakes.bench.java.sets DoubleInterval IntegerInterval]))
+;;----------------------------------------------------------------
+;; the emthod
 ;;----------------------------------------------------------------
 (defn- intersectsDD? [^DoubleInterval s0 ^DoubleInterval s1] 
   (.intersects s0 s1))

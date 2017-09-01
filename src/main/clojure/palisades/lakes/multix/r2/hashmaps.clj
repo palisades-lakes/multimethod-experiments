@@ -7,9 +7,9 @@
          testing 3 arg dispatch and too many methods"
    :author "palisades dot lakes at gmail dot com"
    :since "2017-08-22"
-   :version "2017-08-27"}
+   :version "2017-09-01"}
     
-  (:require [palisades.lakes.multix.hashmaps :as d])
+  (:require [palisades.lakes.multimethods.core :as d])
 
   (:import [palisades.lakes.bench.java.spaces.linear
             LinearFunction Vector]

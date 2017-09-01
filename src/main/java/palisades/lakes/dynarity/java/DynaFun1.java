@@ -12,7 +12,7 @@ import palisades.lakes.dynafun.java.signature.Signatures;
  *
  * @author palisades dot lakes at gmail dot com
  * @since 2017-08-30
- * @version 2017-08-31
+ * @version 2017-09-01
  */
 
 @SuppressWarnings("unchecked")
@@ -24,7 +24,7 @@ public final class DynaFun1 implements DynaFun {
 
   private final Map<Class,Set> preferTable;
 
-  private MethodCache methodCache;
+  private volatile MethodCache methodCache;
 
   //--------------------------------------------------------------
   // construction

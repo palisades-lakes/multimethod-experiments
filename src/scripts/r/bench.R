@@ -11,7 +11,8 @@ source('src/scripts/r/functions.R')
 #model <- '20HRCTO1WW' # X1
 model <- '20ERCTO1WW' # P70
 nelements <- 4194304
-theday = '2017082[89]-[0-9]{4}'
+#theday = '2017082[89]-[0-9]{4}'
+theday = '20170901-[0-9]{4}'
 benchmarks <- c('diameter','contains','intersects','axpy')
 #-----------------------------------------------------------------
 data <- NULL
@@ -39,7 +40,8 @@ md.table(data=data[,cols],fname='all',n=nelements)
 fast <- data[data$algorithm!='defmulti',]
 quantile.plot(data=fast,fname='fast')
 md.table(data=fast[,cols],fname='fast',n=nelements)
-md.table(data=data[data$algorithm=='dynafun',cols],fname='dynafun',n=nelements)
+dyn <- data[grep('dyn',data$algorithm),cols]
+md.table(data=dyn,fname='dynafun',n=nelements)
 #-----------------------------------------------------------------
 baseline.algs <- c(
   'invokestaticPrimitive',
@@ -56,10 +58,10 @@ md.table(data=baselines[,cols],fname='baselines',n=nelements)
 #-----------------------------------------------------------------
 dynamic.algs <- c(
   'instanceof',
+  'dynaarity',
   'dynafun',
   'nohierarchy',
   'signatures',
-  'nonvolatile',
   'hashmaps')
 #-----------------------------------------------------------------
 dynamic <- data[(data$algorithm %in% dynamic.algs),]

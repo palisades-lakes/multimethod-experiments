@@ -2,7 +2,7 @@
 # intersects/baselines.R
 # palisades dot lakes at gmail dot com
 # since 2017-07-30
-# version 2017-08-28
+# version 2017-09-01
 #-----------------------------------------------------------------
 # libraries
 #-----------------------------------------------------------------
@@ -73,7 +73,7 @@ read.data <- function (
     print(f)
     tmp <- read.csv(f,sep='\t',as.is=TRUE)
     # print(summary(tmp))
-    # TODO: use min. max rather than 'instaneof' and 'defmulti' ?
+    # TODO: use min. max rather than 'instanceof' and 'defmulti' ?
     if (1==nrow(tmp[tmp$algorithm=='instanceof',])) {
       base.lower.q <- tmp[tmp$algorithm=='instanceof','lower.q']
       base.median <- tmp[tmp$algorithm=='instanceof','median']
@@ -91,7 +91,8 @@ read.data <- function (
       tmp$overhead.lower.q <- 0
       tmp$overhead.median <- 0
       tmp$overhead.millisec <- 0
-      tmp$overhead.upper.q <- 0   }
+      tmp$overhead.upper.q <- 0   
+    }
     tmp$benchmark <- benchmark
     #print(summary(tmp))
     data <- rbind(data,tmp) }
@@ -100,7 +101,6 @@ read.data <- function (
 #  data$algorithm[data$algorithm=='no_hierarchy'] <- 'nohierarchy'
 #  data$algorithm[data$algorithm=='hashmap_tables'] <- 'hashmaps'
 #  data$algorithm[data$algorithm=='signature_dispatch_value'] <- 'signatures'
-#  data$algorithm[data$algorithm=='non_volatile_cache'] <- 'nonvolatile'
 #  data$algorithm[data$algorithm=='if_then_else_instanceof'] <- 'instanceof'
   data$algorithm <- factor(
     data$algorithm,
@@ -112,10 +112,10 @@ read.data <- function (
       'invokevirtual',
       'invokeinterface',
       'instanceof',
+      'dynarity',
       'dynafun',
       'nohierarchy',
       'signatures',
-      'nonvolatile',
       'hashmaps',
       'defmulti'))
   
@@ -173,10 +173,10 @@ algorithm.colors <- c(
   'invokevirtual'='#666666',
   'invokeinterface'='#666666',
   'instanceof'='#1b9e77',
+  'dynarity'='#b66638',
   'dynafun'='#a65628',
   'nohierarchy'='#377eb8',
   'signatures'='#377eb8',
-  'nonvolatile'='#377eb8',
   'hashmaps'='#377eb8',
   'defmulti'='#e41a1c')
 #-----------------------------------------------------------------

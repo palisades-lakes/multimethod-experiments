@@ -20,7 +20,7 @@ import palisades.lakes.dynafun.java.signature.Signatures;
  *
  * @author palisades dot lakes at gmail dot com
  * @since 2017-08-18
- * @version 2017-08-30
+ * @version 2017-09-01
  */
 
 @SuppressWarnings("unchecked")
@@ -42,7 +42,7 @@ public final class DynaFunGeneral implements DynaFun {
   // Only need get(), maybe size(), add and remove entry
   // constructors
 
-  private Map<Object,IFn> methodCache;
+  private volatile Map<Object,IFn> methodCache;
 
   //--------------------------------------------------------------
   // construction

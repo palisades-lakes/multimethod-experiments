@@ -5,7 +5,7 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-31"}
+   :version "2017-09-01"}
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
@@ -27,7 +27,6 @@
    defs/instanceof
    defs/defmulti
    defs/hashmaps
-   defs/nonvolatile
    defs/signatures
    defs/nohierarchy
    defs/dynafun
@@ -39,7 +38,6 @@
    defs/instanceof
    defs/defmulti
    defs/hashmaps
-   defs/nonvolatile
    defs/signatures
    defs/nohierarchy
    defs/dynafun
@@ -50,7 +48,6 @@
   [defs/instanceof
    defs/defmulti
    defs/hashmaps
-   defs/nonvolatile
    defs/signatures
    defs/nohierarchy
    defs/dynafun
@@ -61,7 +58,6 @@
   [defs/instanceof
    defs/defmulti
    defs/hashmaps
-   defs/nonvolatile
    defs/signatures
    defs/nohierarchy
    defs/dynafun
