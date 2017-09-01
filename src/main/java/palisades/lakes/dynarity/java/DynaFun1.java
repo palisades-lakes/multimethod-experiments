@@ -7,17 +7,13 @@ import java.util.Set;
 
 import clojure.lang.IFn;
 import clojure.lang.ISeq;
-import palisades.lakes.dynarity.java.DynaFun;
-import palisades.lakes.dynarity.java.DynaFun1;
-import palisades.lakes.dynarity.java.DynaFunGeneral;
-import palisades.lakes.dynarity.java.Maps;
 import palisades.lakes.dynafun.java.signature.Signatures;
 
 /** Dynamic functions whose methods are all arity 1.
  *
  * @author palisades dot lakes at gmail dot com
  * @since 2017-08-30
- * @version 2017-08-30
+ * @version 2017-08-31
  */
 
 @SuppressWarnings("unchecked")
@@ -43,6 +39,7 @@ public final class DynaFun1 implements DynaFun {
     name = n;
     methodTable = mTable;
     preferTable = pTable;
+    // won't work for Signatures!
     methodCache = new HashMap(mTable); }
 
   public static final DynaFun1 make (final String name) {
