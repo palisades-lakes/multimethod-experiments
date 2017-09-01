@@ -6,7 +6,7 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-08-26"
-   :version "2017-08-27"}
+   :version "2017-08-31"}
   
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
@@ -26,7 +26,8 @@
    defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 ;; array element types [LinearFunction Vector Vector]
 ;; (* 1/6 1/6 1/6): 1/216 change of repeated calls
 (bench/bench 
@@ -40,7 +41,8 @@
    defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 ;; array element types [Object Object Object]
 ;; (* 1/6 1/6 1/6): 1/216 change of repeated calls
 (bench/bench 
@@ -53,7 +55,8 @@
    defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 ;;----------------------------------------------------------------
 #_(shutdown-agents)
 #_(System/exit 0)

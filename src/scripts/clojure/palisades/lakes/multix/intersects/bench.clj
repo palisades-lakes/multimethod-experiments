@@ -6,7 +6,7 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-29"}
+   :version "2017-08-31"}
   
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
@@ -26,7 +26,8 @@
    defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 ;; 50% probability of repeat same method, 
 ;; 1st arg always IntegerInterval
 ;; 2nd randomly IntegerInterval or DoubleInterval
@@ -39,7 +40,8 @@
    defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 ;; 1/9 probability of same method
 ;; 1st and 2nd args randomly from IntegerInterval, 
 ;; DoubleInterval and SingletonSet
@@ -52,7 +54,8 @@
    defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 ;;----------------------------------------------------------------
 #_(shutdown-agents)
 #_(System/exit 0)

@@ -6,7 +6,7 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-08-26"
-   :version "2017-08-28"}
+   :version "2017-08-31"}
   
   (:refer-clojure :exclude [defmulti])
   
@@ -18,7 +18,8 @@
             [palisades.lakes.multix.r2.nohierarchy :as nohierarchy]
             [palisades.lakes.multix.r2.nonvolatile :as nonvolatile]
             [palisades.lakes.multix.r2.signatures :as signatures]
-            [palisades.lakes.multix.r2.dynafun :as dynafun])
+            [palisades.lakes.multix.r2.dynafun :as dynafun]
+            [palisades.lakes.multix.r2.dynarity :as dynarity])
   
   (:import [clojure.lang IFn IFn$D]
            [palisades.lakes.bench.java.spaces.linear 
@@ -82,4 +83,5 @@
 (defmax signatures signatures/axpy)
 (defmax nohierarchy nohierarchy/axpy)
 (defmax dynafun dynafun/axpy)
+(defmax dynarity dynarity/axpy)
 ;;----------------------------------------------------------------

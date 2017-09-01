@@ -5,7 +5,7 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-08-25"}
+   :version "2017-08-31"}
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
@@ -30,7 +30,8 @@
    defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 (bench/bench 
   [g/Sets defs/r2
    prng/NumberArray defs/n2]
@@ -41,7 +42,8 @@
    defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 (bench/bench 
   [prng/objects defs/r3
    prng/NumberArray defs/n2]
@@ -51,7 +53,8 @@
    defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 (bench/bench 
   [prng/objects defs/r7
    prng/objects defs/n6]
@@ -61,7 +64,8 @@
    defs/nonvolatile
    defs/signatures
    defs/nohierarchy
-   defs/dynafun])
+   defs/dynafun
+   defs/dynarity])
 ;;----------------------------------------------------------------
 #_(shutdown-agents)
 #_(System/exit 0)
