@@ -6,13 +6,14 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-08-26"
-   :version "2017-08-31"}
+   :version "2017-09-01"}
   
   (:refer-clojure :exclude [defmulti])
   
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
+            [palisades.lakes.multix.r2.instancefn :as instancefn]
             [palisades.lakes.multix.r2.multi :as multi]
             [palisades.lakes.multix.r2.hashmaps :as hashmaps]
             [palisades.lakes.multix.r2.nohierarchy :as nohierarchy]
@@ -51,6 +52,7 @@
   (Axpy/maxL1Interface a x y)) 
 ;;----------------------------------------------------------------
 (bench/defmaxl1 instanceof Axpy/axpy)
+(bench/defmaxl1 instancefn instancefn/axpy)
 (bench/defmaxl1 defmulti multi/axpy)
 (bench/defmaxl1 hashmaps hashmaps/axpy)
 (bench/defmaxl1 signatures signatures/axpy)

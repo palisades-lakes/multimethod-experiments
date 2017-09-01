@@ -15,6 +15,7 @@
             [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
+            [palisades.lakes.multix.sets.instancefn :as instancefn]
             [palisades.lakes.multix.sets.multi :as multi]
             [palisades.lakes.multix.sets.hashmaps :as hashmaps]
             [palisades.lakes.multix.sets.nohierarchy :as nohierarchy]
@@ -43,6 +44,7 @@
   (Diameter/maxInterface data)) 
 ;;----------------------------------------------------------------
 (bench/defmax instanceof Diameter/diameter)
+(bench/defmax instancefn instancefn/diameter)
 (bench/defmax defmulti multi/diameter)
 (bench/defmax hashmaps hashmaps/diameter)
 (bench/defmax signatures signatures/diameter)

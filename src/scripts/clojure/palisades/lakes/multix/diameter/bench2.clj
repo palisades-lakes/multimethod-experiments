@@ -15,7 +15,8 @@
   [g/Sets defs/r2] 
   #_[prng/objects defs/r7] 
   [defs/instanceof
-   #_defs/nohierarchy
+   defs/instancefn
+   defs/nohierarchy
    defs/dynafun
    defs/dynarity
    #_defs/instanceof

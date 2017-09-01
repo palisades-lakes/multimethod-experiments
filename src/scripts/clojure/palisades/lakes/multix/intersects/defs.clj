@@ -13,7 +13,7 @@
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
-            [palisades.lakes.multix.sets.manual :as nested]
+            [palisades.lakes.multix.sets.instancefn :as instancefn]
             [palisades.lakes.multix.sets.signature :as signature]
             [palisades.lakes.multix.sets.multi :as multi]
             [palisades.lakes.multix.sets.hashmaps :as hashmaps]
@@ -48,6 +48,7 @@
   (Intersects/countInterface s0 s1))
 ;;----------------------------------------------------------------
 (bench/defcounter instanceof Intersects/intersects)
+(bench/defcounter instancefn instancefn/intersects?)
 (bench/defcounter defmulti multi/intersects?)
 (bench/defcounter hashmaps hashmaps/intersects?)
 (bench/defcounter nohierarchy nohierarchy/intersects?)

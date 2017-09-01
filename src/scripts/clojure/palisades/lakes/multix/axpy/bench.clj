@@ -21,6 +21,7 @@
   [defs/invokevirtual
    defs/invokeinterface
    defs/instanceof
+   defs/instancefn
    defs/defmulti
    defs/hashmaps
    defs/signatures
@@ -35,6 +36,7 @@
    g/vectors defs/v2]
   [defs/invokeinterface
    defs/instanceof
+   defs/instancefn
    defs/defmulti
    defs/hashmaps
    defs/signatures
@@ -48,6 +50,7 @@
    prng/objects defs/v2 
    prng/objects defs/v2]
   [defs/instanceof
+   defs/instancefn
    defs/defmulti
    defs/hashmaps
    defs/signatures

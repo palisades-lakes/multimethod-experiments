@@ -13,6 +13,7 @@
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
+            [palisades.lakes.multix.sets.instancefn :as instancefn]
             [palisades.lakes.multix.sets.multi :as multi]
             [palisades.lakes.multix.sets.hashmaps :as hashmaps]
             [palisades.lakes.multix.sets.nohierarchy :as nohierarchy]
@@ -80,6 +81,7 @@
   (Contains/countInterface s0 s1))
 ;;----------------------------------------------------------------
 (bench/defcounter instanceof Contains/contains)
+(bench/defcounter instancefn instancefn/contains?)
 (bench/defcounter defmulti multi/contains?)
 (bench/defcounter hashmaps hashmaps/contains?)
 (bench/defcounter signatures signatures/contains?)

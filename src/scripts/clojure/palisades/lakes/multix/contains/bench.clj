@@ -25,6 +25,7 @@
    defs/invokevirtual
    defs/invokeinterface
    defs/instanceof
+   defs/instancefn
    defs/defmulti
    defs/hashmaps
    defs/signatures
@@ -36,6 +37,7 @@
    prng/NumberArray defs/n2]
   [defs/invokeinterface
    defs/instanceof
+   defs/instancefn
    defs/defmulti
    defs/hashmaps
    defs/signatures
@@ -46,6 +48,7 @@
   [prng/objects defs/r3
    prng/NumberArray defs/n2]
   [defs/instanceof
+   defs/instancefn
    defs/defmulti
    defs/hashmaps
    defs/signatures
@@ -56,6 +59,7 @@
   [prng/objects defs/r7
    prng/objects defs/n6]
   [defs/instanceof
+   defs/instancefn
    defs/defmulti
    defs/hashmaps
    defs/signatures

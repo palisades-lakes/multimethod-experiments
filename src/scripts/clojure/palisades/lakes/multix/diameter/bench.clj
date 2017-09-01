@@ -17,6 +17,7 @@
    defs/invokevirtual
    defs/invokeinterface
    defs/instanceof
+   defs/instancefn
    defs/defmulti
    defs/hashmaps
    defs/signatures
@@ -27,6 +28,7 @@
   [g/Sets defs/r2] 
   [defs/invokeinterface
    defs/instanceof
+   defs/instancefn
    defs/defmulti
    defs/hashmaps
    defs/signatures
@@ -36,6 +38,7 @@
 (bench/bench 
   [prng/objects defs/r3] 
   [defs/instanceof
+   defs/instancefn
    defs/defmulti
    defs/hashmaps
    defs/signatures
@@ -45,6 +48,7 @@
 (bench/bench 
   [prng/objects defs/r7] 
   [defs/instanceof
+   defs/instancefn
    defs/defmulti
    defs/hashmaps
    defs/signatures
