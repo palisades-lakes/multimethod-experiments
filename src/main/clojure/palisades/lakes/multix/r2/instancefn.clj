@@ -13,7 +13,7 @@
   (:import [palisades.lakes.bench.java.spaces.linear
             LinearFunction Vector]
            [palisades.lakes.bench.java.spaces.linear.r2
-            B2 S2 I2 L2 F2 D2 B22 S22 I22 L22 F22 D22])))
+            B2 S2 I2 L2 F2 D2 B22 S22 I22 L22 F22 D22]))
 ;;----------------------------------------------------------------
 (defn- no-method [fname & operands]
   (throw 
@@ -38,7 +38,7 @@
   (cond
     (and (instance? D22 a)
          (instance? D2 x)
-         (instance? D2y))
+         (instance? D2 y))
     (axpy-ddd a x y)
     
     (and (instance? LinearFunction a)

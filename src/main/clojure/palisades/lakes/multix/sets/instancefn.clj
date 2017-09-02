@@ -10,8 +10,13 @@
    :since "2017-06-09"
    :version "2017-09-01"}
   
+  (:refer-clojure :exclude [contains?])
+  
   (:import [java.util Collections]
-           [palisades.lakes.bench.java.sets DoubleInterval IntegerInterval]))
+           [palisades.lakes.bench.java.sets 
+            Contains Diameter Intersects Set Sets
+            ByteInterval DoubleInterval FloatInterval
+            IntegerInterval LongInterval ShortInterval]))
 ;;----------------------------------------------------------------
 (defn- no-method [fname & operands]
   (throw 
@@ -71,7 +76,7 @@
 (defn- contains-ld [^LongInterval s ^Double x] (.contains s x))
 (defn- contains-lf [^LongInterval s ^Float x] (.contains s x))
 (defn- contains-li [^LongInterval s ^Integer x] (.contains s x))
-(defn- contains-lf [^LongInterval s ^Long x] (.contains s x))
+(defn- contains-ll [^LongInterval s ^Long x] (.contains s x))
 (defn- contains-ls [^LongInterval s ^Short x] (.contains s x))
 (defn- contains-lo [^LongInterval s ^Object x] false)
 ;;----------------------------------------------------------------
@@ -92,8 +97,8 @@
           (instance? Byte x) (contains-ib s x)
           (instance? Float x) (contains-if s x)
           (instance? Long x) (contains-il s x)
-          (instance? Short x) 
-          :else (contains-io s x)
+          (instance? Short x) (contains-is s x)
+          :else (contains-io s x))
     
     (instance? DoubleInterval s)
     (cond (instance? Integer x) (contains-di s x)
@@ -194,7 +199,7 @@
           (intersectsSD? s0 s1)
           (instance? java.util.Set s1)
           (intersectsSS? s0 s1)
-          :else (throw (cant-intersect-exception s0 s1)))
+          :else (no-method "intersects?" s0 s1))
     
     :else (no-method "intersects?" s0 s1)))
 ;;----------------------------------------------------------------
