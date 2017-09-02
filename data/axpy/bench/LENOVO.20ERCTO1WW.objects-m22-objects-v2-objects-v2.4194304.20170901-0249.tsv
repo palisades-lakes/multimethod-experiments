@@ -1,2 +1,0 @@
-algorithm	benchmark	execution-count	generators	lower-q	manufacturerModel	median	millisec	nelements	now	nthreads	sample-count	tail-quantile	threads	total-time	upper-q	value	warmup-executions
-instanceof	axpy	3	objects-m22-objects-v2-objects-v2	353.54989	LENOVO.20ERCTO1WW	358.7811085	358.96398911	4194304	20170901-0140	6	100	0.05	6	107.691943076	363.80700475000003	223898.2915142318	31
