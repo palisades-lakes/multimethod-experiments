@@ -18,45 +18,48 @@
   [g/d22s defs/d22 
    g/d2s defs/d2 
    g/d2s defs/d2]
-  [defs/invokevirtual
-   defs/invokeinterface
-   defs/instanceof
+  [#_defs/invokevirtual
+   #_defs/invokeinterface
+   #_defs/instanceof
    defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
+   #_defs/defmulti
+   #_defs/hashmaps
+   #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynarity])
+   defs/dynalin
+   #_defs/dynarity])
 ;; array element types [LinearFunction Vector Vector]
 ;; (* 1/6 1/6 1/6): 1/216 change of repeated calls
 (bench/bench 
   [g/linearfunctions defs/m22 
    g/vectors defs/v2 
    g/vectors defs/v2]
-  [defs/invokeinterface
-   defs/instanceof
+  [#_defs/invokeinterface
+   #_defs/instanceof
    defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
+   #_defs/defmulti
+   #_defs/hashmaps
+   #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynarity])
+   defs/dynalin
+   #_defs/dynarity])
 ;; array element types [Object Object Object]
 ;; (* 1/6 1/6 1/6): 1/216 change of repeated calls
 (bench/bench 
   [prng/objects defs/m22 
    prng/objects defs/v2 
    prng/objects defs/v2]
-  [defs/instanceof
+  [#_defs/instanceof
    defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
+   #_defs/defmulti
+   #_defs/hashmaps
+   #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynarity])
+   defs/dynalin
+   #_defs/dynarity])
 ;;----------------------------------------------------------------
 #_(shutdown-agents)
 #_(System/exit 0)

@@ -2,7 +2,7 @@
 # intersects/baselines.R
 # palisades dot lakes at gmail dot com
 # since 2017-07-30
-# version 2017-09-01
+# version 2017-09-02
 #-----------------------------------------------------------------
 # libraries
 #-----------------------------------------------------------------
@@ -112,7 +112,9 @@ read.data <- function (
       'invokevirtual',
       'invokeinterface',
       'instanceof',
+      'instancefn',
       'dynarity',
+      'dynalin',
       'dynafun',
       'nohierarchy',
       'signatures',
@@ -173,7 +175,9 @@ algorithm.colors <- c(
   'invokevirtual'='#666666',
   'invokeinterface'='#666666',
   'instanceof'='#1b9e77',
+  'instancefn'='#1b9e77',
   'dynarity'='#b66638',
+  'dynalin'='#b66638',
   'dynafun'='#a65628',
   'nohierarchy'='#377eb8',
   'signatures'='#377eb8',

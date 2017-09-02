@@ -1,4 +1,4 @@
-package palisades.lakes.dynarity.java;
+package palisades.lakes.dynalin.java;
 
 import java.util.Collections;
 import java.util.Map;
@@ -7,21 +7,16 @@ import java.util.Set;
 import clojure.lang.IFn;
 import clojure.lang.ISeq;
 import palisades.lakes.dynafun.java.signature.Signatures;
-import palisades.lakes.dynarity.java.DynaFun;
-import palisades.lakes.dynarity.java.DynaFun1;
-import palisades.lakes.dynarity.java.DynaFunGeneral;
-import palisades.lakes.dynarity.java.Maps;
-import palisades.lakes.dynarity.java.MethodCache;
 
 /** Dynamic functions whose methods are all arity 1.
  *
  * @author palisades dot lakes at gmail dot com
  * @since 2017-08-30
- * @version 2017-09-01
+ * @version 2017-09-02
  */
 
 @SuppressWarnings("unchecked")
-public final class DynaFun1 implements DynaFun {
+public final class DynaFun implements IFn {
 
   private final String name;
 
@@ -36,7 +31,7 @@ public final class DynaFun1 implements DynaFun {
   //--------------------------------------------------------------
   // private because it doesn't copy the input maps.
 
-  public DynaFun1 (final String n, 
+  public DynaFun (final String n, 
                    final Map mTable,
                    final Map pTable) {
     assert (null != n) && (! n.isEmpty());
@@ -46,25 +41,18 @@ public final class DynaFun1 implements DynaFun {
     // won't work for Signatures!
     methodCache = MethodCache.empty(); }
 
-  public static final DynaFun1 make (final String name) {
-    return new DynaFun1(
+  public static final DynaFun make (final String name) {
+    return new DynaFun(
       name,
       Collections.emptyMap(),
       Collections.emptyMap()); }
 
   //--------------------------------------------------------------
 
-  @Override
   public final DynaFun addMethod (final Object signature,
                                   final IFn method) {
-    if (signature instanceof Class) {
-      return 
-        new DynaFun1(
-          name,
-          Maps.assoc(methodTable,signature,method),
-          preferTable); }
     return 
-      new DynaFunGeneral(
+      new DynaFun(
         name,
         Maps.assoc(methodTable,signature,method),
         preferTable); }
@@ -97,8 +85,8 @@ public final class DynaFun1 implements DynaFun {
 
   //--------------------------------------------------------------
 
-  private final DynaFun1 preferMethod (final Class x,
-                                       final Class y) {
+  public final DynaFun preferMethod (final Object x,
+                                       final Object y) {
     if (prefers(y,x)) { 
       throw new IllegalStateException(
         String.format(
@@ -106,19 +94,10 @@ public final class DynaFun1 implements DynaFun {
             "%s is already preferred to %s",
             name,y,x)); }
     return 
-      new DynaFun1(
+      new DynaFun(
         name,
         methodTable,
         Maps.add(preferTable,x,y)); }
-
-  @Override
-  public final DynaFun preferMethod (final Object x,
-                                     final Object y) {
-    if ((x instanceof Class) && (y instanceof Class) )
-      return preferMethod((Class) x, (Class) y);
-
-    return new DynaFunGeneral(name,methodTable,preferTable)
-      .preferMethod(x,y); }
 
   //--------------------------------------------------------------
 
@@ -128,11 +107,11 @@ public final class DynaFun1 implements DynaFun {
 
   //--------------------------------------------------------------
 
-  private final IFn findAndCacheBestMethod (final Class c) {
+  private final IFn findAndCacheBestMethod (final Object k) {
     Map.Entry bestEntry = null;
     for (final Object o : methodTable.entrySet()) {
       final Map.Entry e = (Map.Entry) o;
-      if (Signatures.isAssignableFrom(e.getKey(),c)) {
+      if (Signatures.isAssignableFrom(e.getKey(),k)) {
         if ((bestEntry == null)
           || dominates(
             (Class) e.getKey(),(Class) bestEntry.getKey())) {
@@ -145,25 +124,25 @@ public final class DynaFun1 implements DynaFun {
                 + "match signature value: %s -> %s and %s, "
                 + "and neither is preferred",
                 name,
-                c,
+                k,
                 e.getKey(),
                 bestEntry.getKey())); } } }
     if (null == bestEntry) { return null; }
     final IFn method = (IFn) bestEntry.getValue();
-    methodCache = methodCache.assoc(c,method);
+    methodCache = methodCache.assoc(k,method);
     return method; }
 
   //--------------------------------------------------------------
 
-  private final IFn getMethod (final Class c) {
-    final IFn cached = methodCache.get(c);
+  private final IFn getMethod (final Object k) {
+    final IFn cached = methodCache.get(k);
     if (null != cached) { return cached; }
-    final IFn method = findAndCacheBestMethod(c); 
+    final IFn method = findAndCacheBestMethod(k); 
     if (method == null) { 
       throw new IllegalArgumentException(
         String.format(
           "No method in multimethod '%s' for signature: %s",name,
-          c)); }
+          k)); }
     return method; }
 
   //--------------------------------------------------------------

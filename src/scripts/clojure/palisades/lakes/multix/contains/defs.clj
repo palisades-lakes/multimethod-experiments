@@ -6,7 +6,7 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-09-01"}
+   :version "2017-09-02"}
   
   (:refer-clojure :exclude [defmulti])
   
@@ -19,6 +19,7 @@
             [palisades.lakes.multix.sets.nohierarchy :as nohierarchy]
             [palisades.lakes.multix.sets.signatures :as signatures]
             [palisades.lakes.multix.sets.dynafun :as dynafun]
+            [palisades.lakes.multix.sets.dynalin :as dynalin]
             [palisades.lakes.multix.sets.dynarity :as dynarity])
   
   (:import [clojure.lang IFn IFn$L] 
@@ -51,8 +52,9 @@
   (def ^IFn n2 (uniformDoubleOrInteger umin umax urp))
   (def ^IFn n6 (prng/uniformNumber umin umax urp)))
 ;;----------------------------------------------------------------
-(defn invokestaticPrimitive ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
-                                   ^"[I" s1]
+(defn invokestaticPrimitive 
+  ^long [^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s0 
+         ^"[I" s1]
   (Contains/countStatic s0 s1)) 
 
 (defn invokestatic 
@@ -87,5 +89,6 @@
 (bench/defcounter signatures signatures/contains?)
 (bench/defcounter nohierarchy nohierarchy/contains?)
 (bench/defcounter dynafun dynafun/contains?)
+(bench/defcounter dynalin dynalin/contains?)
 (bench/defcounter dynarity dynarity/contains?)
 ;----------------------------------------------------------------

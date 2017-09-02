@@ -8,12 +8,12 @@ import java.util.Set;
 import clojure.lang.AFn;
 import clojure.lang.IFn;
 import clojure.lang.ISeq;
-import palisades.lakes.dynarity.java.DynaFun;
-import palisades.lakes.dynarity.java.DynaFunGeneral;
-import palisades.lakes.dynarity.java.Maps;
 import palisades.lakes.dynafun.java.signature.Signature2;
 import palisades.lakes.dynafun.java.signature.Signature3;
 import palisades.lakes.dynafun.java.signature.Signatures;
+import palisades.lakes.dynarity.java.DynaFun;
+import palisades.lakes.dynarity.java.DynaFunGeneral;
+import palisades.lakes.dynarity.java.Maps;
 
 /** Less flexible, but faster alternative to 
  * <code>clojure.lang.MultiFn</code>

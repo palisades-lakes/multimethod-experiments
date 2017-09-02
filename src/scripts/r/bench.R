@@ -2,18 +2,18 @@
 # intersects/bench.R
 # palisades dot lakes at gmail dot com
 # since 2017-07-30
-# version 2017-08-29
+# version 2017-09-02
 #-----------------------------------------------------------------
-setwd('c:/porta/projects/multimethod-experiments')
-#setwd('e:/porta/projects/multimethod-experiments')
+#setwd('c:/porta/projects/multimethod-experiments')
+setwd('e:/porta/projects/multimethod-experiments')
 source('src/scripts/r/functions.R')
 #-----------------------------------------------------------------
 #model <- '20HRCTO1WW' # X1
 model <- '20ERCTO1WW' # P70
 nelements <- 4194304
-#theday = '2017082[89]-[0-9]{4}'
-theday = '20170901-[0-9]{4}'
-benchmarks <- c('diameter','contains','intersects','axpy')
+nelements <- 1048576
+theday = '2017090[12]-[0-9]{4}'
+benchmarks <- c('diameter','contains','intersects')#,'axpy')
 #-----------------------------------------------------------------
 data <- NULL
 for (b in benchmarks) {
@@ -50,7 +50,8 @@ baseline.algs <- c(
   'invokestatic',
   'invokevirtual',
   'invokeinterface',
-  'instanceof')
+  'instanceof',
+  'instancefn')
 #-----------------------------------------------------------------
 baselines <- data[(data$algorithm %in% baseline.algs),]
 quantile.plot(data=baselines,fname='baselines')
@@ -58,7 +59,9 @@ md.table(data=baselines[,cols],fname='baselines',n=nelements)
 #-----------------------------------------------------------------
 dynamic.algs <- c(
   'instanceof',
-  'dynaarity',
+  'instancefn',
+  'dynarity',
+  'dynalin',
   'dynafun',
   'nohierarchy',
   'signatures',

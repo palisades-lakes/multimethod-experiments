@@ -14,11 +14,12 @@
 (bench/bench 
   [g/Sets defs/r2] 
   #_[prng/objects defs/r7] 
-  [defs/instanceof
+  [#_defs/instanceof
    defs/instancefn
    defs/nohierarchy
    defs/dynafun
-   defs/dynarity
+   defs/dynalin
+   #_defs/dynarity
    #_defs/instanceof
    #_defs/nohierarchy
    #_defs/dynafun

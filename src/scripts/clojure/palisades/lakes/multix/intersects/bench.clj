@@ -17,45 +17,48 @@
 (bench/bench 
   [g/IntegerIntervals defs/ii
    g/IntegerIntervals defs/ii]
-  [defs/invokestatic
-   defs/invokevirtual
-   defs/invokeinterface
-   defs/instanceof
+  [#_defs/invokestatic
+   #_defs/invokevirtual
+   #_defs/invokeinterface
+   #_defs/instanceof
    defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
+   #_defs/defmulti
+   #_defs/hashmaps
+   #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynarity])
+   defs/dynalin
+   #_defs/dynarity])
 ;; 50% probability of repeat same method, 
 ;; 1st arg always IntegerInterval
 ;; 2nd randomly IntegerInterval or DoubleInterval
 (bench/bench 
   [g/Sets defs/r2
    g/Sets defs/ii]
-  [defs/instanceof
+  [#_defs/instanceof
    defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
+   #_defs/defmulti
+   #_defs/hashmaps
+   #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynarity])
+   defs/dynalin
+   #_defs/dynarity])
 ;; 1/9 probability of same method
 ;; 1st and 2nd args randomly from IntegerInterval, 
 ;; DoubleInterval and SingletonSet
 (bench/bench 
   [prng/objects defs/r3
    prng/objects defs/r3]
-  [defs/instanceof
+  [#_defs/instanceof
    defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
+   #_defs/defmulti
+   #_defs/hashmaps
+   #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynarity])
+   defs/dynalin
+   #_defs/dynarity])
 ;;----------------------------------------------------------------
 #_(shutdown-agents)
 #_(System/exit 0)

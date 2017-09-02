@@ -5,7 +5,7 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-09-01"}
+   :version "2017-09-02"}
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
@@ -13,48 +13,52 @@
 ;;----------------------------------------------------------------
 (bench/bench 
   [g/IntegerIntervals (g/integer-interval defs/uint)] 
-  [defs/invokestatic
-   defs/invokevirtual
-   defs/invokeinterface
-   defs/instanceof
+  [#_defs/invokestatic
+   #_defs/invokevirtual
+   #_defs/invokeinterface
+   #_defs/instanceof
    defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
+   #_defs/defmulti
+   #_defs/hashmaps
+   #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynarity])
+   defs/dynalin
+   #_defs/dynarity])
 (bench/bench 
   [g/Sets defs/r2] 
-  [defs/invokeinterface
-   defs/instanceof
+  [#_defs/invokeinterface
+   #_defs/instanceof
    defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
+   #_defs/defmulti
+   #_defs/hashmaps
+   #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynarity])
+   defs/dynalin
+   #_defs/dynarity])
 (bench/bench 
   [prng/objects defs/r3] 
-  [defs/instanceof
+  [#_defs/instanceof
    defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
+   #_defs/defmulti
+   #_defs/hashmaps
+   #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynarity])
+   defs/dynalin
+   #_defs/dynarity])
 (bench/bench 
   [prng/objects defs/r7] 
-  [defs/instanceof
+  [#_defs/instanceof
    defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
+   #_defs/defmulti
+   #_defs/hashmaps
+   #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynarity])
+   defs/dynalin
+   #_defs/dynarity])
 ;;----------------------------------------------------------------
 #_(shutdown-agents)
 #_(System/exit 0)

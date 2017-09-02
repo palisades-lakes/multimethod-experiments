@@ -3,6 +3,7 @@ package palisades.lakes.dynarity.java;
 import java.util.Arrays;
 
 import clojure.lang.IFn;
+import palisades.lakes.dynarity.java.IdentityMethodCache;
 
 /** minimal immutable lookup table with linear search.
  *
