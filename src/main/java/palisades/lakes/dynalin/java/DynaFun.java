@@ -186,7 +186,7 @@ public final class DynaFun implements IFn {
           x0.getClass(),
           x1.getClass(),
           x2.getClass()))
-      .invoke(x0,x1); }
+      .invoke(x0,x1,x2); }
 
   @Override
   public final Object invoke (final Object x0,

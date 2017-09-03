@@ -15,18 +15,18 @@
 ;;----------------------------------------------------------------
 ;; baselines: both args always IntegerInterval
 (bench/bench 
-  [g/IntegerIntervals defs/ii
-   g/IntegerIntervals defs/ii]
-  [#_defs/invokestatic
-   #_defs/invokevirtual
-   #_defs/invokeinterface
-   #_defs/instanceof
+ [g/IntegerIntervals defs/ii
+  g/IntegerIntervals defs/ii]
+ [#_defs/invokestatic
+  #_defs/invokevirtual
+  #_defs/invokeinterface
+  #_defs/instanceof
    defs/instancefn
    #_defs/defmulti
-   #_defs/hashmaps
-   #_defs/signatures
-   defs/nohierarchy
-   defs/dynafun
+  #_defs/hashmaps
+  #_defs/signatures
+  defs/nohierarchy
+  defs/dynafun
    defs/dynalin
    #_defs/dynarity])
 ;; 50% probability of repeat same method, 

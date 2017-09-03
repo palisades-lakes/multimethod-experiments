@@ -8,7 +8,7 @@
          with hand-optimized method lookup."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-06-09"
-   :version "2017-09-01"}
+   :version "2017-09-02"}
   
   (:refer-clojure :exclude [contains?])
   
@@ -189,7 +189,7 @@
     (instance? DoubleInterval s0)
     (cond (instance? IntegerInterval s1) (intersectsDI? s0 s1)
           (instance? DoubleInterval s1) (intersectsDD? s0 s1)
-          (instance? Set s1) (intersectsDS? s0 s1)
+          (instance? java.util.Set s1) (intersectsDS? s0 s1)
           :else (no-method "intersects?" s0 s1))
     
     (instance? java.util.Set s0)
