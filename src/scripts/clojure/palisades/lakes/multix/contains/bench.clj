@@ -12,12 +12,12 @@
             [palisades.lakes.multix.contains.defs :as defs]))
 ;;----------------------------------------------------------------
 ;; baselines: args always IntegerInterval, Integer
-(bench/bench 
-  [g/IntegerIntervals defs/ii
-   prng/ints defs/uint]
-  [defs/invokestaticPrimitive
-   defs/invokevirtualPrimitive
-   defs/invokeinterfacePrimitive])
+#_(bench/bench 
+   [g/IntegerIntervals defs/ii
+    prng/ints defs/uint]
+   [defs/invokestaticPrimitive
+    defs/invokevirtualPrimitive
+    defs/invokeinterfacePrimitive])
 (bench/bench 
   [g/IntegerIntervals defs/ii
    prng/IntegerArray defs/uInteger]

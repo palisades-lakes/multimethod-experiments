@@ -6,6 +6,8 @@ import java.util.Set;
 
 import clojure.lang.IFn;
 import clojure.lang.ISeq;
+import palisades.lakes.dynafun.java.signature.Signature2;
+import palisades.lakes.dynafun.java.signature.Signature3;
 import palisades.lakes.dynafun.java.signature.Signatures;
 
 /** Dynamic functions whose methods are all arity 1.
@@ -32,8 +34,8 @@ public final class DynaFun implements IFn {
   // private because it doesn't copy the input maps.
 
   public DynaFun (final String n, 
-                   final Map mTable,
-                   final Map pTable) {
+                  final Map mTable,
+                  final Map pTable) {
     assert (null != n) && (! n.isEmpty());
     name = n;
     methodTable = mTable;
@@ -86,7 +88,7 @@ public final class DynaFun implements IFn {
   //--------------------------------------------------------------
 
   public final DynaFun preferMethod (final Object x,
-                                       final Object y) {
+                                     final Object y) {
     if (prefers(y,x)) { 
       throw new IllegalStateException(
         String.format(
@@ -101,9 +103,9 @@ public final class DynaFun implements IFn {
 
   //--------------------------------------------------------------
 
-  private final boolean dominates (final Class x,
-                                   final Class y) {
-    return prefers(x,y) || y.isAssignableFrom(x); }
+  private final boolean dominates (final Object x,
+                                   final Object y) {
+    return prefers(x,y) || Signatures.isAssignableFrom(y,x); }
 
   //--------------------------------------------------------------
 
@@ -113,11 +115,9 @@ public final class DynaFun implements IFn {
       final Map.Entry e = (Map.Entry) o;
       if (Signatures.isAssignableFrom(e.getKey(),k)) {
         if ((bestEntry == null)
-          || dominates(
-            (Class) e.getKey(),(Class) bestEntry.getKey())) {
+          || dominates(e.getKey(),bestEntry.getKey())) {
           bestEntry = e; }
-        if (!dominates(
-          (Class) bestEntry.getKey(),(Class) e.getKey())) { 
+        if (!dominates(bestEntry.getKey(),e.getKey())) { 
           throw new IllegalArgumentException(
             String.format(
               "Multiple methods in multimethod '%s' "
@@ -154,7 +154,7 @@ public final class DynaFun implements IFn {
     return
       new UnsupportedOperationException(
         getClass().getSimpleName() + 
-        " can't handle " + i + "operands"); }
+        " can't handle " + i + " operands"); }
 
   @Override
   public final Object invoke () { throw illegalArity(0); }
@@ -167,52 +167,75 @@ public final class DynaFun implements IFn {
       .invoke(x); }
 
   @Override
-  public final Object invoke (final Object x1,
-                              final Object x2) {
-    throw illegalArity(2); }
+  public final Object invoke (final Object x0,
+                              final Object x1) {
+    return
+      getMethod(
+        new Signature2(
+          x0.getClass(),
+          x1.getClass()))
+      .invoke(x0,x1); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
+                              final Object x2) {
+    return
+      getMethod(
+        new Signature3(
+          x0.getClass(),
+          x1.getClass(),
+          x2.getClass()))
+      .invoke(x0,x1); }
+
+  @Override
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3) {
-    throw illegalArity(3); }
-
-  @Override
-  public final Object invoke (final Object x1,
-                              final Object x2,
-                              final Object x3,
-                              final Object x4) {
     throw illegalArity(4); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
+                              final Object x2,
+                              final Object x3,
+                              final Object x4) {
+    throw illegalArity(5); }
+
+  @Override
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
                               final Object x5) {
-    throw illegalArity(5); }
+    throw illegalArity(6); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
                               final Object x5,
                               final Object x6) {
-    throw illegalArity(6); }
+    throw illegalArity(7); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
                               final Object x5,
                               final Object x6,
                               final Object x7) {
-    throw illegalArity(7); }
+    throw illegalArity(8); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
@@ -220,10 +243,11 @@ public final class DynaFun implements IFn {
                               final Object x6,
                               final Object x7,
                               final Object x8) {
-    throw illegalArity(8); }
+    throw illegalArity(9); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
@@ -232,10 +256,11 @@ public final class DynaFun implements IFn {
                               final Object x7,
                               final Object x8,
                               final Object x9) {
-    throw illegalArity(9); }
+    throw illegalArity(10); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
@@ -245,10 +270,11 @@ public final class DynaFun implements IFn {
                               final Object x8,
                               final Object x9,
                               final Object x10) {
-    throw illegalArity(10); }
+    throw illegalArity(11); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
@@ -259,10 +285,11 @@ public final class DynaFun implements IFn {
                               final Object x9,
                               final Object x10,
                               final Object x11) {
-    throw illegalArity(11); }
+    throw illegalArity(12); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
@@ -274,10 +301,11 @@ public final class DynaFun implements IFn {
                               final Object x10,
                               final Object x11,
                               final Object x12) {
-    throw illegalArity(12); }
+    throw illegalArity(13); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
@@ -290,10 +318,11 @@ public final class DynaFun implements IFn {
                               final Object x11,
                               final Object x12,
                               final Object x13) {
-    throw illegalArity(13); }
+    throw illegalArity(14); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
@@ -307,10 +336,11 @@ public final class DynaFun implements IFn {
                               final Object x12,
                               final Object x13,
                               final Object x14) {
-    throw illegalArity(14); }
+    throw illegalArity(15); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
@@ -325,10 +355,11 @@ public final class DynaFun implements IFn {
                               final Object x13,
                               final Object x14,
                               final Object x15) {
-    throw illegalArity(15); }
+    throw illegalArity(16); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
@@ -344,10 +375,11 @@ public final class DynaFun implements IFn {
                               final Object x14,
                               final Object x15,
                               final Object x16) {
-    throw illegalArity(16); }
+    throw illegalArity(17); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
@@ -364,10 +396,11 @@ public final class DynaFun implements IFn {
                               final Object x15,
                               final Object x16,
                               final Object x17) {
-    throw illegalArity(17); }
+    throw illegalArity(18); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
@@ -385,10 +418,11 @@ public final class DynaFun implements IFn {
                               final Object x16,
                               final Object x17,
                               final Object x18) {
-    throw illegalArity(18); }
+    throw illegalArity(19); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
@@ -407,33 +441,11 @@ public final class DynaFun implements IFn {
                               final Object x17,
                               final Object x18,
                               final Object x19) {
-    throw illegalArity(19); }
-
-  @Override
-  public final Object invoke (final Object x1,
-                              final Object x2,
-                              final Object x3,
-                              final Object x4,
-                              final Object x5,
-                              final Object x6,
-                              final Object x7,
-                              final Object x8,
-                              final Object x9,
-                              final Object x10,
-                              final Object x11,
-                              final Object x12,
-                              final Object x13,
-                              final Object x14,
-                              final Object x15,
-                              final Object x16,
-                              final Object x17,
-                              final Object x18,
-                              final Object x19,
-                              final Object x20) {
     throw illegalArity(20); }
 
   @Override
-  public final Object invoke (final Object x1,
+  public final Object invoke (final Object x0,
+                              final Object x1,
                               final Object x2,
                               final Object x3,
                               final Object x4,
@@ -452,7 +464,6 @@ public final class DynaFun implements IFn {
                               final Object x17,
                               final Object x18,
                               final Object x19,
-                              final Object x20,
                               final Object... xs) {
     throw illegalArity(20 + xs.length); } 
   //--------------------------------------------------------------
