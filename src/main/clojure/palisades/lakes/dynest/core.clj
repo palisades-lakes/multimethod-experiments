@@ -1,7 +1,7 @@
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* :warn-on-boxed)
 ;;----------------------------------------------------------------
-(ns palisades.lakes.dynalin.core
+(ns palisades.lakes.dynest.core
   
   {:doc "Dynamic functions aka generic functions aka multimethods. 
          Less flexible than Clojure multimethods
@@ -16,7 +16,7 @@
             [clojure.string :as s])
   
   (:import [clojure.lang IFn IMeta]
-           [palisades.lakes.dynalin.java DynaFun]
+           [palisades.lakes.dynest.java DynaFun]
            [palisades.lakes.dynafun.java.signature Signature
             Signature2 Signature3 SignatureN Signatures]))
 ;;----------------------------------------------------------------

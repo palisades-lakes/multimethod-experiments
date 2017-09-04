@@ -16,7 +16,7 @@ import palisades.lakes.dynarity.java.DynaFun1;
 
 public interface DynaFun extends IFn {
 
-  public static DynaFun make (final String name) {
+  public static DynaFun empty (final String name) {
     return new DynaFun1(
       name,
       Collections.emptyMap(),

@@ -12,8 +12,8 @@ source('src/scripts/r/functions.R')
 model <- '20ERCTO1WW' # P70
 nelements <- 4194304
 nelements <- 1048576
-theday = '2017090[12]-[0-9]{4}'
-benchmarks <- c('diameter')#,'contains','intersects')#,'axpy')
+theday = '2017090[123]-[0-9]{4}'
+benchmarks <- c('diameter','contains','intersects','axpy')
 #-----------------------------------------------------------------
 data <- NULL
 for (b in benchmarks) {

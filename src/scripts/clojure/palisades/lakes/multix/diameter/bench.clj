@@ -5,7 +5,7 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-09-02"}
+   :version "2017-09-03"}
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
@@ -13,7 +13,8 @@
 ;;----------------------------------------------------------------
 (bench/bench 
   [g/IntegerIntervals (g/integer-interval defs/uint)] 
-  [#_defs/invokestatic
+  [defs/dynest
+   #_defs/invokestatic
    #_defs/invokevirtual
    #_defs/invokeinterface
    #_defs/instanceof
@@ -27,7 +28,8 @@
    #_defs/dynarity])
 (bench/bench 
   [g/Sets defs/r2] 
-  [#_defs/invokeinterface
+  [defs/dynest
+   #_defs/invokeinterface
    #_defs/instanceof
    defs/instancefn
    #_defs/defmulti
@@ -39,7 +41,8 @@
    #_defs/dynarity])
 (bench/bench 
   [prng/objects defs/r3] 
-  [#_defs/instanceof
+  [defs/dynest
+   #_defs/instanceof
    defs/instancefn
    #_defs/defmulti
    #_defs/hashmaps
@@ -50,7 +53,8 @@
    #_defs/dynarity])
 (bench/bench 
   [prng/objects defs/r7] 
-  [#_defs/instanceof
+  [defs/dynest
+   #_defs/instanceof
    defs/instancefn
    #_defs/defmulti
    #_defs/hashmaps

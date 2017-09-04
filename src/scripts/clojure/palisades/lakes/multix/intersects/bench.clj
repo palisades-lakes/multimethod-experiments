@@ -6,7 +6,7 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-09-02"}
+   :version "2017-09-03"}
   
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
@@ -17,7 +17,8 @@
 (bench/bench 
  [g/IntegerIntervals defs/ii
   g/IntegerIntervals defs/ii]
- [#_defs/invokestatic
+ [defs/dynest
+  #_defs/invokestatic
   #_defs/invokevirtual
   #_defs/invokeinterface
   #_defs/instanceof
@@ -35,7 +36,8 @@
 (bench/bench 
   [g/Sets defs/r2
    g/Sets defs/ii]
-  [#_defs/instanceof
+  [defs/dynest
+  #_defs/instanceof
    defs/instancefn
    #_defs/defmulti
    #_defs/hashmaps
@@ -50,7 +52,8 @@
 (bench/bench 
   [prng/objects defs/r3
    prng/objects defs/r3]
-  [#_defs/instanceof
+  [defs/dynest
+  #_defs/instanceof
    defs/instancefn
    #_defs/defmulti
    #_defs/hashmaps

@@ -1,4 +1,4 @@
-package palisades.lakes.dynalin.java;
+package palisades.lakes.dynest.java;
 
 import java.util.Collections;
 import java.util.Map;
@@ -10,10 +10,10 @@ import palisades.lakes.dynafun.java.signature.Signature2;
 import palisades.lakes.dynafun.java.signature.Signature3;
 import palisades.lakes.dynafun.java.signature.Signatures;
 
-/** Dynamic functions method lookup by Signature in linear array.
+/** Dynamic functions whose methods are all arity 1.
  *
  * @author palisades dot lakes at gmail dot com
- * @since 2017-08-30
+ * @since 2017-09-03
  * @version 2017-09-03
  */
 
@@ -26,22 +26,25 @@ public final class DynaFun implements IFn {
 
   private final Map<Class,Set> preferTable;
 
-  private volatile MethodCache methodCache;
+  // cache by arity
+  private volatile MethodCache1 cache1;
+  private volatile MethodCache2 cache2;
+  private volatile MethodCache3 cache3;
 
   //--------------------------------------------------------------
   // construction
   //--------------------------------------------------------------
   // private because it doesn't copy the input maps.
 
-  public DynaFun (final String n, 
-                  final Map mTable,
-                  final Map pTable) {
+  private DynaFun (final String n, 
+                   final Map mTable,
+                   final Map pTable) {
     assert (null != n) && (! n.isEmpty());
     name = n;
     methodTable = mTable;
     preferTable = pTable;
-    // won't work for Signatures!
-    methodCache = MethodCache.empty(); }
+    cache1 = MethodCache1.empty(); 
+    cache2 = MethodCache2.empty(); }
 
   public static final DynaFun empty (final String name) {
     return new DynaFun(
@@ -108,8 +111,10 @@ public final class DynaFun implements IFn {
     return prefers(x,y) || Signatures.isAssignableFrom(y,x); }
 
   //--------------------------------------------------------------
+  // arity 1
+  //--------------------------------------------------------------
 
-  private final IFn findAndCacheBestMethod (final Object k) {
+  private final IFn findAndCacheBestMethod (final Class k) {
     Map.Entry bestEntry = null;
     for (final Object o : methodTable.entrySet()) {
       final Map.Entry e = (Map.Entry) o;
@@ -129,13 +134,13 @@ public final class DynaFun implements IFn {
                 bestEntry.getKey())); } } }
     if (null == bestEntry) { return null; }
     final IFn method = (IFn) bestEntry.getValue();
-    methodCache = methodCache.assoc(k,method);
+    cache1 = cache1.assoc(k,method);
     return method; }
 
   //--------------------------------------------------------------
 
-  private final IFn getMethod (final Object k) {
-    final IFn cached = methodCache.get(k);
+  private final IFn getMethod (final Class k) {
+    final IFn cached = cache1.get(k);
     if (null != cached) { return cached; }
     final IFn method = findAndCacheBestMethod(k); 
     if (method == null) { 
@@ -143,6 +148,90 @@ public final class DynaFun implements IFn {
         String.format(
           "No method in multimethod '%s' for signature: %s",name,
           k)); }
+    return method; }
+
+  //--------------------------------------------------------------
+  // arity 2
+  //--------------------------------------------------------------
+
+  private final IFn findAndCacheBestMethod (final Class k0,
+                                            final Class k1) {
+    final Signature2 k = new Signature2(k0,k1);
+    Map.Entry bestEntry = null;
+    for (final Object o : methodTable.entrySet()) {
+      final Map.Entry e = (Map.Entry) o;
+      if (Signatures.isAssignableFrom(e.getKey(),k)) {
+        if ((bestEntry == null)
+          || dominates(e.getKey(),bestEntry.getKey())) {
+          bestEntry = e; }
+        if (!dominates(bestEntry.getKey(),e.getKey())) { 
+          throw new IllegalArgumentException(
+            String.format(
+              "Multiple methods in multimethod '%s' "
+                + "match signature value: %s -> %s and %s, "
+                + "and neither is preferred",
+                name,
+                k,
+                e.getKey(),
+                bestEntry.getKey())); } } }
+    if (null == bestEntry) { return null; }
+    final IFn method = (IFn) bestEntry.getValue();
+    cache2 = cache2.assoc(k0,k1,method);
+    return method; }
+
+  private final IFn getMethod (final Class k0,
+                               final Class k1) {
+    final IFn cached = cache2.get(k0,k1);
+    if (null != cached) { return cached; }
+    final IFn method = findAndCacheBestMethod(k0,k1); 
+    if (method == null) { 
+      throw new IllegalArgumentException(
+        String.format(
+          "No method in multimethod '%s' for: %s, %s",name,
+          k0,k1)); }
+    return method; }
+
+  //--------------------------------------------------------------
+  // arity 3
+  //--------------------------------------------------------------
+
+  private final IFn findAndCacheBestMethod (final Class k0,
+                                            final Class k1,
+                                            final Class k2) {
+    final Signature3 k = new Signature3(k0,k1,k2);
+    Map.Entry bestEntry = null;
+    for (final Object o : methodTable.entrySet()) {
+      final Map.Entry e = (Map.Entry) o;
+      if (Signatures.isAssignableFrom(e.getKey(),k)) {
+        if ((bestEntry == null)
+          || dominates(e.getKey(),bestEntry.getKey())) {
+          bestEntry = e; }
+        if (!dominates(bestEntry.getKey(),e.getKey())) { 
+          throw new IllegalArgumentException(
+            String.format(
+              "Multiple methods in multimethod '%s' "
+                + "match signature value: %s -> %s and %s, "
+                + "and neither is preferred",
+                name,
+                k,
+                e.getKey(),
+                bestEntry.getKey())); } } }
+    if (null == bestEntry) { return null; }
+    final IFn method = (IFn) bestEntry.getValue();
+    cache2 = cache2.assoc(k0,k1,method);
+    return method; }
+
+  private final IFn getMethod (final Class k0,
+                               final Class k1,
+                               final Class k2) {
+    final IFn cached = cache3.get(k0,k1,k2);
+    if (null != cached) { return cached; }
+    final IFn method = findAndCacheBestMethod(k0,k1,k2); 
+    if (method == null) { 
+      throw new IllegalArgumentException(
+        String.format(
+          "No method in multimethod '%s' for: %s, %s, %s",name,
+          k0,k1,k2)); }
     return method; }
 
   //--------------------------------------------------------------
@@ -171,9 +260,8 @@ public final class DynaFun implements IFn {
                               final Object x1) {
     return
       getMethod(
-        new Signature2(
-          x0.getClass(),
-          x1.getClass()))
+        x0.getClass(),
+        x1.getClass())
       .invoke(x0,x1); }
 
   @Override
@@ -182,10 +270,9 @@ public final class DynaFun implements IFn {
                               final Object x2) {
     return
       getMethod(
-        new Signature3(
-          x0.getClass(),
-          x1.getClass(),
-          x2.getClass()))
+        x0.getClass(),
+        x1.getClass(),
+        x2.getClass())
       .invoke(x0,x1,x2); }
 
   @Override

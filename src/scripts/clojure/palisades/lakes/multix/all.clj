@@ -7,10 +7,11 @@
   
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-08-25"
-   :version "2017-09-02"}
+   :version "2017-09-03"}
   
-  (:require #_[palisades.lakes.multix.diameter.bench]
-            [palisades.lakes.multix.contains.bench]
-            [palisades.lakes.multix.intersects.bench]
-            [palisades.lakes.multix.axpy.bench]))
+  (:require 
+    [palisades.lakes.multix.axpy.bench]
+    [palisades.lakes.multix.contains.bench]
+    [palisades.lakes.multix.diameter.bench]
+    [palisades.lakes.multix.intersects.bench]))
 ;;----------------------------------------------------------------
