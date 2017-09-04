@@ -60,7 +60,7 @@ public final class DynaFun implements IFn {
     return 
       new DynaFun(
         name,
-        Maps.assoc(methodTable,signature,method),
+        Util.assoc(methodTable,signature,method),
         preferTable); }
 
   //--------------------------------------------------------------
@@ -103,7 +103,7 @@ public final class DynaFun implements IFn {
       new DynaFun(
         name,
         methodTable,
-        Maps.add(preferTable,x,y)); }
+        Util.add(preferTable,x,y)); }
 
   //--------------------------------------------------------------
 

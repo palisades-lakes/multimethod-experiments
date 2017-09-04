@@ -14,20 +14,20 @@
             [palisades.lakes.multix.axpy.defs :as defs]))
 ;;----------------------------------------------------------------
 ;; array element types [D22 D2 D2]
-(bench/bench 
-  [g/d22s defs/d22 
-   g/d2s defs/d2 
-   g/d2s defs/d2]
-  [defs/dynest
-   #_defs/invokevirtual
-   #_defs/invokeinterface
-   #_defs/instanceof
-   defs/instancefn
-   #_defs/defmulti
-   #_defs/hashmaps
-   #_defs/signatures
-   defs/nohierarchy
-   defs/dynafun
+#_(bench/bench 
+   [g/d22s defs/d22 
+    g/d2s defs/d2 
+    g/d2s defs/d2]
+   [defs/dynest
+    #_defs/invokevirtual
+    #_defs/invokeinterface
+    #_defs/instanceof
+    defs/instancefn
+    #_defs/defmulti
+    #_defs/hashmaps
+    #_defs/signatures
+    defs/nohierarchy
+    defs/dynafun
    defs/dynalin
    #_defs/dynarity])
 ;; array element types [LinearFunction Vector Vector]
