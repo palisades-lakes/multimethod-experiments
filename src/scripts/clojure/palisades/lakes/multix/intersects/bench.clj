@@ -6,13 +6,14 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-09-03"}
+   :version "2017-09-04"}
   
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.intersects.defs :as defs]))
 ;;----------------------------------------------------------------
+(def options {:n 1024 :samples 2})
 ;; baselines: both args always IntegerInterval
 (bench/bench 
  [g/IntegerIntervals defs/ii
@@ -29,7 +30,8 @@
   defs/nohierarchy
   defs/dynafun
    defs/dynalin
-   #_defs/dynarity])
+   #_defs/dynarity]
+ options)
 ;; 50% probability of repeat same method, 
 ;; 1st arg always IntegerInterval
 ;; 2nd randomly IntegerInterval or DoubleInterval
@@ -45,7 +47,8 @@
    defs/nohierarchy
    defs/dynafun
    defs/dynalin
-   #_defs/dynarity])
+   #_defs/dynarity]
+ options)
 ;; 1/9 probability of same method
 ;; 1st and 2nd args randomly from IntegerInterval, 
 ;; DoubleInterval and SingletonSet
@@ -61,7 +64,8 @@
    defs/nohierarchy
    defs/dynafun
    defs/dynalin
-   #_defs/dynarity])
+   #_defs/dynarity]
+ options)
 ;;----------------------------------------------------------------
 #_(shutdown-agents)
 #_(System/exit 0)
