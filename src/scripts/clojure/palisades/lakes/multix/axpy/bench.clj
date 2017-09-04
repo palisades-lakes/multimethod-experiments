@@ -13,7 +13,7 @@
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.axpy.defs :as defs]))
 ;;----------------------------------------------------------------
-(def options {:n 1024 :samples 2})
+(def options {} #_{:n 1024 :samples 4})
 ;; array element types [D22 D2 D2]
 (bench/bench 
   [g/d22s defs/d22 

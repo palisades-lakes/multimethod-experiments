@@ -11,7 +11,7 @@
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.diameter.defs :as defs]))
 ;;----------------------------------------------------------------
-(def options {:n 1024 :samples 2})
+(def options {} #_{:n 1024 :samples 4})
 (bench/bench 
   [g/IntegerIntervals (g/integer-interval defs/uint)] 
   [defs/dynest

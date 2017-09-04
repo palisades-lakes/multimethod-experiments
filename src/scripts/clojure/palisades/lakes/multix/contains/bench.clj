@@ -11,15 +11,16 @@
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.contains.defs :as defs]))
 ;;----------------------------------------------------------------
-(def options {:n 1024 :samples 2})
+(def options {} #_{:n 1024 :samples 4})
 ;; baselines: args always IntegerInterval, Integer
 (bench/bench 
   [g/IntegerIntervals defs/ii
    prng/ints defs/uint]
   [defs/invokestaticPrimitive
    defs/invokevirtualPrimitive
-   defs/invokeinterfacePrimitive])
-(bench/bench 
+   defs/invokeinterfacePrimitive]
+  options)
+_(bench/bench 
   [g/IntegerIntervals defs/ii
    prng/IntegerArray defs/uInteger]
   [defs/dynest

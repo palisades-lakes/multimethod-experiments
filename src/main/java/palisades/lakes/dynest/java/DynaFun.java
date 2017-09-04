@@ -14,7 +14,7 @@ import palisades.lakes.dynafun.java.signature.Signatures;
  *
  * @author palisades dot lakes at gmail dot com
  * @since 2017-09-03
- * @version 2017-09-03
+ * @version 2017-09-04
  */
 
 @SuppressWarnings("unchecked")
@@ -274,7 +274,8 @@ public final class DynaFun implements IFn {
         x0.getClass(),
         x1.getClass(),
         x2.getClass())
-      .invoke(x0,x1,x2); }
+      .invoke(
+        x0,x1,x2); }
 
   @Override
   public final Object invoke (final Object x0,

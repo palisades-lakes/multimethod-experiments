@@ -20,12 +20,12 @@ public final class MethodCache2 {
 
   public final IFn get (final Class c0,
                         final Class c1) {
-    for (int i=0;i<classes0.length;i++) {
-      if (c0.equals(classes0[i])) { 
-        final Class[] cs1 = classes1[i];
-        for (int j=0;i<cs1.length;j++) {
-          if (c1.equals(cs1[j])) {
-            return methods[i][j]; } } } } 
+    for (int i0=0;i0<classes0.length;i0++) {
+      if (c0.equals(classes0[i0])) { 
+        final Class[] cs1 = classes1[i0];
+        for (int i1=0;i1<cs1.length;i1++) {
+          if (c1.equals(cs1[i1])) {
+            return methods[i0][i1]; } } } } 
     return null; }
 
   //--------------------------------------------------------------
@@ -39,8 +39,8 @@ public final class MethodCache2 {
 
   public static final MethodCache2 empty () {
     return new MethodCache2(
-      new Class[0], 
-      new Class[0][], 
+      new Class[0],
+      new Class[0][],
       new IFn[0][]); }
 
   //--------------------------------------------------------------
@@ -59,19 +59,19 @@ public final class MethodCache2 {
 
   //--------------------------------------------------------------
 
-  private final MethodCache2 addCell (final int i0,
-                                      final Class c1) {
-    return new MethodCache2(
-      Util.copy(classes0),
-      Util.append(classes1,i0,c1),
-      Util.append(methods,i0,null)); }
-
   private final MethodCache2 addCell (final Class c0,
                                       final Class c1) {
     return new MethodCache2(
       Util.append(classes0,c0),
       Util.append(classes1,new Class[] { c1 }),
       Util.append(methods,new IFn[] { null })); }
+
+  private final MethodCache2 addCell (final int i0,
+                                      final Class c1) {
+    return new MethodCache2(
+      Util.copy(classes0),
+      Util.append(classes1,i0,c1),
+      Util.append(methods,i0,null)); }
 
   private final MethodCache2 ensureCell (final Class c0,
                                          final Class c1) {

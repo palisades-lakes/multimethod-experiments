@@ -56,7 +56,7 @@ public final class MethodCache {
     final IFn[] ms = Arrays.copyOf(methods,n+1);
     ks[n] = k;
     ms[n] = m;
-    System.out.println(k.toString() + " " + m + " " + n);
+    //System.out.println(k.toString() + " " + m + " " + n);
     return new MethodCache(ks,ms); }
 
   //--------------------------------------------------------------

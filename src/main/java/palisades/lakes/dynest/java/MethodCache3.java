@@ -6,7 +6,7 @@ import clojure.lang.IFn;
  *
  * @author palisades dot lakes at gmail dot com
  * @since 2017-09-03
- * @version 2017-09-03
+ * @version 2017-09-04
  */
 
 @SuppressWarnings("unchecked")
@@ -28,7 +28,7 @@ public final class MethodCache3 {
         for (int i1=0;i1<cs1.length;i1++) {
           if (c1.equals(cs1[i1])) {
             final Class[] cs2 = classes2[i0][i1];
-            for (int i2=0;i2<cs1.length;i2++) {
+            for (int i2=0;i2<cs2.length;i2++) {
               if (c2.equals(cs2[i2])) {
                 return methods[i0][i1][i2]; } } } } } } 
     return null; }
