@@ -200,10 +200,8 @@ public final class MethodCache3 {
     for (int i0=0;i0<n0;i0++) {
       final int n1 = classes1[i0].length;
       cs1[i0] = Arrays.copyOf(classes1[i0],n1);
-      for (int i1=0;i1<n1;i1++) {
-        final int n2 = classes2[i0][i1].length;
-        cs2[i0][i1] = Arrays.copyOf(classes2[i0][i1],n2); 
-        ms[i0][i1] = Arrays.copyOf(methods[i0][i1],n2); } }
+      cs2[i0] = deepCopy(classes2[i0]);
+      ms[i0] = deepCopy(methods[i0]); }
     cs0[n0] = c0;
     cs1[n0] = new Class[] { c1 };
     cs2[n0] = new Class[][] { { c2 } };

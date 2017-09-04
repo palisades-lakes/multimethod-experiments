@@ -44,7 +44,8 @@ public final class DynaFun implements IFn {
     methodTable = mTable;
     preferTable = pTable;
     cache1 = MethodCache1.empty(); 
-    cache2 = MethodCache2.empty(); }
+    cache2 = MethodCache2.empty(); 
+    cache3 = MethodCache3.empty(); }
 
   public static final DynaFun empty (final String name) {
     return new DynaFun(
@@ -218,7 +219,7 @@ public final class DynaFun implements IFn {
                 bestEntry.getKey())); } } }
     if (null == bestEntry) { return null; }
     final IFn method = (IFn) bestEntry.getValue();
-    cache2 = cache2.assoc(k0,k1,method);
+    cache3 = cache3.assoc(k0,k1,k2,method);
     return method; }
 
   private final IFn getMethod (final Class k0,
