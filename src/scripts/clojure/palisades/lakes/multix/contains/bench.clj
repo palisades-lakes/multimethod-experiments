@@ -20,23 +20,23 @@
    defs/invokevirtualPrimitive
    defs/invokeinterfacePrimitive]
   options)
-_(bench/bench 
-  [g/IntegerIntervals defs/ii
-   prng/IntegerArray defs/uInteger]
-  [defs/dynest
+(bench/bench 
+ [g/IntegerIntervals defs/ii
+  prng/IntegerArray defs/uInteger]
+ [defs/dynest
    #_defs/invokestatic
-   #_defs/invokevirtual
-   #_defs/invokeinterface
-   #_defs/instanceof
-   defs/instancefn
-   #_defs/defmulti
-   #_defs/hashmaps
-   #_defs/signatures
-   defs/nohierarchy
-   defs/dynafun
+  #_defs/invokevirtual
+  #_defs/invokeinterface
+  #_defs/instanceof
+  defs/instancefn
+  #_defs/defmulti
+  #_defs/hashmaps
+  #_defs/signatures
+  defs/nohierarchy
+  defs/dynafun
    defs/dynalin
    #_defs/dynarity]
-  options)
+ options)
 (bench/bench 
   [g/Sets defs/r2
    prng/NumberArray defs/n2]
