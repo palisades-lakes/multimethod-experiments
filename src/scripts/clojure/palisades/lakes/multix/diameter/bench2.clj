@@ -19,13 +19,10 @@
    defs/nohierarchy
    defs/dynafun
    defs/dynalin
-   #_defs/dynarity
    #_defs/instanceof
    #_defs/nohierarchy
-   #_defs/dynafun
-   #_defs/dynarity]
-  {:n (* 1024 1024)
-   :samples 256})
+   #_defs/dynafun]
+  {:samples 256})
 ;;----------------------------------------------------------------
 (shutdown-agents)
 (System/exit 0)

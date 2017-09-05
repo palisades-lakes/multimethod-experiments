@@ -6,7 +6,7 @@
   {:doc "Benchmarks for multiple dispatch alternatives."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-09-03"}
+   :version "2017-09-05"}
   
   (:refer-clojure :exclude [defmulti])
   
@@ -21,8 +21,7 @@
             [palisades.lakes.multix.sets.signatures :as signatures]
             [palisades.lakes.multix.sets.dynafun :as dynafun]
             [palisades.lakes.multix.sets.dynalin :as dynalin]
-            [palisades.lakes.multix.sets.dynest :as dynest]
-            [palisades.lakes.multix.sets.dynarity :as dynarity])
+            [palisades.lakes.multix.sets.dynest :as dynest])
   
   (:import [clojure.lang IFn IFn$L] 
            [palisades.lakes.bench.java.sets 
@@ -58,5 +57,4 @@
 (bench/defcounter dynafun dynafun/intersects?)
 (bench/defcounter dynalin dynalin/intersects?)
 (bench/defcounter dynest dynest/intersects?)
-(bench/defcounter dynarity dynarity/intersects?)
 ;;----------------------------------------------------------------

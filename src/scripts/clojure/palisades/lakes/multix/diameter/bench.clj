@@ -25,8 +25,7 @@
    #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynalin
-   #_defs/dynarity]
+   defs/dynalin]
   options)
 (bench/bench 
   [g/Sets defs/r2] 
@@ -39,8 +38,7 @@
    #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynalin
-   #_defs/dynarity]
+   defs/dynalin]
   options)
 (bench/bench 
   [prng/objects defs/r3] 
@@ -52,8 +50,7 @@
    #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynalin
-   #_defs/dynarity]
+   defs/dynaliny]
   options)
 (bench/bench 
   [prng/objects defs/r7] 
@@ -65,8 +62,7 @@
    #_defs/signatures
    defs/nohierarchy
    defs/dynafun
-   defs/dynalin
-   #_defs/dynarity]
+   defs/dynaliny]
   options)
 ;;----------------------------------------------------------------
 #_(shutdown-agents)

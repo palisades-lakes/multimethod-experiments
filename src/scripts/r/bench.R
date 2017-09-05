@@ -60,7 +60,6 @@ md.table(data=baselines[,cols],fname='baselines',n=nelements)
 dynamic.algs <- c(
   'instanceof',
   'instancefn',
-  'dynarity',
   'dynest',
   'dynalin',
   'dynafun',
