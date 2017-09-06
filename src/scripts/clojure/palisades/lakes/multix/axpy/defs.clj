@@ -21,6 +21,7 @@
             [palisades.lakes.multix.r2.signatures :as signatures]
             [palisades.lakes.multix.r2.dynafun :as dynafun]
             [palisades.lakes.multix.r2.dynalin :as dynalin]
+            [palisades.lakes.multix.r2.dynamap :as dynamap]
             [palisades.lakes.multix.r2.dynest :as dynest])
   
   (:import [clojure.lang IFn IFn$D]
@@ -61,6 +62,7 @@
 (bench/defmaxl1 signatures signatures/axpy)
 (bench/defmaxl1 nohierarchy nohierarchy/axpy)
 (bench/defmaxl1 dynafun dynafun/axpy)
+(bench/defmaxl1 dynamap dynamap/axpy)
 (bench/defmaxl1 dynalin dynalin/axpy)
 (bench/defmaxl1 dynest dynest/axpy)
 ;;----------------------------------------------------------------

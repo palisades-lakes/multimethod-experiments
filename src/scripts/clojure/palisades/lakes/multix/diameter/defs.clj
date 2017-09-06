@@ -23,6 +23,7 @@
             [palisades.lakes.multix.sets.signatures :as signatures]
             [palisades.lakes.multix.sets.dynafun :as dynafun]
             [palisades.lakes.multix.sets.dynalin :as dynalin]
+            [palisades.lakes.multix.sets.dynamap :as dynamap]
             [palisades.lakes.multix.sets.dynest :as dynest])
   
   (:import [clojure.lang IFn IFn$L] 
@@ -53,6 +54,7 @@
 (bench/defmax signatures signatures/diameter)
 (bench/defmax nohierarchy nohierarchy/diameter)
 (bench/defmax dynafun dynafun/diameter)
+(bench/defmax dynamap dynamap/diameter)
 (bench/defmax dynalin dynalin/diameter)
 (bench/defmax dynest dynest/diameter)
 ;;----------------------------------------------------------------

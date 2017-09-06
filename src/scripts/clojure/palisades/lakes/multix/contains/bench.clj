@@ -34,7 +34,8 @@
    defs/hashmaps
    defs/signatures
    defs/nohierarchy
-   defs/dynafun]
+   defs/dynafun 
+   defs/dynamap]
   options)
 (bench/bench 
   [g/Sets defs/r2
@@ -47,7 +48,8 @@
    defs/hashmaps
    defs/signatures
    defs/nohierarchy
-   defs/dynafun]
+   defs/dynafun 
+   defs/dynamap]
   options)
 (bench/bench 
   [prng/objects defs/r3
@@ -59,7 +61,8 @@
    defs/hashmaps
    defs/signatures
    defs/nohierarchy
-   defs/dynafun]
+   defs/dynafun 
+   defs/dynamap]
   options)
 (bench/bench 
   [prng/objects defs/r7
@@ -71,7 +74,8 @@
    defs/hashmaps
    defs/signatures
    defs/nohierarchy
-   defs/dynafun]
+   defs/dynafun 
+   defs/dynamap]
   options)
 ;;----------------------------------------------------------------
 #_(shutdown-agents)

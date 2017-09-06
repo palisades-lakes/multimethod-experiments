@@ -22,25 +22,25 @@
   [g/IntegerIntervals defs/ii
    prng/IntegerArray defs/uInteger]
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 (bench/bench 
   [g/Sets defs/r2
    prng/NumberArray defs/n2]
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 (bench/bench 
   [prng/objects defs/r3
    prng/NumberArray defs/n2]
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 (bench/bench 
   [prng/objects defs/r7
    prng/objects defs/n6]
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 ;;----------------------------------------------------------------
 #_(shutdown-agents)

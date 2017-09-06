@@ -19,7 +19,7 @@
   [g/IntegerIntervals defs/ii
    g/IntegerIntervals defs/ii]
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 ;; 50% probability of repeat same method, 
 ;; 1st arg always IntegerInterval
@@ -28,7 +28,7 @@
   [g/Sets defs/r2
    g/Sets defs/ii]
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 ;; 1/9 probability of same method
 ;; 1st and 2nd args randomly from IntegerInterval, 
@@ -37,7 +37,7 @@
   [prng/objects defs/r3
    prng/objects defs/r3]
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 ;;----------------------------------------------------------------
 #_(shutdown-agents)

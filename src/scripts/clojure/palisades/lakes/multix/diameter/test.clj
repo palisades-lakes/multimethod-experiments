@@ -15,22 +15,22 @@
 (bench/bench 
   [g/IntegerIntervals (g/integer-interval defs/uint)] 
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 (bench/bench 
   [g/Sets defs/r2] 
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 (bench/bench 
   [prng/objects defs/r3] 
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 (bench/bench 
   [prng/objects defs/r7] 
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 ;;----------------------------------------------------------------
 #_(shutdown-agents)

@@ -28,7 +28,8 @@
    defs/hashmaps
    defs/signatures
    defs/nohierarchy
-   defs/dynafun]
+   defs/dynafun 
+   defs/dynamap]
   options)
 ;; array element types [LinearFunction Vector Vector]
 ;; (* 1/6 1/6 1/6): 1/216 change of repeated calls
@@ -44,7 +45,8 @@
    defs/hashmaps
    defs/signatures
    defs/nohierarchy
-   defs/dynafun]
+   defs/dynafun 
+   defs/dynamap]
   options)
 ;; array element types [Object Object Object]
 ;; (* 1/6 1/6 1/6): 1/216 change of repeated calls
@@ -59,7 +61,8 @@
    defs/hashmaps
    defs/signatures
    defs/nohierarchy
-   defs/dynafun]
+   defs/dynafun 
+   defs/dynamap]
   options)
 ;;----------------------------------------------------------------
 #_(shutdown-agents)

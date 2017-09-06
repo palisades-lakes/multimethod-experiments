@@ -20,7 +20,7 @@
    g/d2s defs/d2 
    g/d2s defs/d2]
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 ;; array element types [LinearFunction Vector Vector]
 ;; (* 1/6 1/6 1/6): 1/216 change of repeated calls
@@ -29,7 +29,7 @@
    g/vectors defs/v2 
    g/vectors defs/v2]
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 ;; array element types [Object Object Object]
 ;; (* 1/6 1/6 1/6): 1/216 change of repeated calls
@@ -38,7 +38,7 @@
    prng/objects defs/v2 
    prng/objects defs/v2]
   [defs/protocols
-   defs/dynafun]
+   defs/dynafun defs/dynamap]
   options)
 ;;----------------------------------------------------------------
 #_(shutdown-agents)

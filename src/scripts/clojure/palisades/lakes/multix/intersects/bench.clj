@@ -28,7 +28,8 @@
    defs/hashmaps
    defs/signatures
    defs/nohierarchy
-   defs/dynafun]
+   defs/dynafun 
+   defs/dynamap]
   options)
 ;; 50% probability of repeat same method, 
 ;; 1st arg always IntegerInterval
@@ -43,7 +44,8 @@
    defs/hashmaps
    defs/signatures
    defs/nohierarchy
-   defs/dynafun]
+   defs/dynafun 
+   defs/dynamap]
   options)
 ;; 1/9 probability of same method
 ;; 1st and 2nd args randomly from IntegerInterval, 
@@ -58,7 +60,8 @@
    defs/hashmaps
    defs/signatures
    defs/nohierarchy
-   defs/dynafun]
+   defs/dynafun 
+   defs/dynamap]
   options)
 ;;----------------------------------------------------------------
 #_(shutdown-agents)

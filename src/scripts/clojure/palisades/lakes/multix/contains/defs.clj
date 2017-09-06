@@ -21,6 +21,7 @@
             [palisades.lakes.multix.sets.signatures :as signatures]
             [palisades.lakes.multix.sets.dynafun :as dynafun]
             [palisades.lakes.multix.sets.dynalin :as dynalin]
+            [palisades.lakes.multix.sets.dynamap :as dynamap]
             [palisades.lakes.multix.sets.dynest :as dynest])
   
   (:import [clojure.lang IFn IFn$L] 
@@ -91,6 +92,7 @@
 (bench/defcounter signatures signatures/contains?)
 (bench/defcounter nohierarchy nohierarchy/contains?)
 (bench/defcounter dynafun dynafun/contains?)
+(bench/defcounter dynamap dynamap/contains?)
 (bench/defcounter dynalin dynalin/contains?)
 (bench/defcounter dynest dynest/contains?)
 ;----------------------------------------------------------------

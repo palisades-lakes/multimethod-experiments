@@ -21,6 +21,7 @@
             [palisades.lakes.multix.sets.nohierarchy :as nohierarchy]
             [palisades.lakes.multix.sets.signatures :as signatures]
             [palisades.lakes.multix.sets.dynafun :as dynafun]
+            [palisades.lakes.multix.sets.dynamap :as dynamap]
             [palisades.lakes.multix.sets.dynalin :as dynalin]
             [palisades.lakes.multix.sets.dynest :as dynest])
   
