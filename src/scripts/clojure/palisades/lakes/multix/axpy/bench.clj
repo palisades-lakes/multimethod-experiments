@@ -16,38 +16,38 @@
 (def options {} #_{:n 1024 :samples 4})
 ;; array element types [D22 D2 D2]
 (bench/bench 
-  [g/d22s defs/d22 
-   g/d2s defs/d2 
-   g/d2s defs/d2]
-  [defs/invokevirtual
-   defs/invokeinterface
-   defs/protocols
-   defs/instanceof
-   defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
-   defs/nohierarchy
-   defs/dynafun 
-   defs/dynamap]
-  options)
+   [g/d22s defs/d22 
+    g/d2s defs/d2 
+    g/d2s defs/d2]
+   [defs/invokevirtual
+    defs/invokeinterface
+    defs/protocols
+    defs/instanceof
+    defs/instancefn
+    defs/defmulti
+    defs/hashmaps
+    defs/signatures
+    defs/nohierarchy
+    defs/dynafun 
+    defs/dynamap]
+   options)
 ;; array element types [LinearFunction Vector Vector]
 ;; (* 1/6 1/6 1/6): 1/216 change of repeated calls
 (bench/bench 
-  [g/linearfunctions defs/m22 
-   g/vectors defs/v2 
-   g/vectors defs/v2]
-  [defs/invokeinterface
-   defs/protocols
-   defs/instanceof
-   defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
-   defs/nohierarchy
-   defs/dynafun 
-   defs/dynamap]
-  options)
+   [g/linearfunctions defs/m22 
+    g/vectors defs/v2 
+    g/vectors defs/v2]
+   [defs/invokeinterface
+    defs/protocols
+    defs/instanceof
+    defs/instancefn
+    defs/defmulti
+    defs/hashmaps
+    defs/signatures
+    defs/nohierarchy
+    defs/dynafun 
+    defs/dynamap]
+   options)
 ;; array element types [Object Object Object]
 ;; (* 1/6 1/6 1/6): 1/216 change of repeated calls
 (bench/bench 

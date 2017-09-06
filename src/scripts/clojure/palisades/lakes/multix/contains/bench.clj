@@ -5,7 +5,7 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-09-05"}
+   :version "2017-09-06"}
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
@@ -18,8 +18,7 @@
    prng/ints defs/uint]
   [defs/invokestaticPrimitive
    defs/invokevirtualPrimitive
-   defs/invokeinterfacePrimitive
-   defs/protocols]
+   defs/invokeinterfacePrimitive]
   options)
 (bench/bench 
   [g/IntegerIntervals defs/ii
