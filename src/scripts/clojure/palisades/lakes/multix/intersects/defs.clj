@@ -59,5 +59,6 @@
 (bench/defcounter signatures signatures/intersects?)
 (bench/defcounter dynafun dynafun/intersects?)
 (bench/defcounter dynalin dynalin/intersects?)
+(bench/defcounter dynamap dynamap/intersects?)
 (bench/defcounter dynest dynest/intersects?)
 ;;----------------------------------------------------------------

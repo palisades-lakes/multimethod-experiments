@@ -10,7 +10,7 @@
    :version "2017-09-05"}
   
   (:require 
-    #_[palisades.lakes.multix.axpy.test]
+    [palisades.lakes.multix.axpy.test]
     [palisades.lakes.multix.contains.test]
     [palisades.lakes.multix.diameter.test]
     [palisades.lakes.multix.intersects.test]))
