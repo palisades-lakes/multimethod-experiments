@@ -1,6 +1,0 @@
-algorithm	benchmark	execution-count	generators	lower-q	manufacturerModel	median	millisec	nelements	now	nthreads	sample-count	tail-quantile	threads	total-time	upper-q	value	warmup-executions
-dynest	contains	49	IntegerIntervals-integer_interval-IntegerArray-uniformInteger	20.89458869387755	LENOVO.20ERCTO1WW	20.874862908163266	21.037256595982143	1048576	20170904-2140	6	256	0.05	6	263.869668092	21.215842433673473	2097887	601
-instancefn	contains	46	IntegerIntervals-integer_interval-IntegerArray-uniformInteger	21.017529277173917	LENOVO.20ERCTO1WW	21.136507489130434	21.21724818716033	1048576	20170904-2146	6	256	0.05	6	249.856885954	21.47043211956522	2097887	493
-nohierarchy	contains	22	IntegerIntervals-integer_interval-IntegerArray-uniformInteger	46.740973363636364	LENOVO.20ERCTO1WW	47.88184981818182	47.41673065021307	1048576	20170904-2153	6	256	0.05	6	267.04929446	48.11852195454546	2097887	235
-dynafun	contains	31	IntegerIntervals-integer_interval-IntegerArray-uniformInteger	32.50938580645162	LENOVO.20ERCTO1WW	32.75606291935484	32.89969725315021	1048576	20170904-2200	6	256	0.05	6	261.091812876	33.25507250806452	2097887	309
-dynalin	contains	36	IntegerIntervals-integer_interval-IntegerArray-uniformInteger	28.208924076388893	LENOVO.20ERCTO1WW	28.444026083333334	28.442380287760418	1048576	20170904-2206	6	256	0.05	6	262.125295084	28.679568777777778	2097887	385
