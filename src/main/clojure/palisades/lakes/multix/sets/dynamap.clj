@@ -1,17 +1,16 @@
 (set! *warn-on-reflection* true) 
 (set! *unchecked-math* :warn-on-boxed)
 ;;----------------------------------------------------------------
-(ns palisades.lakes.multix.sets.dynafun
+(ns palisades.lakes.multix.sets.dynamap
   
-  {:doc "palisades.lakes.dynafun.core/dynafun
-         for set intersection testing."
+  {:doc "set intersection testing."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-08-19"
-   :version "2017-08-30"}
+   :version "2017-09-05"}
   
   (:refer-clojure :exclude [contains?])
   
-  (:require [palisades.lakes.dynafun.core :as d])
+  (:require [palisades.lakes.dynamap.core :as d])
   
   (:import [java.util Collections]
            [palisades.lakes.bench.java.sets 

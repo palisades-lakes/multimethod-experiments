@@ -7,7 +7,7 @@
          testing 3 arg dispatch and too many methods"
    :author "palisades dot lakes at gmail dot com"
    :since "2017-08-22"
-   :version "2017-08-26"}
+   :version "2017-09-05"}
 
   (:require [palisades.lakes.dynamap.core :as d])
   
