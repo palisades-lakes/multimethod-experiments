@@ -1,7 +1,7 @@
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* :warn-on-boxed)
 ;;----------------------------------------------------------------
-(ns palisades.lakes.multix.intersects.bench
+(ns palisades.lakes.multix.intersects.test
   
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
@@ -13,21 +13,12 @@
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.intersects.defs :as defs]))
 ;;----------------------------------------------------------------
-(def options {} #_{:n 1024 :samples 4})
+(def options {:n 1024 :samples 4})
 ;; baselines: both args always IntegerInterval
 (bench/bench 
   [g/IntegerIntervals defs/ii
    g/IntegerIntervals defs/ii]
-  [defs/invokestatic
-   defs/invokevirtual
-   defs/invokeinterface
-   defs/protocols
-   defs/instanceof
-   defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
-   defs/nohierarchy
+  [defs/protocols
    defs/dynafun]
   options)
 ;; 50% probability of repeat same method, 
@@ -37,12 +28,6 @@
   [g/Sets defs/r2
    g/Sets defs/ii]
   [defs/protocols
-   defs/instanceof
-   defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
-   defs/nohierarchy
    defs/dynafun]
   options)
 ;; 1/9 probability of same method
@@ -52,12 +37,6 @@
   [prng/objects defs/r3
    prng/objects defs/r3]
   [defs/protocols
-   defs/instanceof
-   defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
-   defs/nohierarchy
    defs/dynafun]
   options)
 ;;----------------------------------------------------------------

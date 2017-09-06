@@ -13,6 +13,7 @@
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
+            [palisades.lakes.multix.r2.protocols :as protocols]
             [palisades.lakes.multix.r2.instancefn :as instancefn]
             [palisades.lakes.multix.r2.multi :as multi]
             [palisades.lakes.multix.r2.hashmaps :as hashmaps]
@@ -52,6 +53,7 @@
            ^"[Lpalisades.lakes.bench.java.spaces.linear.Vector;" y]
   (Axpy/maxL1Interface a x y)) 
 ;;----------------------------------------------------------------
+(bench/defmaxl1 protocols protocols/axpy)
 (bench/defmaxl1 instanceof Axpy/axpy)
 (bench/defmaxl1 instancefn instancefn/axpy)
 (bench/defmaxl1 defmulti multi/axpy)

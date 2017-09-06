@@ -13,6 +13,7 @@
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
+            [palisades.lakes.multix.sets.protocols :as protocols]
             [palisades.lakes.multix.sets.instancefn :as instancefn]
             [palisades.lakes.multix.sets.signature :as signature]
             [palisades.lakes.multix.sets.multi :as multi]
@@ -48,6 +49,7 @@
                              ^"[Lpalisades.lakes.bench.java.sets.IntegerInterval;" s1]
   (Intersects/countInterface s0 s1))
 ;;----------------------------------------------------------------
+(bench/defcounter protocols protocols/intersects?)
 (bench/defcounter instanceof Intersects/intersects)
 (bench/defcounter instancefn instancefn/intersects?)
 (bench/defcounter defmulti multi/intersects?)

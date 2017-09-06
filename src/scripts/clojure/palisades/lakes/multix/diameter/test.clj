@@ -1,7 +1,7 @@
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* :warn-on-boxed)
 ;;----------------------------------------------------------------
-(ns palisades.lakes.multix.diameter.bench
+(ns palisades.lakes.multix.diameter.test
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
@@ -11,53 +11,25 @@
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.diameter.defs :as defs]))
 ;;----------------------------------------------------------------
-(def options {} #_{:n 1024 :samples 4})
+(def options {:n 1024 :samples 4})
 (bench/bench 
   [g/IntegerIntervals (g/integer-interval defs/uint)] 
-  [defs/invokestatic
-   defs/invokevirtual
-   defs/invokeinterface
-   defs/protocols
-   defs/instanceof
-   defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
-   defs/nohierarchy
+  [defs/protocols
    defs/dynafun]
   options)
 (bench/bench 
   [g/Sets defs/r2] 
-  [defs/invokeinterface
-   defs/protocols
-   defs/instanceof
-   defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
-   defs/nohierarchy
+  [defs/protocols
    defs/dynafun]
   options)
 (bench/bench 
   [prng/objects defs/r3] 
   [defs/protocols
-   defs/instanceof
-   defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
-   defs/nohierarchy
    defs/dynafun]
   options)
 (bench/bench 
   [prng/objects defs/r7] 
   [defs/protocols
-   defs/instanceof
-   defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
-   defs/nohierarchy
    defs/dynafun]
   options)
 ;;----------------------------------------------------------------

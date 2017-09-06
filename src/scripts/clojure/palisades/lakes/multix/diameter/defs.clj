@@ -15,6 +15,7 @@
             [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
+            [palisades.lakes.multix.sets.protocols :as protocols]
             [palisades.lakes.multix.sets.instancefn :as instancefn]
             [palisades.lakes.multix.sets.multi :as multi]
             [palisades.lakes.multix.sets.hashmaps :as hashmaps]
@@ -44,6 +45,7 @@
 (defn invokeinterface ^double [^"[Lpalisades.lakes.bench.java.sets.Set;" data]
   (Diameter/maxInterface data)) 
 ;;----------------------------------------------------------------
+(bench/defmax protocols protocols/diameter)
 (bench/defmax instanceof Diameter/diameter)
 (bench/defmax instancefn instancefn/diameter)
 (bench/defmax defmulti multi/diameter)

@@ -1,7 +1,7 @@
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* :warn-on-boxed)
 ;;----------------------------------------------------------------
-(ns palisades.lakes.multix.axpy.bench
+(ns palisades.lakes.multix.axpy.test
   
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
@@ -13,21 +13,13 @@
             [palisades.lakes.bench.core :as bench]
             [palisades.lakes.multix.axpy.defs :as defs]))
 ;;----------------------------------------------------------------
-(def options {} #_{:n 1024 :samples 4})
+(def options {:n 1024 :samples 4})
 ;; array element types [D22 D2 D2]
 (bench/bench 
   [g/d22s defs/d22 
    g/d2s defs/d2 
    g/d2s defs/d2]
-  [defs/invokevirtual
-   defs/invokeinterface
-   defs/protocols
-   defs/instanceof
-   defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
-   defs/nohierarchy
+  [defs/protocols
    defs/dynafun]
   options)
 ;; array element types [LinearFunction Vector Vector]
@@ -36,14 +28,7 @@
   [g/linearfunctions defs/m22 
    g/vectors defs/v2 
    g/vectors defs/v2]
-  [defs/invokeinterface
-   defs/protocols
-   defs/instanceof
-   defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
-   defs/nohierarchy
+  [defs/protocols
    defs/dynafun]
   options)
 ;; array element types [Object Object Object]
@@ -53,12 +38,6 @@
    prng/objects defs/v2 
    prng/objects defs/v2]
   [defs/protocols
-   defs/instanceof
-   defs/instancefn
-   defs/defmulti
-   defs/hashmaps
-   defs/signatures
-   defs/nohierarchy
    defs/dynafun]
   options)
 ;;----------------------------------------------------------------

@@ -13,6 +13,7 @@
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
+            [palisades.lakes.multix.sets.protocols :as protocols]
             [palisades.lakes.multix.sets.instancefn :as instancefn]
             [palisades.lakes.multix.sets.multi :as multi]
             [palisades.lakes.multix.sets.hashmaps :as hashmaps]
@@ -82,6 +83,7 @@
          ^"[Ljava.lang.Number;" s1]
   (Contains/countInterface s0 s1))
 ;;----------------------------------------------------------------
+(bench/defcounter protocols protocols/contains?)
 (bench/defcounter instanceof Contains/contains)
 (bench/defcounter instancefn instancefn/contains?)
 (bench/defcounter defmulti multi/contains?)
