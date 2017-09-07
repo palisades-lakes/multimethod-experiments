@@ -113,12 +113,13 @@ read.data <- function (
       'invokeinterface',
       'instanceof',
       'instancefn',
-      'dynest',
-      'dynalin',
       'dynafun',
+      'dynalin',
+      'dynamap',
       'nohierarchy',
       'signatures',
       'hashmaps',
+      'protocols',
       'defmulti'))
   
   #baseline <- data$millisec[(data$algorithm=='instanceof')]
@@ -176,12 +177,13 @@ algorithm.colors <- c(
   'invokeinterface'='#666666',
   'instanceof'='#1b9e77',
   'instancefn'='#1b9e77',
-  'dynest'='#b66638',
+  'dynamap'='#b66638',
   'dynalin'='#b66638',
   'dynafun'='#a65628',
   'nohierarchy'='#377eb8',
   'signatures'='#377eb8',
   'hashmaps'='#377eb8',
+  'protocols'='#e41a1c',
   'defmulti'='#e41a1c')
 #-----------------------------------------------------------------
 quantile.plot <- function(data, fname,

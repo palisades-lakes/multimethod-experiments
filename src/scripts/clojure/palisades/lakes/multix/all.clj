@@ -10,8 +10,8 @@
    :version "2017-09-06"}
   
   (:require 
-    #_[palisades.lakes.multix.axpy.bench]
-    #_[palisades.lakes.multix.contains.bench]
+    [palisades.lakes.multix.axpy.bench]
+    [palisades.lakes.multix.contains.bench]
     [palisades.lakes.multix.diameter.bench]
     [palisades.lakes.multix.intersects.bench]))
 ;;----------------------------------------------------------------
