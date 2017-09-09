@@ -1,10 +1,12 @@
 # multimethod-experiments [![Clojars Project](https://img.shields.io/clojars/v/palisades-lakes/multimethod-experiments.svg)](https://clojars.org/palisades-lakes/multimethod-experiments)
 
-_This repository is intended as something like reproducible research,
+This repository is intended as something like reproducible research,
 to document in detail what led to 2 libraries:
+
 - [faster-multimethods](https://github.com/palisades-lakes/faster-multimethods):
-faster backwards-compatible alternative to the Clojure 1.8.0
-implementation
+a faster backwards-compatible alternative to the Clojure 1.8.0
+implementation,
+
 - [dynamic-functions](https://github.com/palisades-lakes/dynamic-functions):
 not backwards compatible, more restricted than Clojure multimethods, but faster still.
 

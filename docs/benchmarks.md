@@ -12,15 +12,17 @@ is fine.
 
 The results here are from 4 benchmarks, 
 reflecting my interests.
-I believe they are reasonably representative
+I believe they are reasonably representative, though simplified,
 of generic operations commonly encountered 
 in numeric/scientific/geometric computing,
 but that's just one computing domain.
 Suggestions for benchmarks from other domains would be appreciated.
  
-I'm interested in using multimethods for basic basic geometric
+I'm interested in using multimethods for basic geometric
 computation. Many important methods will just be a few floating
 point operations, costing perhaps 10-100 nanoseconds. 
+At this scale, the CLojure 1.8.0 method lookup overhead is
+unacceptable.
 The first 4 benchmarks (see below) are designed to reflect this.
 
 [Criterium](https://github.com/hugoduncan/criterium)
@@ -37,7 +39,7 @@ but I haven't had the chance to explore this in depth._
 
 The bottom line is that differences in the results less than 10%
 or so shouldn't be taken seriously, 
-which is no doubt true in any case.
+which would no doubt be true in any case.
 
 ## general assumptions
 
@@ -47,10 +49,9 @@ Current assumptions underlying my choice of benchmarks.
 An ideal language would permit defining new methods for 
 `(+ a b)` without losing any performance when `a` and `b` are 
 primitive `int`. (Lexical type hints might be required, but should
-have minimal scope and affect only performance and not semantics,
-except when used to generate validating assertions.)
+have minimal scope and affect only performance and not semantics.)
 
-- Methods can be added/redefined dynamically, in multiple threads,
+- Methods will be added/redefined dynamically, in multiple threads,
 concurrent with method lookup and invocation.
 
 - Operations are invoked much more often than methods are defined,
@@ -68,7 +69,7 @@ most recent call, or at least the most recent call in the same thread.
 - Simple argument lists (no destructuring) are good enough, or, 
 at least, performance is more important in that case.
 
-- Performance for small arities (1,2,3,..) are more important than
+- Performance for small arities (1,2,3,..) is more important than
 larger ones.
 
 - Pure class-based method definition and lookup is more important
@@ -79,7 +80,9 @@ critical in that case.
 
 I currently have 4 benchmarks, 
 all reasonably representative
-of numeric/scientific/geometric computing.
+of numeric/scientific/geometric computing,
+though simplified to emphasize the relative cost of lookup
+overhead.
 
 Three are common operations on geometric objects,
 here reduced to the 1d case of sets of numbers:
@@ -109,7 +112,7 @@ called `axpy` (for a*x + y) from the venerable Fortran
 [BLAS](http://dl.acm.org/citation.cfm?doid=355841.355847)
 subroutine name.
 
-`axpy` has 3 operands. n the general case, `a` is linear function from a linear space
+`axpy` has 3 operands. In the general case, `a` is linear function from a linear space
 *X* to a linear space *Y*; `x` is an element of *X*; and 
 `y` is an element of *Y*, and the return value is an element of *Y*.
 In pseudo-clojure, we might write `axpy` as `(+ (a x) y)`.
@@ -120,7 +123,7 @@ I've provided 6 implementations for vectors in
 For linear functions, I've provided 6 implementations of 2x2
 matrices, again, one for each of the primitive number types.
 
-Vectors and matrices with, eg, `short` coordinates is not terribly
+Vectors and matrices with, eg, `short` coordinates are not terribly
 realistic. I provide implementations here for all the primitive
 number types because it makes it easy to generate code
 for a case with 6x6x6=216 methods, much more than the previous 
@@ -132,51 +135,74 @@ for method lookup on a variety of _datasets_.
 
 ### algorithms
 
-Each of the benchmarks is given Java method lookup
-algorithms that assume operand types are known 
+_('algorithm' isn't quite right, but 'implementation' doesn't
+completely fit either...)_
+
+The benchmarks are intended to measure performance in fully dynamic
+method lookup. However, as a baseline, each of the benchmarks is 
+given non-dynamic Java method lookup
+algorithms, ones that assume operand types are known 
 at compile time, and which result in 
 `invokestatic`, `invokevirtual`, and `invokeinterface`
 JVM bytecodes.
 
-All are given a fully dynamic Java algorithm 
+An additional non-dynamic algorithm, 'protocols', based on Clojure
+`defprotocol` and `extend-type` is provided to measure the value
+of the fairly wide-spread advice to favor Clojure protocols
+over multimethods.
+
+All the benchmarks are given a fully dynamic Java algorithm 
 using if-then-else with `instanceof` to 
 cast the operands and invoke the right method.
-The if-then-else tree is hand-optimized for a particular dataset
-that needs repeated calls to a single method.
+The if-then-else trees are hand-optimized 
+for datasets that favor certain methods.
+This is intended as the most realistic baseline --- the best one
+could expect to do.
+
+Each benchmark is also give a fully dynamic Clojure algorithm,
+'instancefn', which is a similarly hand-optimized `cond` using
+calls to `instance?` to find the right method. This code is 
+structured so that there are 2 calls to `IFn.invoke()`, 
+providing a baseline cost for any multimethod implementation
+that represents both the multimethod and the methods as instances of
+`IFn`. 
 
 Each benchmark has fully dynamic algorithms using 
-Clojure 1.8.0 multimethod (`defmulti`) and 5 alternatives,
+Clojure 1.8.0 multimethod (`defmulti`) and alternatives,
 testing incremental changes to Clojure 1.8.0:
-- `hashmaps`: the same as Clojure 1.8.0 except it uses 
+
+- From [faster-multimethods](https://github.com/palisades-lakes/faster-multimethods):
+
+    - `hashmaps`: the same as Clojure 1.8.0 except it uses 
 `java.util.Hashmap` for the method lookup tables instead of
 `clojure.lang.PersistentHashMap`.
 
-- `nonvolatile`: makes the `methodCache` non-`volatile`.
-
-- `signatures`: uses instances of specialized `Signature` classes
+    - `signatures`: uses instances of specialized `Signature` classes
 instead of `PersistentVector` as dispatch values.
 
-- `nohierarchy`: uses a version of `clojure.lang.MultiFn` 
+     - `nohierarchy`: uses a version of `clojure.lang.MultiFn` 
 that doesn't support general hierarchies, eliminating the need to 
 synchronize with the shared mutable hierarchy before every
 method call.
 
-- `dynafun`: the previous method lookup algorithms are all 
-backwards compatible with Clojure 1.8.0. `dynafun` abandons
-compatibility to enable further optimization. 
-It is currently just a simplified version
-of `nohierarchy`, but changes are expected.
+- From [dynamic-functions](https://github.com/palisades-lakes/dynamic-functions):
+    - `dynafun`: the current implementation. As of version 0.0.7-SNAPSHOT,
+    this uses linear search in nested arrays, with fallback to hashmaps
+    for large arities and many methods.
+    - `dynaXXX`: other experimental variations. 
+
 
 ### datasets
 
 The benchmarks take as input _datasets_.
 A dataset is a tuple of arrays of operands,
-1, 2, or 3 arrays, depending on the number of operands to the
+1, 2, 3, ..., arrays, depending on the number of operands in the
 generic operation being tested.
 The operation is called in a loop iterating over the arrays, 
 with one operand coming from each array.
 The results are accumulated by counting (`contains` and `intersects`),
-maximum (`diameter`), and maximum L1 norm (`axpy`).
+maximum (`diameter`), and maximum L1 norm (`axpy`),
+as a rough check that all the algorithms are doing the same thing.
 
 The datasets differ in whether all
 elements of each array are the same type, 
@@ -187,11 +213,11 @@ repeatedly, checking the performance of various
 method caching strategies
 with differing probabilities of cache hit/miss.
 
-Each operand array is generated with a `dataset-generator` and
+Each operand array is generated with a `container-generator` and
 an `element-generator`. The `element-generator` creates 
 individual operand values, either pseudo-randomly 
 or deterministically, producing varying patterns of repeated
-methods. The `dataset-generator` permits holding the
+methods. The `container-generator` permits holding the
 individual operands in varying containers, eg, arrays with 
 different element types, lists, etc.
 
@@ -213,9 +239,9 @@ gc, etc., perhaps reducing the variation in time between runs.
 ## Results
 
 The main benchmark script is 
-[palisades.lakes.multix.scripts.bench](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/scripts/clojure/palisades/lakes/multix/all.clj).
-
-The results that follow are from a Thinkpad P70 (Xeon E3-1505M v5).
+[palisades.lakes.multix.all](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/scripts/clojure/palisades/lakes/multix/all.clj).
+As of version 0.0.7-SNAPSHOT, this takes roughly overnight to
+run on a Thinkpad P70 (Xeon E3-1505M v5).
 
 The plots show 90% interval boxes for the runtimes for 
 all 6 concurrent runs over
@@ -231,7 +257,8 @@ of a repeated call to the same method is `(/ 1 nmethods)`.
   alt="all benchmarks" 
   style="width: 15cm;"/>
 
-Excluding Clojure 1.8.0 (`defmulti`):
+Excluding Clojure 1.8.0 (`defmulti`), to make it easier to
+compare the others:
 
 <img src="figs/fast.quantiles.png" 
   alt="all benchmarks except Clojure 1.8.0" 
@@ -272,8 +299,6 @@ the others easier to see:
   style="width: 15cm;"/>
   
 
-See [benchmarks.md](figs/benchmarks.md) for detailed results.
-
 ### conclusions
 
 1. Small changes to the Clojure 1.8.0 implementation
@@ -283,12 +308,15 @@ making multimethods a feasible choice for many more problems.
 1. There is virtually no difference among the non-dynamic
 algorithms (`invokestatic`, `invokevirtual`, and `invokeinterface`). 
 
-1. Hand-optimized `instanceof` has the same performance as the non-dynamic methods in the case of repeated
+1. Hand-optimized `instanceof` has the same performance as the 
+non-dynamic methods in the case of repeated
 calls to the first method found in depth first if-then-else.
-It may be possible for auto-tuned method lookup (either dynamic
-or at code generation time) to get performance that approaches non-dynamic method choice. 
+This suggests it may be possible for auto-tuned method lookup (either dynamic
+or at code generation time) to get performance that approaches
+non-dynamic method choice. 
 
-1. All the dynamic algorithms take longer as the probability of calling the same method again decreases. Improvements relative
+1. All the dynamic algorithms take longer as the probability of 
+calling the same method again decreases. Improvements relative
 to Clojure 1.8.0 are also less.
 
     The benchmarks here
@@ -307,13 +335,8 @@ The differences in performance show the level of uncertainty
 left in the benchmarks after Criterium's efforts
 to stabilize.
 
-3. Making the `methodCache` non-volatile makes no difference
-in this benchmark, if not actually making things worse.
-It may help when there is more contention, possibly if `nthreads`
-uses all available cpus.
-
 4. Except for `diameter`, using a specialized `Signature` dispatch value in place
-of a `PersistentVector` reduces the overhead by by roughly a quarter.
+of a `PersistentVector` reduces the overhead by roughly a quarter.
 
 5. Providing a `:hierarchy false` option gets us to 3-8% of 
 the overhead of Clojure 1.8.0, in the best cases.
@@ -327,8 +350,6 @@ can be made at the Clojure/Java level, or if Clojure compiler
 changes are needed.
 
 ### future work
-
-- add `protocol` based algorithms
 
 - generate datasets whose probability of repeated calls to the
 same method is more typical of actual code.
