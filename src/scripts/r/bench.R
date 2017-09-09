@@ -2,10 +2,10 @@
 # intersects/bench.R
 # palisades dot lakes at gmail dot com
 # since 2017-07-30
-# version 2017-09-02
+# version 2017-09-09
 #-----------------------------------------------------------------
-#setwd('c:/porta/projects/multimethod-experiments')
-setwd('e:/porta/projects/multimethod-experiments')
+setwd('c:/porta/projects/multimethod-experiments')
+#setwd('e:/porta/projects/multimethod-experiments')
 source('src/scripts/r/functions.R')
 #-----------------------------------------------------------------
 #model <- '20HRCTO1WW' # X1
@@ -33,7 +33,8 @@ dir.create(plot.folder, showWarnings=FALSE, recursive=TRUE,
 cols <- c('benchmark','algorithm','nmethods',
   'lower.q','median', 'upper.q','millisec',
   'overhead.lower.q','overhead.median', 'overhead.upper.q',
-  'overhead.millisec')
+  'overhead.millisec',
+  'nanosec','overhead.nanosec')
 #-----------------------------------------------------------------
 quantile.plot(data=data,fname='all')
 md.table(data=data[,cols],fname='all',n=nelements)
@@ -66,7 +67,8 @@ dynamic.algs <- c(
   'dynafun',
   'nohierarchy',
   'signatures',
-  'hashmaps')
+  'hashmaps',
+  'protocols')
 #-----------------------------------------------------------------
 dynamic <- data[(data$algorithm %in% dynamic.algs),]
 quantile.plot(data=dynamic,fname='dynamic')

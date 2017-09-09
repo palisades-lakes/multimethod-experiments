@@ -72,12 +72,14 @@ read.data <- function (
   for (f in files) {
     print(f)
     tmp <- read.csv(f,sep='\t',as.is=TRUE)
+    tmp$nanosec <- (1000000 * tmp$millisec) / tmp$nelements
     # print(summary(tmp))
     # TODO: use min. max rather than 'instanceof' and 'defmulti' ?
     if (1==nrow(tmp[tmp$algorithm=='instanceof',])) {
       base.lower.q <- tmp[tmp$algorithm=='instanceof','lower.q']
       base.median <- tmp[tmp$algorithm=='instanceof','median']
       base.millisec <- tmp[tmp$algorithm=='instanceof','millisec']
+      base.nanosec <- tmp[tmp$algorithm=='instanceof','nanosec']
       base.upper.q <- tmp[tmp$algorithm=='instanceof','upper.q']
       denom.lower.q <- tmp[tmp$algorithm=='defmulti','lower.q'] - base.lower.q
       denom.median <- tmp[tmp$algorithm=='defmulti','median'] - base.median
@@ -87,11 +89,13 @@ read.data <- function (
       tmp$overhead.median <- (tmp$median - base.median) / denom.median
       tmp$overhead.millisec <- (tmp$millisec - base.millisec) / denom.millisec
       tmp$overhead.upper.q <- (tmp$upper.q - base.upper.q) / denom.upper.q
+      tmp$overhead.nanosec <- tmp$nanosec - base.nanosec
     } else {
       tmp$overhead.lower.q <- 0
       tmp$overhead.median <- 0
       tmp$overhead.millisec <- 0
       tmp$overhead.upper.q <- 0   
+      tmp$overhead.nanosec <- 0
     }
     tmp$benchmark <- benchmark
     #print(summary(tmp))
@@ -163,7 +167,8 @@ md.table <- function(data,fname,n) {
       row.names=FALSE,
       col.names = c('benchmark','algorithm','nmethods',
         '0.05','0.50','0.95','mean',
-        'overhead 0.05','overhead 0.50','overhead 0.95','overhead mean')),
+        'overhead 0.05','overhead 0.50','overhead 0.95','overhead mean',
+        'ns per op','overhead ns per op')),
     con=md.file,
     sep='\n') 
   close(md.file) }

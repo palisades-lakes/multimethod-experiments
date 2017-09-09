@@ -6,7 +6,7 @@
   {:doc "clojure.core/defmulti for set intersection testing."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-04-20"
-   :version "2017-08-24"}
+   :version "2017-09-09"}
   
   (:refer-clojure :exclude [contains?])
   
@@ -27,10 +27,9 @@
   (Diameter/diameter s))
 ;;----------------------------------------------------------------
 (defmethod diameter Set ^double [^Set s] (.diameter s))
-;; diameter 2 methods primitive return value
-;;;----------------------------------------------------------------
+;;----------------------------------------------------------------
 ;; intersects? 9 methods
-;----------------------------------------------------------------
+;;----------------------------------------------------------------
 (defmulti intersects?
   "Test for general set intersection. 9 methods."
   {}

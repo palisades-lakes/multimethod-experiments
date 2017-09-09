@@ -305,6 +305,19 @@ the others easier to see:
 greatly reduce method lookup overhead, 
 making multimethods a feasible choice for many more problems.
 
+1. `protocols` only outperforms the algorithms from
+[faster-multimethods](https://github.com/palisades-lakes/faster-multimethods)
+in the cases of repeated calls to a single method.
+It is matched by `dynafun`
+(see [dynamic-functions](https://github.com/palisades-lakes/dynamic-functions))
+even in that case.
+ 
+ 1. `protocols` have the worst performance for `diameter`,
+an operation with a single operand (equivalent to a Java method
+with no arguments). I don't understand why this is so ---
+I haven't looked at implementations of `defprotocol` and
+`extend-type`.
+
 1. There is virtually no difference among the non-dynamic
 algorithms (`invokestatic`, `invokevirtual`, and `invokeinterface`). 
 
@@ -337,6 +350,9 @@ to stabilize.
 
 4. Except for `diameter`, using a specialized `Signature` dispatch value in place
 of a `PersistentVector` reduces the overhead by roughly a quarter.
+`diameter` dispatches on a single `Class`, so in that case
+`hashmaps` and `signatures` are identical --- the differences in
+the results expose the limits on the benchmark accuracy.
 
 5. Providing a `:hierarchy false` option gets us to 3-8% of 
 the overhead of Clojure 1.8.0, in the best cases.
