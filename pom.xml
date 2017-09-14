@@ -144,6 +144,13 @@
       </goals>
      </execution>
      <execution>
+      <id>test-compile</id>
+      <phase>test-compile</phase>
+      <goals>
+       <goal>testCompile</goal>
+      </goals>
+     </execution>
+     <execution>
       <id>clojure-test</id>
       <phase>test</phase>
       <goals>
