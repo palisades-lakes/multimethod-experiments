@@ -1,0 +1,235 @@
+{:spec-vendor "Oracle Corporation",
+ :spec-name "Java Virtual Machine Specification",
+ :vm-version "25.141-b15",
+ :name "11424@LAPTOP-2HQMV1AK",
+ :clojure-version-string "1.8.0",
+ :java-runtime-version "1.8.0_141-b15",
+ :java-version "1.8.0_141",
+ :vm-name "Java HotSpot(TM) 64-Bit Server VM",
+ :vm-vendor "Oracle Corporation",
+ :clojure-version {:major 1, :minor 8, :incremental 0, :qualifier nil},
+ :spec-version "1.8",
+ :sun-arch-data-model "64",
+ :input-arguments
+ ["-ea" "-dsa" "-Xbatch" "-Xms12g" "-Xmx12g" "-Xmn5g"]}
+---------------
+Microsoft Windows 10 build 15063
+manufacturer: LENOVO
+model: 20ERCTO1WW
+firmware:
+  manufacturer: LENOVO
+  name: N1DET90W (2.16 )
+  description: N1DET90W (2.16 )
+  version: LENOVO - 2160
+  release date: 07/12/2017
+baseboard:
+  manufacturer: LENOVO
+  model: unknown
+  version: 0B98417 WIN
+Intel(R) Xeon(R) CPU E3-1505M v5 @ 2.80GHz
+ 4 physical CPU(s)
+ 8 logical CPU(s)
+Identifier: Intel64 Family 6 Model 94 Stepping 3
+Memory: 53.1 GiB/63.8 GiB
+Swap used: 0 bytes/9.5 GiB
+Uptime: 0 days, 12:31:30
+CPU, IOWait, and IRQ ticks @ 0 sec:[191358453, 0, 1609831, 167719500, 0, 22490, 10179, 0]
+CPU, IOWait, and IRQ ticks @ 1 sec:[191358453, 0, 1609844, 167727453, 0, 22492, 10179, 0]
+User: 0.0% Nice: 0.0% System: 0.2% Idle: 99.8% IOwait: 0.0% IRQ: 0.0% SoftIRQ: 0.0% Steal: 0.0%
+CPU load: 0.8% (counting ticks)
+CPU load: -100.0% (OS MXBean)
+CPU load averages: N/A N/A N/A
+CPU load per processor: 1.3% 0.0% 4.1% 2.7% 5.4% 0.0% 0.0% 0.0%
+---------------
+generate-datasets
+(("objects" "SetOf3") ("NumberArray" "uniformDoubleOrInteger"))
+"Elapsed time: 1.09511 msecs"
+2017-09-19T06:42:34.613
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "protocols",
+ :now "20170919-0650",
+ :value 1398939.0,
+ :execution-count 6,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "contains",
+ :lower-q 171.11335366666668,
+ :millisec 172.4389354322917,
+ :warmup-executions 67,
+ :threads 6,
+ :sample-count 256,
+ :median 171.85807466666665,
+ :upper-q 173.43558500000003,
+ :total-time 264.865918178,
+ :generators "objects-SetOf3-NumberArray-uniformDoubleOrInteger"}
+
+"Elapsed time: 478914.309001 msecs"
+2017-09-19T06:50:49.530
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "instanceof",
+ :now "20170919-0658",
+ :value 1393806.0,
+ :execution-count 29,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "contains",
+ :lower-q 35.50525886206897,
+ :millisec 35.61881495083513,
+ :warmup-executions 331,
+ :threads 6,
+ :sample-count 256,
+ :median 35.5873289137931,
+ :upper-q 35.71827136206897,
+ :total-time 264.433852462,
+ :generators "objects-SetOf3-NumberArray-uniformDoubleOrInteger"}
+
+"Elapsed time: 475472.560253 msecs"
+2017-09-19T06:59:00.994
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "instancefn",
+ :now "20170919-0706",
+ :value 1398048.0,
+ :execution-count 31,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "contains",
+ :lower-q 32.988138435483876,
+ :millisec 33.20180877847783,
+ :warmup-executions 311,
+ :threads 6,
+ :sample-count 256,
+ :median 33.17133614516129,
+ :upper-q 33.428174072580646,
+ :total-time 263.467305827,
+ :generators "objects-SetOf3-NumberArray-uniformDoubleOrInteger"}
+
+"Elapsed time: 468170.755491 msecs"
+2017-09-19T07:07:05.165
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "defmulti",
+ :now "20170919-0715",
+ :value 1398939.0,
+ :execution-count 2,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "contains",
+ :lower-q 565.7032316250001,
+ :millisec 576.7027172343751,
+ :warmup-executions 19,
+ :threads 6,
+ :sample-count 256,
+ :median 575.756419,
+ :upper-q 587.194083875,
+ :total-time 295.270006526,
+ :generators "objects-SetOf3-NumberArray-uniformDoubleOrInteger"}
+
+"Elapsed time: 496739.751439 msecs"
+2017-09-19T07:15:37.909
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "hashmaps",
+ :now "20170919-0723",
+ :value 1398939.0,
+ :execution-count 9,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "contains",
+ :lower-q 118.47476900000001,
+ :millisec 122.57811827560765,
+ :warmup-executions 91,
+ :threads 6,
+ :sample-count 256,
+ :median 124.52289516666667,
+ :upper-q 125.99205755555556,
+ :total-time 282.410425341,
+ :generators "objects-SetOf3-NumberArray-uniformDoubleOrInteger"}
+
+"Elapsed time: 487685.363159 msecs"
+2017-09-19T07:24:01.599
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "signatures",
+ :now "20170919-0731",
+ :value 1398939.0,
+ :execution-count 11,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "contains",
+ :lower-q 94.57594038636363,
+ :millisec 96.24458756569602,
+ :warmup-executions 121,
+ :threads 6,
+ :sample-count 256,
+ :median 95.51008927272727,
+ :upper-q 97.77516672727272,
+ :total-time 271.035922648,
+ :generators "objects-SetOf3-NumberArray-uniformDoubleOrInteger"}
+
+"Elapsed time: 474654.67929 msecs"
+2017-09-19T07:32:12.256
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "nohierarchy",
+ :now "20170919-0740",
+ :value 1398939.0,
+ :execution-count 11,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "contains",
+ :lower-q 92.3619750909091,
+ :millisec 93.86402563316761,
+ :warmup-executions 121,
+ :threads 6,
+ :sample-count 256,
+ :median 93.46475990909092,
+ :upper-q 95.18629363636363,
+ :total-time 264.314312925,
+ :generators "objects-SetOf3-NumberArray-uniformDoubleOrInteger"}
+
+"Elapsed time: 469008.644915 msecs"
+2017-09-19T07:40:17.256
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "dynafun",
+ :now "20170919-0748",
+ :value 1398939.0,
+ :execution-count 19,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "contains",
+ :lower-q 54.10742346052632,
+ :millisec 54.51716867557566,
+ :warmup-executions 211,
+ :threads 6,
+ :sample-count 256,
+ :median 54.209397263157896,
+ :upper-q 54.831854052631584,
+ :total-time 265.174123134,
+ :generators "objects-SetOf3-NumberArray-uniformDoubleOrInteger"}
+
+"Elapsed time: 468999.079203 msecs"
+2017-09-19T07:48:22.248
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "dynamap",
+ :now "20170919-0756",
+ :value 1398939.0,
+ :execution-count 19,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "contains",
+ :lower-q 55.14000189473685,
+ :millisec 55.711311761718754,
+ :warmup-executions 211,
+ :threads 6,
+ :sample-count 256,
+ :median 55.934228789473686,
+ :upper-q 56.20900915789474,
+ :total-time 270.977027021,
+ :generators "objects-SetOf3-NumberArray-uniformDoubleOrInteger"}
+
+"Elapsed time: 473907.744904 msecs"
