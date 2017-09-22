@@ -1,4 +1,0 @@
-algorithm	benchmark	execution-count	generators	lower-q	manufacturerModel	median	millisec	nelements	now	nthreads	sample-count	tail-quantile	threads	total-time	upper-q	value	warmup-executions
-invokestaticPrimitive	contains	82	IntegerIntervals-integer_interval-ints-uniform_int	12.293305146341464	LENOVO.20ERCTO1WW	12.31727119512195	12.358566154535064	1048576	20170906-0527	6	256	0.05	6	259.424270282	12.45219080487805	2067159	1361
-invokevirtualPrimitive	contains	82	IntegerIntervals-integer_interval-ints-uniform_int	12.038373000000002	LENOVO.20ERCTO1WW	12.05406499390244	12.132969603229803	1048576	20170906-0534	6	256	0.05	6	254.695345303	12.2748581097561	2097887	872
-invokeinterfacePrimitive	contains	84	IntegerIntervals-integer_interval-ints-uniform_int	12.039213696428574	LENOVO.20ERCTO1WW	12.051192511904762	12.052453399135045	1048576	20170906-0540	6	256	0.05	6	259.175793421	12.069239416666667	2097887	870

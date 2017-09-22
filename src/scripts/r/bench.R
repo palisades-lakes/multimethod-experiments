@@ -4,15 +4,15 @@
 # since 2017-07-30
 # version 2017-09-09
 #-----------------------------------------------------------------
-setwd('c:/porta/projects/multimethod-experiments')
-#setwd('e:/porta/projects/multimethod-experiments')
+#setwd('c:/porta/projects/multimethod-experiments')
+setwd('e:/porta/projects/multimethod-experiments')
 source('src/scripts/r/functions.R')
 #-----------------------------------------------------------------
 #model <- '20HRCTO1WW' # X1
 model <- '20ERCTO1WW' # P70
 nelements <- 4194304
 nelements <- 1048576
-theday = '2017090[56]-[0-9]{4}'
+theday = '2017092[01]-[0-9]{4}'
 benchmarks <- c('diameter','contains','intersects','axpy')
 #-----------------------------------------------------------------
 data <- NULL
