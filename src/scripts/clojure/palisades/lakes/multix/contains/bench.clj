@@ -5,7 +5,7 @@
   "Use criterium for alternative multimethod implementations."
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-05-29"
-   :version "2017-09-06"}
+   :version "2017-09-23"}
   (:require [palisades.lakes.bench.prng :as prng]
             [palisades.lakes.bench.generators :as g]
             [palisades.lakes.bench.core :as bench]
@@ -14,12 +14,12 @@
 (def options {} #_{:n 1024 :samples 4})
 ;; baselines: args always IntegerInterval, Integer
 (bench/bench 
-  [g/IntegerIntervals defs/ii
-   prng/ints defs/uint]
-  [defs/invokestaticPrimitive
-   defs/invokevirtualPrimitive
-   defs/invokeinterfacePrimitive]
-  options)
+   [g/IntegerIntervals defs/ii
+    prng/ints defs/uint]
+   [defs/invokestaticPrimitive
+    defs/invokevirtualPrimitive
+    defs/invokeinterfacePrimitive]
+   options)
 (bench/bench 
   [g/IntegerIntervals defs/ii
    prng/IntegerArray defs/uInteger]

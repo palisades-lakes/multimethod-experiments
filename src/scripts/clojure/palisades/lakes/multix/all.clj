@@ -7,7 +7,7 @@
   
   {:author "palisades dot lakes at gmail dot com"
    :since "2017-08-25"
-   :version "2017-09-21"}
+   :version "2017-09-23"}
   
   (:require 
     [palisades.lakes.multix.axpy.bench]

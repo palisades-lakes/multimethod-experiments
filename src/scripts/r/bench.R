@@ -12,7 +12,7 @@ source('src/scripts/r/functions.R')
 model <- '20ERCTO1WW' # P70
 nelements <- 4194304
 nelements <- 1048576
-theday = '2017092[01]-[0-9]{4}'
+theday = '2017092[34]-[0-9]{4}'
 benchmarks <- c('diameter','contains','intersects','axpy')
 #-----------------------------------------------------------------
 data <- NULL

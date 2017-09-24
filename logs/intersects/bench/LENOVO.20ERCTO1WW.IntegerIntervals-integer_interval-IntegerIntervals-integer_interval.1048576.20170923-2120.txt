@@ -1,0 +1,48 @@
+{:spec-vendor "Oracle Corporation",
+ :spec-name "Java Virtual Machine Specification",
+ :vm-version "25.141-b15",
+ :name "9056@LAPTOP-2HQMV1AK",
+ :clojure-version-string "1.8.0",
+ :java-runtime-version "1.8.0_141-b15",
+ :java-version "1.8.0_141",
+ :vm-name "Java HotSpot(TM) 64-Bit Server VM",
+ :vm-vendor "Oracle Corporation",
+ :clojure-version {:major 1, :minor 8, :incremental 0, :qualifier nil},
+ :spec-version "1.8",
+ :sun-arch-data-model "64",
+ :input-arguments
+ ["-ea" "-dsa" "-Xbatch" "-Xms12g" "-Xmx12g" "-Xmn5g"]}
+---------------
+Microsoft Windows 10 build 15063
+manufacturer: LENOVO
+model: 20ERCTO1WW
+firmware:
+  manufacturer: LENOVO
+  name: N1DET90W (2.16 )
+  description: N1DET90W (2.16 )
+  version: LENOVO - 2160
+  release date: 07/12/2017
+baseboard:
+  manufacturer: LENOVO
+  model: unknown
+  version: 0B98417 WIN
+Intel(R) Xeon(R) CPU E3-1505M v5 @ 2.80GHz
+ 4 physical CPU(s)
+ 8 logical CPU(s)
+Identifier: Intel64 Family 6 Model 94 Stepping 3
+Memory: 52.2 GiB/63.8 GiB
+Swap used: 0 bytes/9.5 GiB
+Uptime: 1 days, 11:12:22
+CPU, IOWait, and IRQ ticks @ 0 sec:[491951609, 0, 3757723, 306812265, 0, 37630, 18210, 0]
+CPU, IOWait, and IRQ ticks @ 1 sec:[491951609, 0, 3757810, 306820281, 0, 37636, 18210, 0]
+User: 0.0% Nice: 0.0% System: 1.1% Idle: 98.9% IOwait: 0.0% IRQ: 0.1% SoftIRQ: 0.0% Steal: 0.0%
+CPU load: 1.7% (counting ticks)
+CPU load: -100.0% (OS MXBean)
+CPU load averages: N/A N/A N/A
+CPU load per processor: 5.5% 6.8% 1.4% 0.0% 4.2% 0.0% 1.3% 1.4%
+---------------
+generate-datasets
+(("IntegerIntervals" "integer_interval")
+ ("IntegerIntervals" "integer_interval"))
+"Elapsed time: 1.334337 msecs"
+2017-09-23T21:20:41.743
