@@ -1,4 +1,6 @@
-# multimethod-experiments [![Clojars Project](https://img.shields.io/clojars/v/palisades-lakes/multimethod-experiments.svg)](https://clojars.org/palisades-lakes/multimethod-experiments)
+# multimethod-experiments 
+
+[![Clojars Project](https://img.shields.io/clojars/v/palisades-lakes/multimethod-experiments.svg)](https://clojars.org/palisades-lakes/multimethod-experiments)
 
 This repository is intended as something like reproducible research,
 to document in detail what led to 2 libraries:

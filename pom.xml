@@ -242,9 +242,9 @@
     <version>${maven-javadoc-version}</version>
     <configuration>
      <additionalparam>-Xdoclint:none</additionalparam>
-     <outputDirectory>${project.build.directory}/javadoc</outputDirectory>
-     <reportOutputDirectory>${project.reporting.outputDirectory}/javadoc</reportOutputDirectory>
-     <destDir>docs/api</destDir>
+     <outputDirectory>${project.basedir}c</outputDirectory>
+     <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
+     <destDir>docs/javadoc</destDir>
      <overview>src/main/java/overview.html</overview>
      <showPackage>true</showPackage>
      <showProtected>true</showProtected>
@@ -345,6 +345,9 @@
     <configuration>
      <!-- <destDir>target/site/docs/</destDir> -->
      <additionalparam>-Xdoclint:none</additionalparam>
+     <outputDirectory>${project.basedir}c</outputDirectory>
+     <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
+     <destDir>docs/javadoc</destDir>
      <overview>src/main/java/overview.html</overview>
      <showPackage>true</showPackage>
      <showProtected>true</showProtected>
@@ -368,6 +371,7 @@
    </plugin>
   </plugins>
  </reporting>
+
  <repositories>
   <repository>
    <id>maven2</id>
@@ -400,17 +404,17 @@
   <dependency>
    <groupId>palisades-lakes</groupId>
    <artifactId>benchtools</artifactId>
-   <version>[0.0.7-SNAPSHOT,)</version>
+   <version>0.0.7</version>
   </dependency>
   <dependency>
    <groupId>palisades-lakes</groupId>
    <artifactId>faster-multimethods</artifactId>
-   <version>[0.1.0-beta0-SNAPSHOT,)</version>
+   <version>0.0.7</version>
   </dependency>
   <dependency>
    <groupId>palisades-lakes</groupId>
    <artifactId>dynamic-functions</artifactId>
-   <version>[0.0.7-SNAPSHOT,)</version>
+   <version>0.0.7</version>
   </dependency>
  <!-- 
   <dependency>
