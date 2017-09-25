@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+ xmlns="http://maven.apache.org/POM/4.0.0"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
  <modelVersion>4.0.0</modelVersion>
  <properties>
   <doclint>none</doclint>
@@ -28,7 +32,7 @@
   <connection>${github-url}</connection>
   <developerConnection>${github-url}</developerConnection>
   <url>${github-url}</url>
-  <tag>multimethod-experiments-0.0.7</tag>
+  <tag>HEAD</tag>
  </scm>
  <distributionManagement>
   <repository>
@@ -240,7 +244,7 @@
      <additionalparam>-Xdoclint:none</additionalparam>
      <outputDirectory>${project.basedir}c</outputDirectory>
      <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
-     <destDir>docs/javadoc</destDir>
+     <destDir>docs/api</destDir>
      <overview>src/main/java/overview.html</overview>
      <showPackage>true</showPackage>
      <showProtected>true</showProtected>
@@ -343,7 +347,7 @@
      <additionalparam>-Xdoclint:none</additionalparam>
      <outputDirectory>${project.basedir}c</outputDirectory>
      <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
-     <destDir>docs/javadoc</destDir>
+     <destDir>docs/api</destDir>
      <overview>src/main/java/overview.html</overview>
      <showPackage>true</showPackage>
      <showProtected>true</showProtected>
@@ -412,26 +416,9 @@
    <artifactId>dynamic-functions</artifactId>
    <version>0.0.7</version>
   </dependency>
- <!-- 
-  <dependency>
-   <groupId>palisades-lakes</groupId>
-   <artifactId>benchtools</artifactId>
-   <version>0.0.6</version>
-  </dependency>
-  <dependency>
-   <groupId>palisades-lakes</groupId>
-   <artifactId>faster-multimethods</artifactId>
-   <version>0.1.0-beta0</version>
-  </dependency>
-  <dependency>
-   <groupId>palisades-lakes</groupId>
-   <artifactId>dynamic-functions</artifactId>
-   <version>0.0.6</version>
-  </dependency>
-   -->
  </dependencies>
  <groupId>palisades-lakes</groupId>
  <artifactId>multimethod-experiments</artifactId>
- <version>0.0.7</version>
+ <version>0.0.7-SNAPSHOT</version>
  <description>Benchmarks for alternatives to clojure 1.8.0 multimethods.</description>
 </project>
