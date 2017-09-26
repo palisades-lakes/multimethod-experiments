@@ -8,7 +8,7 @@
          (no hierarchies, class-based only), but much faster. "
    :author "palisades dot lakes at gmail dot com"
    :since "2017-06-02"
-   :version "2017-09-02"}
+   :version "2017-09-26"}
   
   (:refer-clojure :exclude [defmulti defmethod prefer-method])
   
@@ -17,7 +17,7 @@
   
   (:import [clojure.lang IFn IMeta]
            [palisades.lakes.dynalin.java DynaFun]
-           [palisades.lakes.dynafun.java.signature Signature
+           [palisades.lakes.dynafun.java Signature
             Signature2 Signature3 SignatureN Signatures]))
 ;;----------------------------------------------------------------
 ;; signatures

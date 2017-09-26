@@ -6,15 +6,15 @@ import java.util.Set;
 
 import clojure.lang.IFn;
 import clojure.lang.ISeq;
-import palisades.lakes.dynafun.java.signature.Signature2;
-import palisades.lakes.dynafun.java.signature.Signature3;
-import palisades.lakes.dynafun.java.signature.Signatures;
+import palisades.lakes.dynafun.java.Signature2;
+import palisades.lakes.dynafun.java.Signature3;
+import palisades.lakes.dynafun.java.Signatures;
 
 /** Dynamic functions method lookup by Signature in linear array.
  *
  * @author palisades dot lakes at gmail dot com
  * @since 2017-08-30
- * @version 2017-09-03
+ * @version 2017-09-26
  */
 
 @SuppressWarnings("unchecked")
