@@ -194,7 +194,7 @@ algorithm.colors <- c(
 quantile.plot <- function(data, fname,
   ymin='lower.q', y='median', ymax='upper.q',
   suffix='runtimes', scales='free_y',
-  width=30, height=20) {
+  width=24, height=14) {
   plot.file <- file.path(
     plot.folder,paste(fname,'quantiles','png',sep='.'))
   
