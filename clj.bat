@@ -1,6 +1,6 @@
 @echo off
-:: mcdonald.john.alan@gmail.com
-:: 2017-07-17
+:: palisades.lakes@gmail.com
+:: 2017-10-07
 
 ::set GC=-XX:+AggressiveHeap -XX:+UseStringDeduplication 
 set GC=

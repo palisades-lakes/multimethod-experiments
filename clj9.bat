@@ -1,6 +1,8 @@
 @echo off
-:: palisades.lakes (at) gmail (dot) com
+:: palisades.lakes@gmail.com
 :: 2017-10-07
+
+set JAVA_HOME=C:\Program Files\Java\jdk-9
 
 ::set GC=-XX:+AggressiveHeap -XX:+UseStringDeduplication 
 set GC=
@@ -11,9 +13,8 @@ set COMPRESSED=
 set TRACE=
 ::set TRACE=-XX:+PrintGCDetails -XX:+TraceClassUnloading -XX:+TraceClassLoading
 
-::set PROF=
-::set PROF=-agentlib:hprof=cpu=samples,interval=1,depth=64,thread=n,doe=y
-set PROF=-agentlib:hprof=cpu=samples,interval=1,depth=128
+set PROF=
+::set PROF=-Xrunhprof:cpu=samples,depth=128,thread=y,doe=y
 
 ::set THRUPUT=-d64 -server -XX:+AggressiveOpts 
 set THRUPUT=-d64 -server
