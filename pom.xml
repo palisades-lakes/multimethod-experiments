@@ -16,7 +16,7 @@
   <connection>${github-url}</connection>
   <developerConnection>${github-url}</developerConnection>
   <url>${github-url}</url>
-  <tag>multimethod-experiments-0.0.8</tag>
+  <tag>HEAD</tag>
  </scm>
  <build>
   <plugins>
@@ -82,6 +82,6 @@
  </dependencies>
  <groupId>palisades-lakes</groupId>
  <artifactId>multimethod-experiments</artifactId>
- <version>0.0.8</version>
+ <version>0.0.9-SNAPSHOT</version>
  <description>Benchmarks for alternatives to clojure 1.8.0 multimethods.</description>
 </project>
