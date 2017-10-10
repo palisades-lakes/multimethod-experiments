@@ -8,13 +8,13 @@ import clojure.lang.IFn;
 import clojure.lang.ISeq;
 import palisades.lakes.dynafun.java.Signature2;
 import palisades.lakes.dynafun.java.Signature3;
-import palisades.lakes.dynafun.java.Signatures;
+import palisades.lakes.dynafun.java.SignatureN;
 
 /** Dynamic functions whose methods are all arity 1.
  *
  * @author palisades dot lakes at gmail dot com
  * @since 2017-09-03
- * @version 2017-09-26
+ * @version 2017-10-09
  */
 
 @SuppressWarnings("unchecked")
@@ -65,6 +65,29 @@ public final class DynaFun implements IFn {
 
   //--------------------------------------------------------------
 
+  private static final boolean isAssignableFrom (final Class[] c0,
+                                                final Class[] c1) {
+    if (c0.length != c1.length) { return false; }
+    for (int i=0;i<c0.length;i++) {
+      if (! c0[i].isAssignableFrom(c1[i])) { return false; } }
+    return true; }
+
+  private static final boolean isAssignableFrom (final Object s0,
+                                                final Object s1) {
+    if ((s0 instanceof Class) && (s1 instanceof Class)) {
+      return ((Class) s0).isAssignableFrom((Class) s1); }
+    if ((s0 instanceof Class[]) && (s1 instanceof Class[])) {
+      return isAssignableFrom((Class[]) s0, (Class[]) s1); }
+    if ((s0 instanceof Signature2) && (s1 instanceof Signature2)) {
+      return ((Signature2) s0).isAssignableFrom((Signature2) s1); }
+    if ((s0 instanceof Signature3) && (s1 instanceof Signature3)) {
+      return ((Signature3) s0).isAssignableFrom((Signature3) s1); }
+    if ((s0 instanceof Class) && (s1 instanceof Class)) {
+      return ((Class) s0).isAssignableFrom((Class) s1); }
+    if ((s0 instanceof SignatureN) && (s1 instanceof SignatureN)) {
+      return ((SignatureN) s0).isAssignableFrom((SignatureN) s1); }
+    return false; }
+
   private final boolean prefers (final Object x, 
                                  final Object y) {
 
@@ -80,10 +103,9 @@ public final class DynaFun implements IFn {
 
     // For multi-arity dispatch functions, we need to check the
     // keys of the preferTable.
-    // TODO: does this make the next loop unnecessary?
     for (final Object k : preferTable.keySet()) {
       if ((!x.equals(k)) 
-        && Signatures.isAssignableFrom(k,x) 
+        && isAssignableFrom(k,x) 
         && prefers(k,y)) { 
         return true; } }
 
@@ -109,7 +131,7 @@ public final class DynaFun implements IFn {
 
   private final boolean dominates (final Object x,
                                    final Object y) {
-    return prefers(x,y) || Signatures.isAssignableFrom(y,x); }
+    return prefers(x,y) || isAssignableFrom(y,x); }
 
   //--------------------------------------------------------------
   // arity 1
@@ -119,7 +141,7 @@ public final class DynaFun implements IFn {
     Map.Entry bestEntry = null;
     for (final Object o : methodTable.entrySet()) {
       final Map.Entry e = (Map.Entry) o;
-      if (Signatures.isAssignableFrom(e.getKey(),k)) {
+      if (isAssignableFrom(e.getKey(),k)) {
         if ((bestEntry == null)
           || dominates(e.getKey(),bestEntry.getKey())) {
           bestEntry = e; }
@@ -161,7 +183,7 @@ public final class DynaFun implements IFn {
     Map.Entry bestEntry = null;
     for (final Object o : methodTable.entrySet()) {
       final Map.Entry e = (Map.Entry) o;
-      if (Signatures.isAssignableFrom(e.getKey(),k)) {
+      if (isAssignableFrom(e.getKey(),k)) {
         if ((bestEntry == null)
           || dominates(e.getKey(),bestEntry.getKey())) {
           bestEntry = e; }
@@ -203,7 +225,7 @@ public final class DynaFun implements IFn {
     Map.Entry bestEntry = null;
     for (final Object o : methodTable.entrySet()) {
       final Map.Entry e = (Map.Entry) o;
-      if (Signatures.isAssignableFrom(e.getKey(),k)) {
+      if (isAssignableFrom(e.getKey(),k)) {
         if ((bestEntry == null)
           || dominates(e.getKey(),bestEntry.getKey())) {
           bestEntry = e; }

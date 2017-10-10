@@ -8,7 +8,7 @@
          (no hierarchies, class-based only), but much faster. "
    :author "palisades dot lakes at gmail dot com"
    :since "2017-06-02"
-   :version "2017-09-26"}
+   :version "2017-10-09"}
   
   (:refer-clojure :exclude [defmulti defmethod prefer-method])
   
@@ -18,7 +18,7 @@
   (:import [clojure.lang IFn IMeta]
            [palisades.lakes.dynest.java DynaFun]
            [palisades.lakes.dynafun.java Signature
-           Signature2 Signature3 SignatureN Signatures]))
+           Signature2 Signature3 SignatureN]))
 ;;----------------------------------------------------------------
 ;; signatures
 ;;----------------------------------------------------------------
@@ -31,7 +31,7 @@
    as a dispatch function with dynafun
    defined with `palisades.lakes.dynafun.core/defmulti`."
   
-  ([c0] `(with-meta c0 {:tag 'Class}))
+  ([c0] (with-meta c0 {:tag 'Class}))
   ([c0 c1] 
     `(Signature2.
        ~(with-meta c0 {:tag 'Class})
@@ -94,28 +94,35 @@
   (.addMethod f signature method))
 
 (defmacro defmethod [f args & body]
-  (let [names (mapv #(s/replace (:tag (meta %) 'Object) "." "")
-                    args)
+  (let [classes (mapv #(:tag (meta %) 'Object) args)
+        names (mapv #(s/replace % "." "") classes)
         m (symbol (str f "_" (s/join "_" names)))]
     `(alter-var-root 
        (var ~f) 
        add-method 
-       (Signatures/get ~(mapv #(:tag (meta %) 'Object) args))
+       (signature ~@classes)
        (fn ~m ~args ~@body))))
 ;;----------------------------------------------------------------
 ;; preferences
 ;;----------------------------------------------------------------
 (defn- valid-preference? [signature0 signature1]
-  (and 
-    (not= signature0 signature1)
-    (or 
-      (and (class? signature0) (class? signature1))
-      (and (instance? Signature signature0)
-           (instance? Signature signature1)
-           (== (.size ^Signature signature0)
-               (.size ^Signature signature1))))
-    (not (Signatures/isAssignableFrom signature0 signature1))
-    (not (Signatures/isAssignableFrom signature1 signature0))))
+  (cond
+    (= signature0 signature1) 
+    false
+    
+    (and (class? signature0) 
+         (class? signature1)
+         (not (.isAssignableFrom ^Class signature0 ^Class signature1))
+         (not (.isAssignableFrom ^Class signature1 ^Class signature0))) 
+    true
+    
+    (and (instance? Signature signature0)
+         (instance? Signature signature1)
+         (not (.isAssignableFrom ^Signature signature0 ^Signature signature1))
+         (not (.isAssignableFrom ^Signature signature1 ^Signature signature0)))
+    true
+    
+    :else false))
 
 (defn prefer-method ^DynaFun [^DynaFun f 
                               ^Object signature0 

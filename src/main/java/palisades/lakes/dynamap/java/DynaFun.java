@@ -11,14 +11,14 @@ import clojure.lang.IFn;
 import clojure.lang.ISeq;
 import palisades.lakes.dynafun.java.Signature2;
 import palisades.lakes.dynafun.java.Signature3;
-import palisades.lakes.dynafun.java.Signatures;
+import palisades.lakes.dynafun.java.SignatureN;
 
 /** Less flexible, but faster alternative to 
  * <code>clojure.lang.MultiFn</code>
  *
  * @author palisades dot lakes at gmail dot com
  * @since 2017-08-18
- * @version 2017-09-26
+ * @version 2017-10-09
  */
 
 @SuppressWarnings("unchecked")
@@ -111,6 +111,29 @@ public final class DynaFun implements IFn {
 
   //--------------------------------------------------------------
 
+  private static final boolean isAssignableFrom (final Class[] c0,
+                                                final Class[] c1) {
+    if (c0.length != c1.length) { return false; }
+    for (int i=0;i<c0.length;i++) {
+      if (! c0[i].isAssignableFrom(c1[i])) { return false; } }
+    return true; }
+
+  private static final boolean isAssignableFrom (final Object s0,
+                                                final Object s1) {
+    if ((s0 instanceof Class) && (s1 instanceof Class)) {
+      return ((Class) s0).isAssignableFrom((Class) s1); }
+    if ((s0 instanceof Class[]) && (s1 instanceof Class[])) {
+      return isAssignableFrom((Class[]) s0, (Class[]) s1); }
+    if ((s0 instanceof Signature2) && (s1 instanceof Signature2)) {
+      return ((Signature2) s0).isAssignableFrom((Signature2) s1); }
+    if ((s0 instanceof Signature3) && (s1 instanceof Signature3)) {
+      return ((Signature3) s0).isAssignableFrom((Signature3) s1); }
+    if ((s0 instanceof Class) && (s1 instanceof Class)) {
+      return ((Class) s0).isAssignableFrom((Class) s1); }
+    if ((s0 instanceof SignatureN) && (s1 instanceof SignatureN)) {
+      return ((SignatureN) s0).isAssignableFrom((SignatureN) s1); }
+    return false; }
+
   private final boolean prefers (final Object x, 
                                  final Object y) {
 
@@ -126,13 +149,12 @@ public final class DynaFun implements IFn {
 
     // For multi-arity dispatch functions, we need to check the
     // keys of the preferTable.
-    // TODO: does this make the next loop unnecessary?
     for (final Object k : preferTable.keySet()) {
       if ((!x.equals(k)) 
-        && Signatures.isAssignableFrom(k,x) 
+        && isAssignableFrom(k,x) 
         && prefers(k,y)) { 
         return true; } }
-    
+
     return false; }
 
   //--------------------------------------------------------------
@@ -155,7 +177,7 @@ public final class DynaFun implements IFn {
 
   private final boolean dominates (final Object x,
                                    final Object y) {
-    return prefers(x,y) || Signatures.isAssignableFrom(y,x); }
+    return prefers(x,y) || isAssignableFrom(y,x); }
 
   //--------------------------------------------------------------
 
@@ -163,7 +185,7 @@ public final class DynaFun implements IFn {
     Map.Entry bestEntry = null;
     for (final Object o : methodTable.entrySet()) {
       final Map.Entry e = (Map.Entry) o;
-      if (Signatures.isAssignableFrom(e.getKey(),signature)) {
+      if (isAssignableFrom(e.getKey(),signature)) {
         if ((bestEntry == null)
           || dominates(e.getKey(),bestEntry.getKey())) {
           bestEntry = e; }
@@ -241,7 +263,7 @@ public final class DynaFun implements IFn {
                               final Object arg4) {
     return 
       getMethod(
-        Signatures.extract(arg1,arg2,arg3,arg4))
+        SignatureN.extract(arg1,arg2,arg3,arg4))
       .invoke(
         arg1,arg2,arg3,arg4); }
 
@@ -251,7 +273,7 @@ public final class DynaFun implements IFn {
                               final Object arg3,
                               final Object arg4,
                               final Object arg5) {
-    return getMethod(Signatures.extract(arg1,arg2,arg3,arg4,arg5))
+    return getMethod(SignatureN.extract(arg1,arg2,arg3,arg4,arg5))
       .invoke(arg1,arg2,arg3,arg4,arg5); }
 
   @Override
@@ -262,7 +284,7 @@ public final class DynaFun implements IFn {
                               final Object arg5,
                               final Object arg6) {
     return getMethod(
-      Signatures.extract(arg1,arg2,arg3,arg4,arg5,arg6))
+      SignatureN.extract(arg1,arg2,arg3,arg4,arg5,arg6))
       .invoke(arg1,arg2,arg3,arg4,arg5,arg6); }
 
   @Override
@@ -274,7 +296,7 @@ public final class DynaFun implements IFn {
                               final Object arg6,
                               final Object arg7) {
     return getMethod(
-      Signatures.extract(arg1,arg2,arg3,arg4,arg5,arg6,arg7))
+      SignatureN.extract(arg1,arg2,arg3,arg4,arg5,arg6,arg7))
       .invoke(arg1,arg2,arg3,arg4,arg5,arg6,arg7); }
 
   @Override
@@ -287,7 +309,7 @@ public final class DynaFun implements IFn {
                               final Object arg7,
                               final Object arg8) {
     return getMethod(
-      Signatures.extract(
+      SignatureN.extract(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8))
       .invoke(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8); }
 
@@ -302,7 +324,7 @@ public final class DynaFun implements IFn {
                               final Object arg8,
                               final Object arg9) {
     return getMethod(
-      Signatures.extract(
+      SignatureN.extract(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9))
       .invoke(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9); }
 
@@ -318,7 +340,7 @@ public final class DynaFun implements IFn {
                               final Object arg9,
                               final Object arg10) {
     return getMethod(
-      Signatures.extract(
+      SignatureN.extract(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10))
       .invoke(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10); }
@@ -336,7 +358,7 @@ public final class DynaFun implements IFn {
                               final Object arg10,
                               final Object arg11) {
     return getMethod(
-      Signatures.extract(
+      SignatureN.extract(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,
         arg11))
       .invoke(
@@ -357,7 +379,7 @@ public final class DynaFun implements IFn {
                               final Object arg11,
                               final Object arg12) {
     return getMethod(
-      Signatures.extract(
+      SignatureN.extract(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,
         arg11,arg12))
       .invoke(
@@ -379,7 +401,7 @@ public final class DynaFun implements IFn {
                               final Object arg12,
                               final Object arg13) {
     return getMethod(
-      Signatures.extract(
+      SignatureN.extract(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,
         arg11,arg12,arg13))
       .invoke(
@@ -402,7 +424,7 @@ public final class DynaFun implements IFn {
                               final Object arg13,
                               final Object arg14) {
     return getMethod(
-      Signatures.extract(
+      SignatureN.extract(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,
         arg11,arg12,arg13,arg14))
       .invoke(
@@ -426,7 +448,7 @@ public final class DynaFun implements IFn {
                               final Object arg14,
                               final Object arg15) {
     return getMethod(
-      Signatures.extract(
+      SignatureN.extract(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,
         arg11,arg12,arg13,arg14,arg15))
       .invoke(
@@ -451,7 +473,7 @@ public final class DynaFun implements IFn {
                               final Object arg15,
                               final Object arg16) {
     return getMethod(
-      Signatures.extract(
+      SignatureN.extract(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,
         arg11,arg12,arg13,arg14,arg15,arg16))
       .invoke(
@@ -477,7 +499,7 @@ public final class DynaFun implements IFn {
                               final Object arg16,
                               final Object arg17) {
     return getMethod(
-      Signatures.extract(
+      SignatureN.extract(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,
         arg11,arg12,arg13,arg14,arg15,arg16,arg17))
       .invoke(
@@ -504,7 +526,7 @@ public final class DynaFun implements IFn {
                               final Object arg17,
                               final Object arg18) {
     return getMethod(
-      Signatures.extract(
+      SignatureN.extract(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,
         arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18))
       .invoke(
@@ -532,7 +554,7 @@ public final class DynaFun implements IFn {
                               final Object arg18,
                               final Object arg19) {
     return getMethod(
-      Signatures.extract(
+      SignatureN.extract(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,
         arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19))
       .invoke(
@@ -561,7 +583,7 @@ public final class DynaFun implements IFn {
                               final Object arg19,
                               final Object arg20) {
     return getMethod(
-      Signatures.extract(
+      SignatureN.extract(
         arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,
         arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20))
       .invoke(
@@ -590,7 +612,7 @@ public final class DynaFun implements IFn {
                               final Object arg19,
                               final Object arg20,
                               final Object... args) {
-    return getMethod(Signatures.extract(arg1,arg2,arg3,arg4,arg5,arg6,
+    return getMethod(SignatureN.extract(arg1,arg2,arg3,arg4,arg5,arg6,
       arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,
       arg17,arg18,arg19,arg20,args)).invoke(arg1,arg2,arg3,arg4,
         arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,
