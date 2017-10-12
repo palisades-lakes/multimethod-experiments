@@ -7,7 +7,7 @@
          testing 3 arg dispatch and too many methods"
    :author "palisades dot lakes at gmail dot com"
    :since "2017-08-22"
-   :version "2017-08-26"}
+   :version "2017-10-11"}
     
   (:require [palisades.lakes.multimethods.core :as d])
 
@@ -19,7 +19,7 @@
 (d/defmulti ^Vector axpy
   "a*x + y."
   {}
-  (fn axpy-dispatch [a x y] (d/extract-signature a x y)))
+  d/signature)
 ;;----------------------------------------------------------------
 (defmacro defmethods
   [fname arglist & body]
@@ -34,7 +34,7 @@
                          (with-meta y {:tag ytag})]
                    d `(d/defmethod 
                         ~fname 
-                        (d/signature ~atag ~xtag ~ytag)
+                        (d/to-signature ~atag ~xtag ~ytag)
                         ~(with-meta args m)
                         ~@body)]
                #_(pp/pprint args)

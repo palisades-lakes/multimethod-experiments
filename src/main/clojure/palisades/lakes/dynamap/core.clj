@@ -8,7 +8,7 @@
          (no hierarchies, class-based only), but much faster. "
    :author "palisades dot lakes at gmail dot com"
    :since "2017-06-02"
-   :version "2017-10-09"}
+   :version "2017-10-11"}
   
   (:refer-clojure :exclude [defmulti defmethod prefer-method])
   
@@ -22,7 +22,7 @@
 ;;----------------------------------------------------------------
 ;; signatures
 ;;----------------------------------------------------------------
-(defmacro signature 
+(defmacro to-signature
   
   "Return an appropriate implementation of `Signature` for the
    `Class` arguments..
@@ -48,12 +48,12 @@
        ~(with-meta c2 {:tag 'Class})
        ~(with-meta cs {:tag 'clojure.lang.ArraySeq}))))
 
-(defmacro extract-signature 
+(defmacro signature 
   
   "Return an appropriate implementation of `Signature` for the
    arguments, by applying `getClass` as needed.
 
-   `palisades.lakes.dynafun.core/extract-signature` can only be used 
+   `palisades.lakes.dynafun.core/signature` can only be used 
    as a dispatch function with dynafun
    defined with `palisades.lakes.dynafun.core/defmulti`."
   
@@ -85,13 +85,13 @@
       (instance? Signature signature)))
 
 (defn add-method ^DynaFun [^DynaFun f  
-                           ^Object signature 
+                           ^Object sig
                            ^IFn method]
-  (assert (valid-signature? signature))
+  (assert (valid-signature? sig))
   ;; TODO: check arglist of f for consistency
   ;; TODO: (function-signature IFn) --- probably not possible
   ;; for vanilla IFn
-  (.addMethod f signature method))
+  (.addMethod f sig method))
 
 (defmacro defmethod [f args & body]
   (let [classes (mapv #(:tag (meta %) 'Object) args)
@@ -100,7 +100,7 @@
     `(alter-var-root 
        (var ~f) 
        add-method 
-       (signature ~@classes)
+       (to-signature ~@classes)
        (fn ~m ~args ~@body))))
 ;;----------------------------------------------------------------
 ;; preferences

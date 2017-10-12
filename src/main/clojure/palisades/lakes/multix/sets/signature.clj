@@ -6,10 +6,12 @@
   {:doc "Manual 'method' (function) lookup fromm signature."
    :author "palisades dot lakes at gmail dot com"
    :since "2017-06-09"
-   :version "2017-08-05"}
+   :version "2017-10-11"}
   (:require [palisades.lakes.multimethods.core :as d])
   (:import [java.util Collections Set]
-           [palisades.lakes.bench.java.sets DoubleInterval IntegerInterval]))
+           [palisades.lakes.bench.java.sets
+            DoubleInterval IntegerInterval]
+           [palisades.lakes.multimethods.java Signature2]))
 ;;----------------------------------------------------------------
 (defn- intersectsII? [^IntegerInterval s0 ^IntegerInterval s1] 
   (.intersects s0 s1))
@@ -37,17 +39,17 @@
     (print-str 
       "can't intersect" (class s0) "and" (class s1))))
 ;;----------------------------------------------------------------
-(let [II (d/signature IntegerInterval IntegerInterval)
-      ID (d/signature IntegerInterval DoubleInterval)
-      IS (d/signature IntegerInterval Set)
-      DI (d/signature DoubleInterval IntegerInterval)
-      DD (d/signature DoubleInterval DoubleInterval)
-      DS (d/signature DoubleInterval Set)
-      SI (d/signature Set IntegerInterval)
-      SD (d/signature Set DoubleInterval)
-      SS (d/signature Set Set)]
+(let [II (d/to-signature IntegerInterval IntegerInterval)
+      ID (d/to-signature IntegerInterval DoubleInterval)
+      IS (d/to-signature IntegerInterval Set)
+      DI (d/to-signature DoubleInterval IntegerInterval)
+      DD (d/to-signature DoubleInterval DoubleInterval)
+      DS (d/to-signature DoubleInterval Set)
+      SI (d/to-signature Set IntegerInterval)
+      SD (d/to-signature Set DoubleInterval)
+      SS (d/to-signature Set Set)]
   (defn intersects? [s0 s1] 
-    (let [s (d/extract-signature s0 s1)]
+    (let [^Signature2 s (d/signature s0 s1)]
       ;; very arbitrary assumptions about what s0 and s1 might
       ;; be and how they are related to the 'method' definitions
       (cond 
