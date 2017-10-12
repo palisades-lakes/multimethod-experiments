@@ -194,6 +194,7 @@ algorithm.colors <- c(
 quantile.plot <- function(data, fname,
   ymin='lower.q', y='median', ymax='upper.q',
   suffix='runtimes', scales='free_y',
+  ylabel='milliseconds',
   width=24, height=14) {
   plot.file <- file.path(
     plot.folder,paste(fname,'quantiles','png',sep='.'))
@@ -221,7 +222,7 @@ quantile.plot <- function(data, fname,
       #low=muted('blue'), high=muted('red'),
       low='#0571b0', high='#ca0020',
       trans='log') +
-    ylab('milliseconds') +
+    ylab(ylabel) +
     geom_crossbar(width=0.25) +
     geom_line() +
     ggtitle(paste('[0.05,0.50,0.95] quantiles for', suffix)) +

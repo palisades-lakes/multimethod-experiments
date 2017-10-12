@@ -2,10 +2,10 @@
 # intersects/bench.R
 # palisades dot lakes at gmail dot com
 # since 2017-07-30
-# version 2017-09-09
+# version 2017-10-12
 #-----------------------------------------------------------------
-#setwd('c:/porta/projects/multimethod-experiments')
-setwd('e:/porta/projects/multimethod-experiments')
+setwd('c:/porta/projects/multimethod-experiments')
+#setwd('e:/porta/projects/multimethod-experiments')
 source('src/scripts/r/functions.R')
 #-----------------------------------------------------------------
 #model <- '20HRCTO1WW' # X1
@@ -75,7 +75,8 @@ quantile.plot(data=dynamic,fname='dynamic')
 md.table(data=dynamic[,cols],fname='dynamic',n=nelements)
 quantile.plot(data=dynamic,fname='dynamic-overhead',
   suffix='overhead relative to instanceof as fraction of defmulti',
-  scales='fixed',
+  #scales='fixed',
+  ylabel='fraction of Clojure 1.8.0 defmulti',
   ymin='overhead.lower.q',
   y='overhead.median',
   ymax='overhead.upper.q')
@@ -87,7 +88,8 @@ quantile.plot(data=dynamic.multi,fname='dynamic-multi')
 md.table(data=dynamic.multi[,cols],fname='dynamic-multi',n=nelements)
 quantile.plot(data=dynamic.multi,fname='dynamic-multi-overhead',
   suffix='overhead relative to instanceof as fraction of defmulti',
-  scales='fixed',
+  #scales='fixed',
+  ylabel='fraction of Clojure 1.8.0 defmulti',
   ymin='overhead.lower.q',
   y='overhead.median',
   ymax='overhead.upper.q')
