@@ -12,7 +12,7 @@ model <- '20HRCTO1WW' # X1
 #model <- '20ERCTO1WW' # P70
 nelements <- 4194304
 nelements <- 1048576
-theday = '2017101[12]-[0-9]{4}'
+theday = '2017101[23]-[0-9]{4}'
 benchmarks <- c('diameter','contains','intersects','axpy')
 #-----------------------------------------------------------------
 data <- NULL
@@ -75,7 +75,8 @@ quantile.plot(data=dynamic,fname='dynamic')
 md.table(data=dynamic[,cols],fname='dynamic',n=nelements)
 quantile.plot(data=dynamic,fname='dynamic-overhead',
   suffix='overhead relative to instanceof as fraction of defmulti',
-  scales='fixed',
+  scales='free',
+  ylabel='fraction of Clojure 1.8.0 defmulti',
   ymin='overhead.lower.q',
   y='overhead.median',
   ymax='overhead.upper.q')
@@ -87,7 +88,8 @@ quantile.plot(data=dynamic.multi,fname='dynamic-multi')
 md.table(data=dynamic.multi[,cols],fname='dynamic-multi',n=nelements)
 quantile.plot(data=dynamic.multi,fname='dynamic-multi-overhead',
   suffix='overhead relative to instanceof as fraction of defmulti',
-  scales='fixed',
+  scales='free',
+  ylabel='fraction of Clojure 1.8.0 defmulti',
   ymin='overhead.lower.q',
   y='overhead.median',
   ymax='overhead.upper.q')
