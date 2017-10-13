@@ -13,43 +13,43 @@
 ;;----------------------------------------------------------------
 (def options {} #_{:n 1024 :samples 4})
 ;; baselines: args always IntegerInterval, Integer
-#_(bench/bench 
-    [g/IntegerIntervals defs/ii
-     prng/ints defs/uint]
-    [defs/invokestaticPrimitive
-     defs/invokevirtualPrimitive
-     defs/invokeinterfacePrimitive]
-    options)
-#_(bench/bench 
+(bench/bench 
    [g/IntegerIntervals defs/ii
-    prng/IntegerArray defs/uInteger]
-   [defs/invokestatic
-    defs/invokevirtual
-    defs/invokeinterface
-    defs/protocols
-    defs/instanceof
-    defs/instancefn
-    defs/defmulti
-    defs/hashmaps
-    defs/signatures
-    defs/nohierarchy
-    defs/dynafun 
-    defs/dynamap]
+    prng/ints defs/uint]
+   [defs/invokestaticPrimitive
+    defs/invokevirtualPrimitive
+    defs/invokeinterfacePrimitive]
    options)
-#_(bench/bench 
-   [g/Sets defs/r2
-    prng/NumberArray defs/n2]
-   [defs/invokeinterface
-    defs/protocols
-    defs/instanceof
-    defs/instancefn
-    defs/defmulti
-    defs/hashmaps
-    defs/signatures
-    defs/nohierarchy
-    defs/dynafun 
-    defs/dynamap]
-   options)
+(bench/bench 
+ [g/IntegerIntervals defs/ii
+  prng/IntegerArray defs/uInteger]
+ [defs/invokestatic
+  defs/invokevirtual
+  defs/invokeinterface
+  defs/protocols
+  defs/instanceof
+  defs/instancefn
+  defs/defmulti
+  defs/hashmaps
+  defs/signatures
+  defs/nohierarchy
+  defs/dynafun 
+  defs/dynamap]
+ options)
+(bench/bench 
+ [g/Sets defs/r2
+  prng/NumberArray defs/n2]
+ [defs/invokeinterface
+  defs/protocols
+  defs/instanceof
+  defs/instancefn
+  defs/defmulti
+  defs/hashmaps
+  defs/signatures
+  defs/nohierarchy
+  defs/dynafun 
+  defs/dynamap]
+ options)
 (bench/bench 
   [prng/objects defs/r3
    prng/NumberArray defs/n2]
