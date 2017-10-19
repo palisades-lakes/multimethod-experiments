@@ -6,6 +6,8 @@
 *.class
 /java.hprof.txt
 /target/
+/x1/
+/*x1/
 *.bbl
 *.blg
 *.lof
