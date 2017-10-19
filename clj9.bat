@@ -1,8 +1,8 @@
 @echo off
 :: palisades.lakes@gmail.com
-:: 2017-10-07
+:: 2017-10-19
 
-set JAVA_HOME=C:\Program Files\Java\jdk-9
+set JAVA_HOME=%JAVA9%
 
 ::set GC=-XX:+AggressiveHeap -XX:+UseStringDeduplication 
 set GC=
