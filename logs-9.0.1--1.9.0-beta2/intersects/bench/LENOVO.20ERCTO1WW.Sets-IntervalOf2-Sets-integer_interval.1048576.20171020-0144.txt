@@ -1,0 +1,236 @@
+{:spec-vendor "Oracle Corporation",
+ :spec-name "Java Virtual Machine Specification",
+ :vm-version "9.0.1+11",
+ :name "9808@LAPTOP-2HQMV1AK",
+ :clojure-version-string "1.9.0-beta2",
+ :java-runtime-version "9.0.1+11",
+ :java-version "9.0.1",
+ :vm-name "Java HotSpot(TM) 64-Bit Server VM",
+ :vm-vendor "Oracle Corporation",
+ :clojure-version
+ {:major 1, :minor 9, :incremental 0, :qualifier "beta2"},
+ :spec-version "9",
+ :sun-arch-data-model "64",
+ :input-arguments
+ ["-ea" "-dsa" "-Xbatch" "-Xms12g" "-Xmx12g" "-Xmn5g"]}
+---------------
+Microsoft Windows 10 build 16299
+manufacturer: LENOVO
+model: 20ERCTO1WW
+firmware:
+  manufacturer: LENOVO
+  name: N1DET93W (2.19 )
+  description: N1DET93W (2.19 )
+  version: LENOVO - 2190
+  release date: 09/28/2017
+baseboard:
+  manufacturer: LENOVO
+  model: unknown
+  version: 0B98417 WIN
+Intel(R) Xeon(R) CPU E3-1505M v5 @ 2.80GHz
+ 4 physical CPU(s)
+ 8 logical CPU(s)
+Identifier: Intel64 Family 6 Model 94 Stepping 3
+Memory: 50.4 GiB/63.8 GiB
+Swap used: 0 bytes/9.5 GiB
+Uptime: 1 days, 04:10:41
+CPU, IOWait, and IRQ ticks @ 0 sec:[170557812, 0, 4137253, 308168250, 0, 64943, 51210, 0]
+CPU, IOWait, and IRQ ticks @ 1 sec:[170557812, 0, 4137269, 308176359, 0, 64943, 51210, 0]
+User: 0.0% Nice: 0.0% System: 0.2% Idle: 99.8% IOwait: 0.0% IRQ: 0.0% SoftIRQ: 0.0% Steal: 0.0%
+CPU load: 0.7% (counting ticks)
+CPU load: -100.0% (OS MXBean)
+CPU load averages: N/A N/A N/A
+CPU load per processor: 2.8% 0.0% 1.3% 0.0% 1.3% 5.5% 1.3% 0.0%
+---------------
+generate-datasets
+(("Sets" "IntervalOf2") ("Sets" "integer_interval"))
+"Elapsed time: 1.196854 msecs"
+2017-10-20T01:44:25.949255400
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "protocols",
+ :now "20171020-0148",
+ :value 4184118.0,
+ :execution-count 7,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "intersects",
+ :lower-q 142.81248799999997,
+ :millisec 144.05572772,
+ :warmup-executions 991,
+ :threads 6,
+ :sample-count 50,
+ :median 143.67608407142856,
+ :upper-q 145.048919,
+ :total-time 50.4194139,
+ :generators "Sets-IntervalOf2-Sets-integer_interval"}
+
+"Elapsed time: 269371.888434 msecs"
+2017-10-20T01:49:11.326924300
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "instanceof",
+ :now "20171020-0153",
+ :value 4184118.0,
+ :execution-count 57,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "intersects",
+ :lower-q 17.57836052631579,
+ :millisec 17.606450151929824,
+ :warmup-executions 9253,
+ :threads 6,
+ :sample-count 50,
+ :median 17.596223078947368,
+ :upper-q 17.633072260526315,
+ :total-time 50.178181998,
+ :generators "Sets-IntervalOf2-Sets-integer_interval"}
+
+"Elapsed time: 287025.90085 msecs"
+2017-10-20T01:54:14.359123
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "instancefn",
+ :now "20171020-0158",
+ :value 4184118.0,
+ :execution-count 44,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "intersects",
+ :lower-q 22.79759363409091,
+ :millisec 22.87397540227273,
+ :warmup-executions 6901,
+ :threads 6,
+ :sample-count 50,
+ :median 22.928865704545455,
+ :upper-q 22.93955474431818,
+ :total-time 50.32337604,
+ :generators "Sets-IntervalOf2-Sets-integer_interval"}
+
+"Elapsed time: 281702.337331 msecs"
+2017-10-20T01:59:12.063332200
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "defmulti",
+ :now "20171020-0204",
+ :value 4184118.0,
+ :execution-count 2,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "intersects",
+ :lower-q 593.074208,
+ :millisec 598.2909547700001,
+ :warmup-executions 271,
+ :threads 6,
+ :sample-count 50,
+ :median 599.813808,
+ :upper-q 603.6800457750002,
+ :total-time 59.82860062,
+ :generators "Sets-IntervalOf2-Sets-integer_interval"}
+
+"Elapsed time: 309204.696761 msecs"
+2017-10-20T02:04:37.261237
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "hashmaps",
+ :now "20171020-0210",
+ :value 4184118.0,
+ :execution-count 9,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "intersects",
+ :lower-q 109.28196104444444,
+ :millisec 113.67180064222222,
+ :warmup-executions 1291,
+ :threads 6,
+ :sample-count 50,
+ :median 112.61896177777778,
+ :upper-q 117.7958698888889,
+ :total-time 51.142282168,
+ :generators "Sets-IntervalOf2-Sets-integer_interval"}
+
+"Elapsed time: 343410.506501 msecs"
+2017-10-20T02:10:36.666782800
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "signatures",
+ :now "20171020-0216",
+ :value 4184118.0,
+ :execution-count 12,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "intersects",
+ :lower-q 86.43784075,
+ :millisec 88.47274565833334,
+ :warmup-executions 1819,
+ :threads 6,
+ :sample-count 50,
+ :median 89.334843125,
+ :upper-q 90.34475750000001,
+ :total-time 53.078986151,
+ :generators "Sets-IntervalOf2-Sets-integer_interval"}
+
+"Elapsed time: 328455.52639 msecs"
+2017-10-20T02:16:21.116424100
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "nohierarchy",
+ :now "20171020-0222",
+ :value 4184118.0,
+ :execution-count 15,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "intersects",
+ :lower-q 71.04960573333334,
+ :millisec 71.84513209066667,
+ :warmup-executions 2431,
+ :threads 6,
+ :sample-count 50,
+ :median 72.15374843333333,
+ :upper-q 72.51833685666665,
+ :total-time 53.884266621,
+ :generators "Sets-IntervalOf2-Sets-integer_interval"}
+
+"Elapsed time: 353024.03154 msecs"
+2017-10-20T02:22:30.132196200
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "dynafun",
+ :now "20171020-0227",
+ :value 4184118.0,
+ :execution-count 27,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "intersects",
+ :lower-q 37.69469462962964,
+ :millisec 37.95581053925926,
+ :warmup-executions 4303,
+ :threads 6,
+ :sample-count 50,
+ :median 37.99105840740741,
+ :upper-q 38.18088385185186,
+ :total-time 51.241108212,
+ :generators "Sets-IntervalOf2-Sets-integer_interval"}
+
+"Elapsed time: 288435.968285 msecs"
+2017-10-20T02:27:34.565891500
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "dynamap",
+ :now "20171020-0233",
+ :value 4184118.0,
+ :execution-count 18,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :benchmark "intersects",
+ :lower-q 55.95859088888889,
+ :millisec 56.53754907555556,
+ :warmup-executions 2851,
+ :threads 6,
+ :sample-count 50,
+ :median 56.33753602777778,
+ :upper-q 56.94723770277778,
+ :total-time 50.881281936,
+ :generators "Sets-IntervalOf2-Sets-integer_interval"}
+
+"Elapsed time: 347128.148033 msecs"
