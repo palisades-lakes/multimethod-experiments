@@ -15,9 +15,10 @@ data.files <- function (
   benchmark='foo',
   model='20ERCTO1WW',
   nelements=4194304,
-  theday='[0-9]{8}-[0-9]{4}') {
+  theday='[0-9]{8}-[0-9]{4}',
+  parentFolder='data') {
   
-  data.folder <- paste('data',benchmark,'bench',sep='/')
+  data.folder <- paste(parentFolder,benchmark,'bench',sep='/')
   pattern <- paste('LENOVO',model,'*',nelements,theday,'tsv',sep='.')
   print(data.folder)
   print(pattern)
@@ -65,8 +66,10 @@ read.data <- function (
   benchmark='foo',
   model='20ERCTO1WW',
   nelements=4194304,
-  theday='20170826-*') {
-  files <- data.files(benchmark,model,nelements,theday)
+  theday='20170826-*',
+  parentFolder='data') {
+  files <- data.files(benchmark=benchmark, model=model, 
+    nelements=nelements,theday=theday,parentFolder=parentFolder)
   #print(files)
   data <- NULL
   for (f in files) {
