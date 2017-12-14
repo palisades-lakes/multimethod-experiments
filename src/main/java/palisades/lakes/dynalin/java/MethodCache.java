@@ -1,14 +1,14 @@
 package palisades.lakes.dynalin.java;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import clojure.lang.IFn;
 
 /** minimal immutable lookup table with linear search.
  *
  * @author palisades dot lakes at gmail dot com
- * @since 2017-08-31
- * @version 2017-09-02
+ * @version 2017-12-13
  */
 
 @SuppressWarnings("unchecked")
@@ -21,12 +21,13 @@ public final class MethodCache {
 
   private final int index (final Object k) {
     for (int i=0;i<signatures.length;i++) {
-      if (k.equals(signatures[i])) { return i; } }
+      if (Objects.equals(k,signatures[i])) { return i; } }
     return -1; }
 
   public final IFn get (final Object k) {
     for (int i=0;i<signatures.length;i++) {
-      if (k.equals(signatures[i])) { return methods[i]; } }
+      if (Objects.equals(k,signatures[i])) { 
+        return methods[i]; } }
     return null; }
 
   //--------------------------------------------------------------

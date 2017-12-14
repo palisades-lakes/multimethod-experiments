@@ -1,12 +1,13 @@
 package palisades.lakes.dynest.java;
 
+import java.util.Objects;
+
 import clojure.lang.IFn;
 
 /** minimal immutable lookup table with nested linear search.
  *
  * @author palisades dot lakes at gmail dot com
- * @since 2017-09-03
- * @version 2017-09-04
+ * @version 2017-12-13
  */
 
 @SuppressWarnings("unchecked")
@@ -23,13 +24,13 @@ public final class MethodCache3 {
                         final Class c1,
                         final Class c2) {
     for (int i0=0;i0<classes0.length;i0++) {
-      if (c0.equals(classes0[i0])) { 
+      if (Objects.equals(c0,classes0[i0])) { 
         final Class[] cs1 = classes1[i0];
         for (int i1=0;i1<cs1.length;i1++) {
-          if (c1.equals(cs1[i1])) {
+          if (Objects.equals(c1,cs1[i1])) {
             final Class[] cs2 = classes2[i0][i1];
             for (int i2=0;i2<cs2.length;i2++) {
-              if (c2.equals(cs2[i2])) {
+              if (Objects.equals(c2,cs2[i2])) {
                 return methods[i0][i1][i2]; } } } } } } 
     return null; }
 
@@ -55,14 +56,14 @@ public final class MethodCache3 {
 
   private final int index (final Class c0) {
     for (int i0=0;i0<classes0.length;i0++) {
-      if (c0.equals(classes0[i0])) { return i0; } }
+      if (Objects.equals(c0,classes0[i0])) { return i0; } }
     return -1; }
 
   private final int index (final int i0,
                            final Class c1) {
     final Class[] cs1 = classes1[i0];
     for (int i1=0;i1<cs1.length;i1++) {
-      if (c1.equals(cs1[i1])) { return i1; } }
+      if (Objects.equals(c1,cs1[i1])) { return i1; } }
     return -1; }
 
   private final int index (final int i0,
@@ -70,7 +71,7 @@ public final class MethodCache3 {
                            final Class c2) {
     final Class[] cs2 = classes2[i0][i1];
     for (int i2=0;i2<cs2.length;i2++) {
-      if (c2.equals(cs2[i2])) { return i2; } }
+      if (Objects.equals(c2,cs2[i2])) { return i2; } }
     return -1; }
 
   //--------------------------------------------------------------

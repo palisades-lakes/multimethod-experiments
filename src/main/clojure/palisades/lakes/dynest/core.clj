@@ -7,8 +7,7 @@
          Less flexible than Clojure multimethods
          (no hierarchies, class-based only), but much faster. "
    :author "palisades dot lakes at gmail dot com"
-   :since "2017-06-02"
-   :version "2017-10-11"}
+   :version "2017-12-13"}
   
   (:refer-clojure :exclude [defmulti defmethod prefer-method])
   
@@ -17,8 +16,8 @@
   
   (:import [clojure.lang IFn IMeta]
            [palisades.lakes.dynest.java DynaFun]
-           [palisades.lakes.dynafun.java Signature
-           Signature2 Signature3 SignatureN]))
+           [palisades.lakes.dynafun.java Classes Signature
+            Signature2 Signature3 SignatureN]))
 ;;----------------------------------------------------------------
 ;; signatures
 ;;----------------------------------------------------------------
@@ -112,14 +111,18 @@
     
     (and (class? signature0) 
          (class? signature1)
-         (not (.isAssignableFrom ^Class signature0 ^Class signature1))
-         (not (.isAssignableFrom ^Class signature1 ^Class signature0))) 
+         (not (Classes/isAssignableFrom 
+                ^Class signature0 ^Class signature1))
+         (not (Classes/isAssignableFrom 
+                ^Class signature1 ^Class signature0))) 
     true
     
     (and (instance? Signature signature0)
          (instance? Signature signature1)
-         (not (.isAssignableFrom ^Signature signature0 ^Signature signature1))
-         (not (.isAssignableFrom ^Signature signature1 ^Signature signature0)))
+         (not (.isAssignableFrom 
+                ^Signature signature0 ^Signature signature1))
+         (not (.isAssignableFrom 
+                ^Signature signature1 ^Signature signature0)))
     true
     
     :else false))

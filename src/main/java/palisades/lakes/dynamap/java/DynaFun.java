@@ -4,11 +4,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import clojure.lang.AFn;
 import clojure.lang.IFn;
 import clojure.lang.ISeq;
+import palisades.lakes.dynafun.java.Classes;
 import palisades.lakes.dynafun.java.Signature2;
 import palisades.lakes.dynafun.java.Signature3;
 import palisades.lakes.dynafun.java.SignatureN;
@@ -17,8 +19,7 @@ import palisades.lakes.dynafun.java.SignatureN;
  * <code>clojure.lang.MultiFn</code>
  *
  * @author palisades dot lakes at gmail dot com
- * @since 2017-08-18
- * @version 2017-10-09
+ * @version 2017-12-13
  */
 
 @SuppressWarnings("unchecked")
@@ -115,21 +116,20 @@ public final class DynaFun implements IFn {
                                                 final Class[] c1) {
     if (c0.length != c1.length) { return false; }
     for (int i=0;i<c0.length;i++) {
-      if (! c0[i].isAssignableFrom(c1[i])) { return false; } }
+      if (! Classes.isAssignableFrom(c0[i],c1[i])) { 
+        return false; } }
     return true; }
 
   private static final boolean isAssignableFrom (final Object s0,
                                                 final Object s1) {
     if ((s0 instanceof Class) && (s1 instanceof Class)) {
-      return ((Class) s0).isAssignableFrom((Class) s1); }
+      return Classes.isAssignableFrom((Class) s0,(Class) s1); }
     if ((s0 instanceof Class[]) && (s1 instanceof Class[])) {
       return isAssignableFrom((Class[]) s0, (Class[]) s1); }
     if ((s0 instanceof Signature2) && (s1 instanceof Signature2)) {
       return ((Signature2) s0).isAssignableFrom((Signature2) s1); }
     if ((s0 instanceof Signature3) && (s1 instanceof Signature3)) {
       return ((Signature3) s0).isAssignableFrom((Signature3) s1); }
-    if ((s0 instanceof Class) && (s1 instanceof Class)) {
-      return ((Class) s0).isAssignableFrom((Class) s1); }
     if ((s0 instanceof SignatureN) && (s1 instanceof SignatureN)) {
       return ((SignatureN) s0).isAssignableFrom((SignatureN) s1); }
     return false; }
@@ -150,7 +150,7 @@ public final class DynaFun implements IFn {
     // For multi-arity dispatch functions, we need to check the
     // keys of the preferTable.
     for (final Object k : preferTable.keySet()) {
-      if ((!x.equals(k)) 
+      if ((!Objects.equals(x,k)) 
         && isAssignableFrom(k,x) 
         && prefers(k,y)) { 
         return true; } }
@@ -229,29 +229,27 @@ public final class DynaFun implements IFn {
 
   @Override
   public final Object invoke (final Object arg1) {
-    final Class k = arg1.getClass();
+    final Class k = Classes.classOf(arg1);
     final IFn f = getMethod(k);
-    return
-      f.invoke(arg1); }
+    return f.invoke(arg1); }
 
   @Override
   public final Object invoke (final Object arg1,
                               final Object arg2) {
     final Object k = new Signature2(
-      arg1.getClass(),
-      arg2.getClass());
+      Classes.classOf(arg1),
+      Classes.classOf(arg2));
     final IFn f = getMethod(k);
-    return 
-      f.invoke(arg1,arg2); }
+    return f.invoke(arg1,arg2); }
 
   @Override
   public final Object invoke (final Object arg1,
                               final Object arg2,
                               final Object arg3) {
     final Object k = new Signature3(
-      arg1.getClass(),
-      arg2.getClass(),
-      arg3.getClass());
+      Classes.classOf(arg1),
+      Classes.classOf(arg2),
+      Classes.classOf(arg3));
     final IFn f = getMethod(k); 
     return 
       f.invoke(arg1,arg2,arg3); }

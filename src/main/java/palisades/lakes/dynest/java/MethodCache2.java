@@ -1,5 +1,7 @@
 package palisades.lakes.dynest.java;
 
+import java.util.Objects;
+
 import clojure.lang.IFn;
 
 /** minimal immutable lookup table with nested linear search.
@@ -21,10 +23,10 @@ public final class MethodCache2 {
   public final IFn get (final Class c0,
                         final Class c1) {
     for (int i0=0;i0<classes0.length;i0++) {
-      if (c0.equals(classes0[i0])) { 
+      if (Objects.equals(c0,classes0[i0])) { 
         final Class[] cs1 = classes1[i0];
         for (int i1=0;i1<cs1.length;i1++) {
-          if (c1.equals(cs1[i1])) {
+          if (Objects.equals(c1,cs1[i1])) {
             return methods[i0][i1]; } } } } 
     return null; }
 
@@ -47,14 +49,14 @@ public final class MethodCache2 {
 
   private final int index (final Class c0) {
     for (int i0=0;i0<classes0.length;i0++) {
-      if (c0.equals(classes0[i0])) { return i0; } }
+      if (Objects.equals(c0,classes0[i0])) { return i0; } }
     return -1; }
 
   private final int index (final int i0,
                            final Class c1) {
     final Class[] cs1 = classes1[i0];
     for (int i1=0;i1<cs1.length;i1++) {
-      if (c1.equals(cs1[i1])) { return i1; } }
+      if (Objects.equals(c1,cs1[i1])) { return i1; } }
     return -1; }
 
   //--------------------------------------------------------------
