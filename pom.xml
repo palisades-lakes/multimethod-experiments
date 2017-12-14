@@ -68,7 +68,7 @@
   <dependency>
    <groupId>palisades-lakes</groupId>
    <artifactId>faster-multimethods</artifactId>
-   <version>0.1.1-SNAPSHOT</version>
+   <version>0.2.0-SNAPSHOT</version>
   </dependency>
   <dependency>
    <groupId>palisades-lakes</groupId>
