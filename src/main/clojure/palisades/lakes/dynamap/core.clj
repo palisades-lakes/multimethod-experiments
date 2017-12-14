@@ -14,7 +14,8 @@
   (:require [clojure.reflect :as r]
             [clojure.string :as s])
   
-  (:import [clojure.lang IFn IMeta]
+  (:import [java.util List]
+           [clojure.lang IFn IMeta]
            [palisades.lakes.dynamap.java DynaFun]
            [palisades.lakes.dynafun.java Classes Signature
             Signature2 Signature3 SignatureN]))
@@ -45,7 +46,7 @@
        ~(with-meta c0 {:tag 'Class})
        ~(with-meta c1 {:tag 'Class})
        ~(with-meta c2 {:tag 'Class})
-       ~(with-meta cs {:tag 'clojure.lang.ArraySeq}))))
+       ~(with-meta cs {:tag 'List}))))
 
 (defmacro signature 
   
@@ -68,7 +69,7 @@
        (.getClass ~(with-meta x2 {:tag 'Object}))))
   ([x0 x1 x2 & xs] 
     `(SignatureN/extract 
-       ~x0 ~x1 ~x2 ~with-meta xs {:tag 'clojure.lang.ArraySeq})))
+       ~x0 ~x1 ~x2 ~(with-meta xs {:tag 'List}))))
 ;;----------------------------------------------------------------
 ;; dynamic functions
 ;;----------------------------------------------------------------
