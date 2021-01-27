@@ -8,11 +8,11 @@
  <groupId>palisades-lakes</groupId>
  <artifactId>multimethod-experiments</artifactId>
  <description>Benchmarks for alternatives to clojure 1.8.0/1.9.0 multimethods.</description>
- <version>0.0.10-SNAPSHOT</version>
+ <version>0.0.11-SNAPSHOT</version>
  <parent>
   <groupId>palisades-lakes</groupId>
   <artifactId>palisades-lakes-parent</artifactId>
-  <version>0.0.10-SNAPSHOT</version>
+  <version>0.0.11-SNAPSHOT</version>
  </parent>
  <build>
   <plugins>
@@ -64,7 +64,7 @@
   <dependency>
    <groupId>palisades-lakes</groupId>
    <artifactId>benchtools</artifactId>
-   <version>0.0.10-SNAPSHOT</version>
+   <version>0.0.11-SNAPSHOT</version>
   </dependency>
   <dependency>
    <groupId>palisades-lakes</groupId>
@@ -74,7 +74,7 @@
   <dependency>
    <groupId>palisades-lakes</groupId>
    <artifactId>dynamic-functions</artifactId>
-   <version>0.0.10-SNAPSHOT</version>
+   <version>0.0.11-SNAPSHOT</version>
   </dependency>
  </dependencies>
 </project>
