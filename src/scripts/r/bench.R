@@ -2,22 +2,24 @@
 # intersects/bench.R
 # palisades dot lakes at gmail dot com
 # since 2017-07-30
-# version 2017-10-12
+# version 2021-01-31
 #-----------------------------------------------------------------
-setwd('c:/porta/projects/multimethod-experiments')
-#setwd('e:/porta/projects/multimethod-experiments')
+#setwd('c:/porta/projects/multimethod-experiments')
+setwd('e:/porta/projects/multimethod-experiments')
 source('src/scripts/r/functions.R')
 #-----------------------------------------------------------------
 #model <- '20HRCTO1WW' # X1
 model <- '20ERCTO1WW' # P70
-nelements <- 4194304
+#nelements <- 4194304
 nelements <- 1048576
-theday = '2017092[34]-[0-9]{4}'
+#theday = '2017092[34]-[0-9]{4}'
+theday = '202101[23][0-9]-[0-9]{4}'
 benchmarks <- c('diameter','contains','intersects','axpy')
 #-----------------------------------------------------------------
 data <- NULL
 for (b in benchmarks) {
-  tmp <- read.data(b,model,nelements,theday)
+  tmp <- read.data(benchmark=b, model=model, nelements=nelements,
+    theday=theday,parentFolder='data-jdk15.0.1-clj1.10.1')
   #tmp$benchmark <- b
   data <- rbind(data,tmp) }
 data$benchmark <- factor(data$benchmark,levels=benchmarks)
@@ -26,7 +28,7 @@ nmethods$generators <- as.factor(nmethods$generators)
 data$manufacturerModel <- as.factor(data$manufacturerModel)
 data <- merge(x=data,y=nmethods,by='generators')
 #-----------------------------------------------------------------
-plot.folder <- file.path('docs','figs')
+plot.folder <- file.path('docs','figs20210131')
 dir.create(plot.folder, showWarnings=FALSE, recursive=TRUE, 
   mode='0777')
 #-----------------------------------------------------------------
@@ -75,7 +77,7 @@ quantile.plot(data=dynamic,fname='dynamic')
 md.table(data=dynamic[,cols],fname='dynamic',n=nelements)
 quantile.plot(data=dynamic,fname='dynamic-overhead',
   suffix='overhead relative to instanceof as fraction of defmulti',
-  #scales='fixed',
+  scales='free',
   ylabel='fraction of Clojure 1.8.0 defmulti',
   ymin='overhead.lower.q',
   y='overhead.median',
@@ -88,7 +90,7 @@ quantile.plot(data=dynamic.multi,fname='dynamic-multi')
 md.table(data=dynamic.multi[,cols],fname='dynamic-multi',n=nelements)
 quantile.plot(data=dynamic.multi,fname='dynamic-multi-overhead',
   suffix='overhead relative to instanceof as fraction of defmulti',
-  #scales='fixed',
+  scales='free',
   ylabel='fraction of Clojure 1.8.0 defmulti',
   ymin='overhead.lower.q',
   y='overhead.median',

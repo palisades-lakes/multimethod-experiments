@@ -1,13 +1,23 @@
 # multimethod benchmarks
 
+<strong>
+(Update 2021-01-31: I've re-run the benchmarks with
+openjdk 15.0.1 and clojure 1.10.1. I haven't reviewed 
+the clojure 1.10.1 multimethod source, so it is possible
+comments I made below for the clojure 1.8.0 implementation
+are no longer correct. However, the results of the benchmarks 
+haven't changed much, so I'm guessing the relevant parts of the
+implementation haven't changed much either.)
+</strong>
+
 A benchmark for multimethods (or anything else) only matters to you
 if the pattern of use it embodies is similar to yours.
 
 In particular, the amount of method lookup overhead you can 
 tolerate depends on the cost of the operation.
-So far, I'm getting roughly 500ns for Clojure 1.8.0 multimethod lookup;
+So far, I'm getting roughly 500ns for Clojure 1.10.1 multimethod lookup;
 if you are using Clojure's multimethods to invoke methods
-that take milliseconds to run, the Clojure 1.8.0 implementation
+that take milliseconds to run, the Clojure 1.10.1 implementation
 is fine.
 
 The results here are from 4 benchmarks, 
@@ -21,7 +31,7 @@ Suggestions for benchmarks from other domains would be appreciated.
 I'm interested in using multimethods for basic geometric
 computation. Many important methods will just be a few floating
 point operations, costing perhaps 10-100 nanoseconds. 
-At this scale, the CLojure 1.8.0 method lookup overhead is
+At this scale, the CLojure 1.10.1 method lookup overhead is
 unacceptable.
 The first 4 benchmarks (see below) are designed to reflect this.
 
@@ -168,12 +178,12 @@ that represents both the multimethod and the methods as instances of
 `IFn`. 
 
 Each benchmark has fully dynamic algorithms using 
-Clojure 1.8.0 multimethod (`defmulti`) and alternatives,
-testing incremental changes to Clojure 1.8.0:
+Clojure 1.10.1 multimethod (`defmulti`) and alternatives,
+testing incremental changes to Clojure 1.10.1:
 
 - From [faster-multimethods](https://github.com/palisades-lakes/faster-multimethods):
 
-    - `hashmaps`: the same as Clojure 1.8.0 except it uses 
+    - `hashmaps`: the same as Clojure 1.10.1 except it uses 
 `java.util.Hashmap` for the method lookup tables instead of
 `clojure.lang.PersistentHashMap`.
 
@@ -240,7 +250,7 @@ gc, etc., perhaps reducing the variation in time between runs.
 
 The main benchmark script is 
 [palisades.lakes.multix.all](https://github.com/palisades-lakes/multimethod-experiments/blob/master/src/scripts/clojure/palisades/lakes/multix/all.clj).
-As of version 0.0.7-SNAPSHOT, this takes roughly overnight to
+As of version 0.0.11-SNAPSHOT, this takes roughly overnight to
 run on a Thinkpad P70 (Xeon E3-1505M v5).
 
 The plots show 90% interval boxes for the runtimes for 
@@ -253,55 +263,55 @@ ranging from 1 to 216. In all cases, the operand types are chosen
 with equal probability from some finite set, so the probability
 of a repeated call to the same method is `(/ 1 nmethods)`.
 
-<img src="figs/all.quantiles.png" 
+<img src="figs20210131/all.quantiles.png" 
   alt="all benchmarks" 
   style="width: 15cm;"/>
 
-Excluding Clojure 1.8.0 (`defmulti`), to make it easier to
+Excluding Clojure 1.10.1 (`defmulti`), to make it easier to
 compare the others:
 
-<img src="figs/fast.quantiles.png" 
-  alt="all benchmarks except Clojure 1.8.0" 
+<img src="figs20210131/fast.quantiles.png" 
+  alt="all benchmarks except Clojure 1.10.1" 
   style="width: 15cm;"/>
 
 The baseline algorithms by themselves:
 
-<img src="figs/baselines.quantiles.png" 
+<img src="figs20210131/baselines.quantiles.png" 
   alt="baselines" 
   style="width: 15cm;"/>
 
 All the fully dynamic algorithms:
 
-<img src="figs/dynamic-multi.quantiles.png" 
+<img src="figs20210131/dynamic-multi.quantiles.png" 
   alt="baselines" 
   style="width: 15cm;"/>
 
-Excluding Clojure 1.8.0 to make the differences among
+Excluding Clojure 1.10.1 to make the differences among
 the others easier to see:
 
-<img src="figs/dynamic.quantiles.png" 
+<img src="figs20210131/dynamic.quantiles.png" 
   alt="baselines" 
   style="width: 15cm;"/>
   
 Taking `instanceof` as the baseline for (benchmark,dataset)
-pair, the overhead as a fraction of the Clojure 1.8.0
+pair, the overhead as a fraction of the Clojure 1.10.1
 defmulti overhead:
 
-<img src="figs/dynamic-multi-overhead.quantiles.png" 
-  alt="dynamic overhead as a fraction of clojure 1.8.0" 
+<img src="figs20210131/dynamic-multi-overhead.quantiles.png" 
+  alt="dynamic overhead as a fraction of clojure 1.10.1" 
   style="width: 15cm;"/>
 
-Excluding Clojure 1.8.0 to make the differences among
+Excluding Clojure 1.10.1 to make the differences among
 the others easier to see:
 
-<img src="figs/dynamic-overhead.quantiles.png" 
-  alt="dynamic overhead as a fraction of clojure 1.8.0" 
+<img src="figs20210131/dynamic-overhead.quantiles.png" 
+  alt="dynamic overhead as a fraction of clojure 1.10.1" 
   style="width: 15cm;"/>
   
 
 ### conclusions
 
-1. Small changes to the Clojure 1.8.0 implementation
+1. Small changes to the Clojure 1.10.1 implementation
 greatly reduce method lookup overhead, 
 making multimethods a feasible choice for many more problems.
 
@@ -330,7 +340,7 @@ non-dynamic method choice.
 
 1. All the dynamic algorithms take longer as the probability of 
 calling the same method again decreases. Improvements relative
-to Clojure 1.8.0 are also less.
+to Clojure 1.10.1 are also less.
 
     The benchmarks here
 (especially `axpy`) have what I believe is an unlikely number
@@ -339,7 +349,7 @@ uniformly over those methods, which, again I believe,
 is not typical. Real data would greatly help here.
 
 1. Replacing `PersistentHashMap` with `HashMap` 
-reduces method lookup overhead to 10-30% of Clojure 1.8.0.
+reduces method lookup overhead to 10-30% of Clojure 1.10.1.
 
     The improvement is least for `diameter`, a single operand operation, using `class` for the dispatch value.
 Note: in this case 'nonvolatile` and 'signatures` are identical;
@@ -355,7 +365,7 @@ of a `PersistentVector` reduces the overhead by roughly a quarter.
 the results expose the limits on the benchmark accuracy.
 
 5. Providing a `:hierarchy false` option gets us to 3-8% of 
-the overhead of Clojure 1.8.0, in the best cases.
+the overhead of Clojure 1.10.1, in the best cases.
 
 6. The best results so far still take about twice
 as long as the `instanceof` baseline,

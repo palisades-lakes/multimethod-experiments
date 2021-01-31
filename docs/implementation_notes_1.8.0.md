@@ -28,7 +28,9 @@ methods are _applicable,_ and, among those, which is _preferred._
 
 [Clojure Runtime Polymorphism](https://clojure.org/about/runtime_polymorphism)
 states
-'Clojure multimethods go further still [than CLOS] to allow the dispatch value to be the result of an arbitrary function of the arguments.'
+'Clojure multimethods go further still [than CLOS] 
+to allow the dispatch value to be the result 
+of an arbitrary function of the arguments.'
 
 However, this is not quite true.
 Although the logic by which the dispatch value is calculated is
