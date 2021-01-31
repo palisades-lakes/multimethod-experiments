@@ -1,0 +1,258 @@
+{:spec-vendor "Oracle Corporation",
+ :spec-name "Java Virtual Machine Specification",
+ :vm-version "15.0.1+9-18",
+ :name "12488@LAPTOP-2HQMV1AK",
+ :clojure-version-string "1.10.1",
+ :java-runtime-version "15.0.1+9-18",
+ :java-version "15.0.1",
+ :vm-name "OpenJDK 64-Bit Server VM",
+ :vm-vendor "Oracle Corporation",
+ :clojure-version
+ {:major 1, :minor 10, :incremental 1, :qualifier nil},
+ :spec-version "15",
+ :sun-arch-data-model "64",
+ :input-arguments
+ ["-ea" "-Xms12g" "-Xmx12g" "-Xmn5g" "--add-opens=java.base/java.lang=ALL-UNNAMED"]}
+---------------
+Microsoft Windows 10.0 build 19042
+manufacturer: LENOVO
+model: 20ERCTO1WW
+firmware:
+  manufacturer: LENOVO
+  name: N1DETB0W (2.36 )
+  description: N1DETB0W (2.36 )
+  version: LENOVO - 2360
+  release date: 2020-10-21
+baseboard:
+  manufacturer: LENOVO
+  model: unknown
+  version: 0B98417 WIN
+Intel(R) Xeon(R) CPU E3-1505M v5 @ 2.80GHz
+ 1 physical CPU package(s)
+ 4 physical CPU core(s)
+ 8 logical CPU(s)
+Identifier: Intel64 Family 6 Model 94 Stepping 3
+ProcessorID: BFEBFBFF000506E3
+Microarchitecture: Skylake (Client)
+ 4 physical CPU(s)
+ 8 logical CPU(s)
+Identifier: Intel64 Family 6 Model 94 Stepping 3
+Memory: 48.2 GiB/63.8 GiB
+Swap used: 0 bytes/9.5 GiB
+CPU, IOWait, and IRQ ticks @ 0 sec:[358016355, 0, 16104106, 584745607, 0, 460576, 105981, 0]
+CPU, IOWait, and IRQ ticks @ 1 sec:[358016419, 0, 16104199, 584753543, 0, 460576, 105981, 0]
+User: 0.8% Nice: 0.0% System: 1.1% Idle: 98.1% IOwait: 0.0% IRQ: 0.0% SoftIRQ: 0.0% Steal: 0.0%
+CPU load: 0.0% (counting ticks)
+CPU load averages: N/A N/A N/A
+CPU load per processor: 0.0% 0.0% 0.0% 0.0% 0.0% 0.0% 0.0% 0.0%
+---------------
+generate-datasets
+(("objects" "SetOf3") ("objects" "SetOf3"))
+"Elapsed time: 0.9661 msecs"
+2021-01-30T19:51:01.570687800
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "protocols",
+ :now "20210130-1954",
+ :value 2793603.0,
+ :execution-count 5,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :containers "objects-objects",
+ :elements "SetOf3-SetOf3",
+ :benchmark "intersects",
+ :lower-q 219.194193,
+ :millisec 220.1865524,
+ :warmup-executions 799,
+ :threads 6,
+ :sample-count 50,
+ :median 219.856486,
+ :upper-q 221.149165,
+ :total-time 55.0450499,
+ :generators "objects-SetOf3-objects-SetOf3"}
+
+"Elapsed time: 225541.0406 msecs"
+2021-01-30T19:55:03.125462200
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "instanceof",
+ :now "20210130-1958",
+ :value 2793603.0,
+ :execution-count 22,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :containers "objects-objects",
+ :elements "SetOf3-SetOf3",
+ :benchmark "intersects",
+ :lower-q 46.14287318181818,
+ :millisec 46.51469263636364,
+ :warmup-executions 3487,
+ :threads 6,
+ :sample-count 50,
+ :median 46.36545727272727,
+ :upper-q 46.79873772727273,
+ :total-time 51.1556564,
+ :generators "objects-SetOf3-objects-SetOf3"}
+
+"Elapsed time: 217429.4101 msecs"
+2021-01-30T19:58:56.563025800
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "instancefn",
+ :now "20210130-2002",
+ :value 2793603.0,
+ :execution-count 20,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :containers "objects-objects",
+ :elements "SetOf3-SetOf3",
+ :benchmark "intersects",
+ :lower-q 51.24070595,
+ :millisec 51.60607255,
+ :warmup-executions 3109,
+ :threads 6,
+ :sample-count 50,
+ :median 51.70322095,
+ :upper-q 52.0006987,
+ :total-time 51.60013755,
+ :generators "objects-SetOf3-objects-SetOf3"}
+
+"Elapsed time: 216555.8671 msecs"
+2021-01-30T20:02:49.127006900
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "defmulti",
+ :now "20210130-2007",
+ :value 2793603.0,
+ :execution-count 2,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :containers "objects-objects",
+ :elements "SetOf3-SetOf3",
+ :benchmark "intersects",
+ :lower-q 607.1068435,
+ :millisec 612.579624,
+ :warmup-executions 361,
+ :threads 6,
+ :sample-count 50,
+ :median 611.697846,
+ :upper-q 617.9686235,
+ :total-time 61.2554582,
+ :generators "objects-SetOf3-objects-SetOf3"}
+
+"Elapsed time: 286963.7325 msecs"
+2021-01-30T20:07:52.094093
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "hashmaps",
+ :now "20210130-2011",
+ :value 2793603.0,
+ :execution-count 7,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :containers "objects-objects",
+ :elements "SetOf3-SetOf3",
+ :benchmark "intersects",
+ :lower-q 143.548786,
+ :millisec 146.83549028571426,
+ :warmup-executions 1003,
+ :threads 6,
+ :sample-count 50,
+ :median 144.83842457142856,
+ :upper-q 150.79673742857142,
+ :total-time 51.3908544,
+ :generators "objects-SetOf3-objects-SetOf3"}
+
+"Elapsed time: 202367.4178 msecs"
+2021-01-30T20:11:30.476887600
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "signatures",
+ :now "20210130-2015",
+ :value 2793603.0,
+ :execution-count 8,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :containers "objects-objects",
+ :elements "SetOf3-SetOf3",
+ :benchmark "intersects",
+ :lower-q 128.2024335,
+ :millisec 130.53552475,
+ :warmup-executions 1249,
+ :threads 6,
+ :sample-count 50,
+ :median 131.95262725,
+ :upper-q 132.930821,
+ :total-time 52.2102273,
+ :generators "objects-SetOf3-objects-SetOf3"}
+
+"Elapsed time: 220355.5701 msecs"
+2021-01-30T20:15:26.835637300
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "nohierarchy",
+ :now "20210130-2018",
+ :value 2793603.0,
+ :execution-count 9,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :containers "objects-objects",
+ :elements "SetOf3-SetOf3",
+ :benchmark "intersects",
+ :lower-q 111.08115155555556,
+ :millisec 113.10022000000002,
+ :warmup-executions 1216,
+ :threads 6,
+ :sample-count 50,
+ :median 114.66276822222223,
+ :upper-q 118.96484044444446,
+ :total-time 50.8838625,
+ :generators "objects-SetOf3-objects-SetOf3"}
+
+"Elapsed time: 194230.6733 msecs"
+2021-01-30T20:18:57.080203500
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "dynafun",
+ :now "20210130-2022",
+ :value 2793603.0,
+ :execution-count 13,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :containers "objects-objects",
+ :elements "SetOf3-SetOf3",
+ :benchmark "intersects",
+ :lower-q 84.3467113076923,
+ :millisec 85.48658392307692,
+ :warmup-executions 1631,
+ :threads 6,
+ :sample-count 50,
+ :median 86.34473438461538,
+ :upper-q 86.6740016923077,
+ :total-time 55.56662235,
+ :generators "objects-SetOf3-objects-SetOf3"}
+
+"Elapsed time: 199950.0143 msecs"
+2021-01-30T20:22:33.038590100
+{:nelements 1048576,
+ :manufacturerModel "LENOVO.20ERCTO1WW",
+ :algorithm "dynamap",
+ :now "20210130-2025",
+ :value 2793603.0,
+ :execution-count 9,
+ :nthreads 6,
+ :tail-quantile 0.05,
+ :containers "objects-objects",
+ :elements "SetOf3-SetOf3",
+ :benchmark "intersects",
+ :lower-q 111.83347377777778,
+ :millisec 113.55100200000001,
+ :warmup-executions 1186,
+ :threads 6,
+ :sample-count 50,
+ :median 113.61431822222222,
+ :upper-q 114.73075155555557,
+ :total-time 51.0983121,
+ :generators "objects-SetOf3-objects-SetOf3"}
+
+"Elapsed time: 193551.6054 msecs"
