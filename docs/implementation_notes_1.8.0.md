@@ -56,7 +56,7 @@ dispatch values (in pseudo-code `preferred?` is not an actual
 function):
 
 - `(isa? hierarchy d0 d1)` determines whether a method defined for 
-`d1` is applicable to the arguments producing the disptach value
+`d1` is applicable to the arguments producing the dispatch value
 `d0`.
 
 - `(preferred? hierarchy d0 d1)`, extends the `isa?` ordering
@@ -129,7 +129,7 @@ likely to cause difficult-to-debug surprises later.
 **Note:** The ordering of recursive dispatch values can only be 
 changed for individual multimethods, making it harder to ensure 
 consistent behavior in related multimethods, but at least limiting
-the damge radius of ill-considered changes.
+the damage radius of ill-considered changes.
 
 **Note:** It appears that the 1.8.0 implementation does not
 do a transitive closure of  the explicit `prefer-method` relation.

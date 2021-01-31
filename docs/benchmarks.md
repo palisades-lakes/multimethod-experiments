@@ -109,7 +109,7 @@ number types (eg `int`, `double`, etc.) and instances of
 
 The 4th benchmark is a common operation in numerical analysis/optimization,
 called `axpy` (for a*x + y) from the venerable Fortran
-[BLAS](http://dl.acm.org/citation.cfm?doid=355841.355847)
+[BLAS](http://dl.acm.org/citation.cfm?did=355841.355847)
 subroutine name.
 
 `axpy` has 3 operands. In the general case, `a` is linear function from a linear space
@@ -186,7 +186,7 @@ synchronize with the shared mutable hierarchy before every
 method call.
 
 - From [dynamic-functions](https://github.com/palisades-lakes/dynamic-functions):
-    - `dynafun`: the current implementation. As of version 0.0.7-SNAPSHOT,
+    - `Dynafun`: the current implementation. As of version 0.0.7-SNAPSHOT,
     this uses linear search in nested arrays, with fallback to hashmaps
     for large arities and many methods.
     - `dynaXXX`: other experimental variations. 

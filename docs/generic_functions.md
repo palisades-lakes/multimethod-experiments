@@ -423,6 +423,7 @@ one preferred method.
   [(dynamic-class a) (lexical-class b) (lexical-class c)])
 ```
 Pre-Java 8, the dynamic preference graph  
+
 #### Clojure multimethods
 
 _**TODO**:_ historical references: Common List, Dylan, Cecil,
